@@ -4,6 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noai, noimageai" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-JC373DGKEM"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-JC373DGKEM');
+  </script>
   <title>肖战文章存档 · XZ Article Archive</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -589,11 +597,12 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
+const DATA_VER = '20260622-1'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
   for(let y=curY;y>=2015;y--){
-    try{const r=await fetch(`articles_${y}.json?v=${Date.now()}`);if(r.ok){const d=await r.json();all.push(...d.map(a=>({...a,year:a.year||a.date?.slice(0,4)||String(y)})));}}
+    try{const r=await fetch(`articles_${y}.json?v=${DATA_VER}`);if(r.ok){const d=await r.json();all.push(...d.map(a=>({...a,year:a.year||a.date?.slice(0,4)||String(y)})));}}
     catch(e){}
   }
   return all.length?all.sort((a,b)=>b.date.localeCompare(a.date)):[];
@@ -645,7 +654,7 @@ function render(){
     document.getElementById('featuredSection').style.display='';
     document.getElementById('listDivider').style.display='';
     renderFeatured(list.slice(0,3));
-    renderList(list.slice(3),true);
+    renderList(list,true);
   } else {
     // No featured; all results as list
     document.getElementById('featuredSection').style.display='none';
