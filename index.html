@@ -280,8 +280,12 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 
 /* ===== LIST DIVIDER ===== */
 .list-divider{display:flex;align-items:center;gap:14px;margin:0 0 24px}
-.list-divider .dl{flex:1;height:1px;background:rgba(var(--gold-dr),0.20)}
+.list-divider .dl{flex:1;min-width:8px;height:1px;background:rgba(var(--gold-dr),0.20)}
 .list-divider .dt{font-family:'Cormorant Garamond',Georgia,serif;font-size:.88rem;letter-spacing:.18em;color:var(--gold);white-space:nowrap;opacity:.75}
+.toggle-all-btn{background:none;border:none;cursor:pointer;font-family:'Cormorant Garamond',Georgia,serif;font-size:.82rem;letter-spacing:.1em;color:var(--gold);opacity:.6;padding:0;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
+.toggle-all-btn:hover{opacity:1}
+.toggle-all-btn .btn-label{display:inline}
+@media(max-width:520px){.list-divider{gap:8px}.toggle-all-btn .btn-label{display:none}}
 
 /* ===== YEAR GROUP ===== */
 .year-group{margin-bottom:8px}
@@ -502,6 +506,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
       <option value="thepaper">澎湃新闻</option>
       <option value="sohu">搜狐</option>
       <option value="netease">网易</option>
+      <option value="unknown">其他</option>
     </select>
     <div class="article-count" id="articleCount">共 <strong id="countNum">0</strong> 篇</div>
   </div>
@@ -520,6 +525,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     <div class="dl"></div>
     <span class="dt">全部存档 · Complete Archive</span>
     <div class="dl"></div>
+    <button id="toggleAllBtn" onclick="toggleAllYears()" class="toggle-all-btn">▼<span class="btn-label"> Expand All</span></button>
   </div>
 
   <!-- Year-grouped list -->
@@ -569,6 +575,7 @@ const PLAT = {
   thepaper: {label:'澎湃新闻',bg:'rgba(18,18,18,0.85)'},
   sohu:     {label:'搜狐',    bg:'rgba(24,90,165,0.88)'},
   netease:  {label:'网易',    bg:'rgba(192,0,0,0.88)'},
+  unknown:  {label:'其他',    bg:'rgba(70,70,70,0.85)'},
 };
 const SNAP_BG = {
   weibo:'linear-gradient(135deg,#7A0010 0%,#B01020 100%)',
@@ -597,7 +604,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260622-1'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260625-1'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
@@ -686,7 +693,7 @@ function cardHTML(a){
   const tags=(a.tags||[]).slice(0,3).map(t=>`<span class="card-tag">${eh(t)}</span>`).join('');
   return `<article class="article-card" data-id="${a.id}" data-year="${a.year}" tabindex="0" role="button">
   <div class="card-hero">
-    <span class="platform-badge" style="background:${pt.bg}">${eh(pt.label)}</span>
+    <span class="platform-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <div class="card-hero-title">${eh(a.title)}</div>
   </div>
   <div class="card-body">
@@ -753,6 +760,21 @@ function renderList(articles,groupByYear){
   startTickers(container);
 }
 
+function setAllYears(open){
+  document.querySelectorAll('#articleRows .year-group').forEach(g=>{
+    g.classList.toggle('open',open);
+    const pill=g.querySelector('.yg-pill');
+    if(pill) pill.textContent=open?'−':'+';
+  });
+  const btn=document.getElementById('toggleAllBtn');
+  if(btn) btn.innerHTML=open?'▲<span class="btn-label"> Collapse All</span>':'▼<span class="btn-label"> Expand All</span>';
+}
+
+function toggleAllYears(){
+  const anyOpen=!!document.querySelector('#articleRows .year-group.open');
+  setAllYears(!anyOpen);
+}
+
 let _tickerIds=[];
 function startTickers(container){
   _tickerIds.forEach(id=>clearInterval(id));
@@ -779,7 +801,7 @@ function rowHTML(a){
   const tagsInline=(a.tags||[]).slice(0,2).map(t=>`<span class="card-tag">${eh(t)}</span>`).join('');
   return `<div class="article-row" data-id="${a.id}" data-year="${a.year}">
   <div class="row-main" tabindex="0" role="button">
-    <span class="row-badge" style="background:${pt.bg}">${eh(pt.label)}</span>
+    <span class="row-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <time class="row-date">${eh(a.date)}</time>
     <span class="row-title">${eh(a.title)}</span>
     <div class="row-tags-inline">${tagsInline}</div>
@@ -802,7 +824,7 @@ function openModal(id,year){
     heroImg.style.display='none';
     document.getElementById('mHero').classList.remove('has-img');
   }
-  document.getElementById('mBadge').textContent=pt.label;
+  document.getElementById('mBadge').textContent=(a.platform==='unknown'&&a.source_name)?a.source_name:pt.label;
   document.getElementById('mBadge').style.background=pt.bg;
   document.getElementById('mTitle').textContent=a.title||'';
   document.getElementById('mMeta').innerHTML=
@@ -810,13 +832,17 @@ function openModal(id,year){
      <span class="msep">·</span><time>${eh(a.date)}</time>
      <div class="modal-meta-links">
        <a class="modal-src" href="${eh(a.url)}" target="_blank" rel="noopener">Source 原文 ↗</a>
-       ${a.snapshot_url?`<a class="modal-src" href="${eh(a.snapshot_url)}" target="_blank" rel="noopener">Snapshot 截图 ↗</a>`:''}
+       ${a.snapshots&&a.snapshots.length>1?`<a class="modal-src" href="${eh(a.snapshots[0])}" target="_blank" rel="noopener">Snapshots 截图(${a.snapshots.length}) ↗</a>`:a.snapshot_url?`<a class="modal-src" href="${eh(a.snapshot_url)}" target="_blank" rel="noopener">Snapshot 截图 ↗</a>`:''}
      </div>`;
   document.getElementById('mTags').innerHTML=(a.tags||[]).map(t=>`<span class="modal-tag">${eh(t)}</span>`).join('');
   document.getElementById('mText').textContent=a.text||'';
-  // Media section: snapshot link + article images
+  // Media section: multi-snapshots stacked + article images
   const mediaEl=document.getElementById('mMedia');
   const parts=[];
+  if(a.snapshots&&a.snapshots.length>1){
+    const imgs=a.snapshots.map((u,i)=>`<a href="${eh(u)}" target="_blank" rel="noopener"><img src="${eh(u)}" loading="lazy" alt="截图${i+1}" style="width:100%;border-radius:4px;border:1px solid #e5e7eb;display:block;margin-bottom:4px"></a>`).join('');
+    parts.push(`<div><span class="modal-media-label">📄 页面截图 (${a.snapshots.length} 张)</span>${imgs}</div>`);
+  }
   if(a.images&&a.images.length){
     const thumbs=a.images.map(u=>`<a href="${eh(u)}" target="_blank" rel="noopener"><img src="${eh(u)}" loading="lazy" alt=""></a>`).join('');
     parts.push(`<div><span class="modal-media-label">🖼️ 文章图片 (${a.images.length})</span><div class="modal-img-grid">${thumbs}</div></div>`);
