@@ -282,8 +282,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .list-divider{display:flex;align-items:center;gap:14px;margin:0 0 24px}
 .list-divider .dl{flex:1;min-width:8px;height:1px;background:rgba(var(--gold-dr),0.20)}
 .list-divider .dt{font-family:'Cormorant Garamond',Georgia,serif;font-size:.88rem;letter-spacing:.18em;color:var(--gold);white-space:nowrap;opacity:.75}
-.toggle-all-btn{background:none;border:none;cursor:pointer;font-family:'Cormorant Garamond',Georgia,serif;font-size:.82rem;letter-spacing:.1em;color:var(--gold);opacity:.6;padding:0;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
+.toggle-all-btn{background:none;border:none;cursor:pointer;font-family:'Cormorant Garamond',Georgia,serif;font-size:.9rem;letter-spacing:.1em;color:var(--gold);opacity:.85;padding:0;white-space:nowrap;transition:opacity .15s;flex-shrink:0}
 .toggle-all-btn:hover{opacity:1}
+.toggle-all-btn .chev{font-size:1.5em;line-height:1;vertical-align:middle}
 .toggle-all-btn .btn-label{display:inline}
 @media(max-width:520px){.list-divider{gap:8px}.toggle-all-btn .btn-label{display:none}}
 
@@ -315,11 +316,12 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 }
 .row-main:hover{background:var(--row-hover)}
 .row-badge{
-  flex-shrink:0;width:58px;
+  flex-shrink:0;width:70px;
   padding:3px 0;border-radius:9px;
-  font-size:10.5px;font-weight:700;letter-spacing:.02em;
+  font-size:9.5px;font-weight:700;letter-spacing:.02em;
   color:#fff;text-align:center;
   margin-right:12px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
 .row-date{
   flex-shrink:0;width:86px;
@@ -332,6 +334,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   transition:color .15s;
 }
 .row-main:hover .row-title{color:var(--txt-head)}
+.row-title.rt-scrolling{text-overflow:clip;}
+.row-title.rt-scrolling .rt-inner{display:inline-block;animation:rt-scroll var(--rt-dur,3s) linear forwards;}
+@keyframes rt-scroll{0%,8%{transform:translateX(0)}85%,100%{transform:translateX(var(--rt-tx,0))}}
 .row-tags-inline{display:flex;gap:4px;margin-left:12px;flex-shrink:0}
 .row-tags-inline .card-tag{font-size:10.5px;padding:1px 7px}
 @media(max-width:700px){.row-tags-inline{display:none}.row-date{width:76px;font-size:11.5px}}
@@ -362,8 +367,12 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-inner::-webkit-scrollbar-track{background:#f0f0f2;border-radius:5px}
 .modal-inner::-webkit-scrollbar-thumb{background:#c0c0cc;border-radius:5px;border:2px solid #f0f0f2}
 .modal-inner::-webkit-scrollbar-thumb:hover{background:#9090a8}
-.modal-close{position:absolute;top:14px;right:14px;z-index:10;width:32px;height:32px;border-radius:50%;border:none;background:rgba(0,0,0,0.1);color:rgba(0,0,0,0.45);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s,color .15s}
-.modal-close:hover{background:rgba(0,0,0,0.2);color:rgba(0,0,0,0.8)}
+#modalWrapper{position:relative;max-width:800px;width:100%;margin:auto;}
+.modal-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
+.modal-close:hover{background:#fff;color:rgba(0,0,0,0.85)}
+#modalProgress{position:sticky;top:0;left:0;height:3px;width:0%;background:var(--gold);z-index:9;border-radius:0 2px 2px 0;transition:width .08s linear;}
+#modalScrollTop{position:fixed;bottom:32px;right:32px;z-index:9600;width:38px;height:38px;border-radius:50%;border:none;background:var(--gold);color:#fff;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(0,0,0,0.28);transition:opacity .2s;}
+#modalScrollTop.vis{display:flex;}
 /* Modal hero — title-as-visual (matches card hero) */
 .modal-hero{position:relative;min-height:90px;background:var(--grad-red);overflow:hidden;padding:10px 20px 12px;display:flex;flex-direction:column;justify-content:flex-end}
 .modal-hero::before{content:'〝';position:absolute;top:-24px;right:10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:150px;line-height:1;font-style:italic;color:rgba(255,255,255,0.06);pointer-events:none;user-select:none}
@@ -525,7 +534,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     <div class="dl"></div>
     <span class="dt">全部存档 · Complete Archive</span>
     <div class="dl"></div>
-    <button id="toggleAllBtn" onclick="toggleAllYears()" class="toggle-all-btn">▼<span class="btn-label"> Expand All</span></button>
+    <button id="toggleAllBtn" onclick="toggleAllYears()" class="toggle-all-btn"><span class="chev">▼</span><span class="btn-label"> Expand All</span></button>
   </div>
 
   <!-- Year-grouped list -->
@@ -543,20 +552,24 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 
 <!-- Modal (for featured card clicks) -->
 <div id="articleModal" role="dialog" aria-modal="true">
-  <div class="modal-inner">
+  <div id="modalWrapper">
     <button class="modal-close" id="modalClose">×</button>
-    <div class="modal-hero" id="mHero">
-      <img class="modal-hero-img" id="mHeroImg" alt="">
-      <span class="modal-pbadge" id="mBadge"></span>
-      <h2 class="modal-hero-title" id="mTitle"></h2>
+    <div class="modal-inner">
+      <div id="modalProgress"></div>
+      <div class="modal-hero" id="mHero">
+        <img class="modal-hero-img" id="mHeroImg" alt="">
+        <span class="modal-pbadge" id="mBadge"></span>
+        <h2 class="modal-hero-title" id="mTitle"></h2>
+      </div>
+      <div class="modal-body">
+        <div class="modal-meta" id="mMeta"></div>
+        <div class="modal-tags" id="mTags"></div>
+        <div class="modal-text" id="mText"></div>
+        <div class="modal-media" id="mMedia" style="display:none"></div>
+        <div class="modal-archived" id="mArchived"></div>
+      </div>
     </div>
-    <div class="modal-body">
-      <div class="modal-meta" id="mMeta"></div>
-      <div class="modal-tags" id="mTags"></div>
-      <div class="modal-text" id="mText"></div>
-      <div class="modal-media" id="mMedia" style="display:none"></div>
-      <div class="modal-archived" id="mArchived"></div>
-    </div>
+    <button id="modalScrollTop" title="回到顶部 Back to top">▲</button>
   </div>
 </div>
 
@@ -767,7 +780,7 @@ function setAllYears(open){
     if(pill) pill.textContent=open?'−':'+';
   });
   const btn=document.getElementById('toggleAllBtn');
-  if(btn) btn.innerHTML=open?'▲<span class="btn-label"> Collapse All</span>':'▼<span class="btn-label"> Expand All</span>';
+  if(btn) btn.innerHTML=open?'<span class="chev">▲</span><span class="btn-label"> Collapse All</span>':'<span class="chev">▼</span><span class="btn-label"> Expand All</span>';
 }
 
 function toggleAllYears(){
@@ -803,7 +816,7 @@ function rowHTML(a){
   <div class="row-main" tabindex="0" role="button">
     <span class="row-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <time class="row-date">${eh(a.date)}</time>
-    <span class="row-title">${eh(a.title)}</span>
+    <span class="row-title"><span class="rt-inner">${eh(a.title)}</span></span>
     <div class="row-tags-inline">${tagsInline}</div>
     <span class="row-chevron">›</span>
   </div>
@@ -850,13 +863,27 @@ function openModal(id,year){
   if(parts.length){mediaEl.innerHTML=parts.join('');mediaEl.style.display='';}
   else{mediaEl.innerHTML='';mediaEl.style.display='none';}
   document.getElementById('mArchived').textContent=`存档于 Archived: ${a.archived_at}`;
+  const _mi=document.querySelector('.modal-inner');
+  _mi.scrollTop=0;
+  document.getElementById('modalProgress').style.width='0%';
+  document.getElementById('modalScrollTop').classList.remove('vis');
   document.getElementById('articleModal').classList.add('open');
   document.body.style.overflow='hidden';
 }
-function closeModal(){document.getElementById('articleModal').classList.remove('open');document.body.style.overflow='';}
+function closeModal(){
+  document.getElementById('articleModal').classList.remove('open');
+  document.body.style.overflow='';
+  document.getElementById('modalScrollTop').classList.remove('vis');
+}
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('articleModal').addEventListener('click',e=>{if(e.target===document.getElementById('articleModal'))closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.getElementById('modalScrollTop').addEventListener('click',()=>document.querySelector('.modal-inner').scrollTo({top:0,behavior:'smooth'}));
+document.querySelector('.modal-inner').addEventListener('scroll',function(){
+  const max=this.scrollHeight-this.clientHeight;
+  document.getElementById('modalProgress').style.width=max>0?(this.scrollTop/max*100)+'%':'0%';
+  document.getElementById('modalScrollTop').classList.toggle('vis',this.scrollTop>280);
+});
 
 /* ===== SEARCH ===== */
 let st;
@@ -880,6 +907,23 @@ document.getElementById('articleRows').addEventListener('keydown',e=>{
 
 /* ===== SCROLL ===== */
 window.addEventListener('scroll',()=>{document.getElementById('backToTopFloat').classList.toggle('vis',window.scrollY>350);},{passive:true});
+
+/* ===== ROW TITLE TICKER ===== */
+document.getElementById('articleRows').addEventListener('mouseover',e=>{
+  const t=e.target.closest('.row-title');
+  if(!t||t.classList.contains('rt-scrolling'))return;
+  const inner=t.querySelector('.rt-inner');
+  if(!inner)return;
+  const overflow=inner.scrollWidth-t.clientWidth;
+  if(overflow<=4)return;
+  t.style.setProperty('--rt-tx',`-${overflow}px`);
+  t.style.setProperty('--rt-dur',`${Math.max(1.8,overflow/80)}s`);
+  t.classList.add('rt-scrolling');
+});
+document.getElementById('articleRows').addEventListener('mouseout',e=>{
+  const t=e.target.closest('.row-title');
+  if(t)t.classList.remove('rt-scrolling');
+});
 
 /* ===== HELPERS ===== */
 function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1055,12 +1099,12 @@ document.getElementById('reportModal').addEventListener('click',function(e){if(e
       <small style="font-size:11px;opacity:.8;font-weight:normal">报告错误或联系管理员</small>
     </a>
   </div>
-  <div class="copyright-notice">&copy; 2025 CanadaXFX. All rights reserved.</div>
+  <div class="copyright-notice">&copy; 2026 CanadaXFX. All rights reserved.</div>
   <a href="#" id="terms-toggle" class="footer-link" onclick="toggleTerms();return false;">Terms of Use / 使用条款</a>
   <div id="terms-content">
     <ul>
       <li>All images and content related to Xiao Zhan belong to their respective copyright owners.<br><span class="terms-zh">所有与肖战相关的图片及内容归各自版权所有者所有。</span></li>
-      <li>All content on this site is curated and organized © 2025 CanadaXFX.<br><span class="terms-zh">本站所有内容的整理与编排版权归 © 2025 CanadaXFX 所有。</span></li>
+      <li>All content on this site is curated and organized © CanadaXFX.<br><span class="terms-zh">本站所有内容的整理与编排版权归 © CanadaXFX 所有。</span></li>
       <li>AI training is strictly prohibited.<br><span class="terms-zh">严禁将本站内容用于 AI 训练。</span></li>
       <li>The original content, design, and code of this website may not be reproduced, distributed, or used without explicit permission.<br><span class="terms-zh">未经明确授权，本站的原创内容、设计及代码不得被复制、传播或使用。</span></li>
       <li>Personal and non-commercial use only.<br><span class="terms-zh">仅限个人及非商业用途。</span></li>
