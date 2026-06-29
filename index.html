@@ -334,9 +334,12 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   transition:color .15s;
 }
 .row-main:hover .row-title{color:var(--txt-head)}
+.rt-inner,.rt-clone{display:inline-block;}
+.rt-sep{display:inline-block;padding:0 20px;color:var(--txt-sub);}
+.rt-track{display:inline-block;white-space:nowrap;}
 .row-title.rt-scrolling{text-overflow:clip;}
-.row-title.rt-scrolling .rt-inner{display:inline-block;animation:rt-scroll var(--rt-dur,3s) linear forwards;}
-@keyframes rt-scroll{0%,8%{transform:translateX(0)}85%,100%{transform:translateX(var(--rt-tx,0))}}
+.row-title.rt-scrolling .rt-track{animation:rt-scroll var(--rt-dur,4s) linear var(--rt-delay,0s) infinite;}
+@keyframes rt-scroll{from{transform:translateX(0)}to{transform:translateX(var(--rt-total,-200px))}}
 .row-tags-inline{display:flex;gap:4px;margin-left:12px;flex-shrink:0}
 .row-tags-inline .card-tag{font-size:10.5px;padding:1px 7px}
 @media(max-width:700px){.row-tags-inline{display:none}.row-date{width:76px;font-size:11.5px}}
@@ -430,6 +433,18 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .btn-rsubmit:hover{opacity:.9}
 #reportModal .rclose{position:absolute;top:12px;right:14px;width:28px;height:28px;border-radius:50%;border:none;background:rgba(0,0,0,0.08);color:#888;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
+/* ===== HUB CARD ===== */
+.hub-card{position:relative;display:inline-block;padding:14px 22px;text-decoration:none;color:inherit;transition:opacity .2s,transform .15s;max-width:300px;width:100%;cursor:pointer}
+.hub-card:hover{opacity:.9;transform:translateY(-3px)}
+.hub-card:hover .hc-corner{border-color:rgba(200,168,75,0.95)}
+.hub-card:hover .hub-cta{color:rgba(200,168,75,0.95)}
+.hub-card:active{transform:scale(0.97);opacity:.75}
+.hub-card:active .hc-corner{border-color:rgba(200,168,75,0.95)}
+.hc-corner{position:absolute;width:13px;height:13px;border-color:rgba(200,168,75,0.6);border-style:solid;transition:border-color .2s}
+.hc-tl{top:0;left:0;border-width:2px 0 0 2px}
+.hc-tr{top:0;right:0;border-width:2px 2px 0 0}
+.hc-bl{bottom:0;left:0;border-width:0 0 2px 2px}
+.hc-br{bottom:0;right:0;border-width:0 2px 2px 0}
 /* ===== FLOAT ===== */
 #floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:8000}
 .float-btn{width:58px;height:58px;border-radius:50%;border:3px solid rgba(var(--red-rgb),0.9);background:var(--bg-float);color:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,0.15),0 0 0 3px rgba(var(--red-rgb),0.4);font-size:22px;font-weight:600;transition:transform .18s,box-shadow .18s;position:relative;flex-shrink:0;user-select:none;overflow:hidden}
@@ -441,6 +456,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 [data-theme="washi-garnet"] #backToTopFloat,[data-theme="washi-slate"] #backToTopFloat{color:rgba(255,255,255,0.92)}
 [data-theme="washi-garnet"] #backToTopFloat .float-top-text,[data-theme="washi-slate"] #backToTopFloat .float-top-text{color:rgba(255,255,255,0.92)}
 @media(max-width:768px){#floatBtnGroup{right:8px}.float-btn{width:50px;height:50px;font-size:18px}}
+@media(min-width:768px){.row-title.rt-scrolling .rt-track{animation:none;}}
   </style>
 </head>
 <body>
@@ -758,6 +774,7 @@ function renderList(articles,groupByYear){
       const grp=h.closest('.year-group');
       grp.classList.toggle('open');
       h.querySelector('.yg-pill').textContent=grp.classList.contains('open')?'−':'+';
+      requestAnimationFrame(()=>syncRowTickers(grp));
     });
   });
 
@@ -778,6 +795,7 @@ function setAllYears(open){
     g.classList.toggle('open',open);
     const pill=g.querySelector('.yg-pill');
     if(pill) pill.textContent=open?'−':'+';
+    requestAnimationFrame(()=>syncRowTickers(g));
   });
   const btn=document.getElementById('toggleAllBtn');
   if(btn) btn.innerHTML=open?'<span class="chev">▲</span><span class="btn-label"> Collapse All</span>':'<span class="chev">▼</span><span class="btn-label"> Expand All</span>';
@@ -909,21 +927,37 @@ document.getElementById('articleRows').addEventListener('keydown',e=>{
 window.addEventListener('scroll',()=>{document.getElementById('backToTopFloat').classList.toggle('vis',window.scrollY>350);},{passive:true});
 
 /* ===== ROW TITLE TICKER ===== */
-document.getElementById('articleRows').addEventListener('mouseover',e=>{
-  const t=e.target.closest('.row-title');
-  if(!t||t.classList.contains('rt-scrolling'))return;
-  const inner=t.querySelector('.rt-inner');
-  if(!inner)return;
-  const overflow=inner.scrollWidth-t.clientWidth;
-  if(overflow<=4)return;
-  t.style.setProperty('--rt-tx',`-${overflow}px`);
-  t.style.setProperty('--rt-dur',`${Math.max(1.8,overflow/80)}s`);
-  t.classList.add('rt-scrolling');
-});
-document.getElementById('articleRows').addEventListener('mouseout',e=>{
-  const t=e.target.closest('.row-title');
-  if(t)t.classList.remove('rt-scrolling');
-});
+function syncRowTickers(grp){
+  const open=grp.classList.contains('open');
+  if(window.innerWidth>=768){grp.querySelectorAll('.row-title').forEach(t=>t.classList.remove('rt-scrolling'));return;}
+  grp.querySelectorAll('.row-title').forEach((t,i)=>{
+    t.classList.remove('rt-scrolling');
+    if(!open)return;
+    if(!t.querySelector('.rt-track')){
+      const inner=t.querySelector('.rt-inner');
+      if(!inner)return;
+      const textW=inner.scrollWidth;
+      if(textW<=t.clientWidth+4)return;
+      const sep=document.createElement('span');
+      sep.className='rt-sep';
+      sep.textContent='✦';
+      const clone=inner.cloneNode(true);
+      clone.classList.add('rt-clone');
+      const track=document.createElement('span');
+      track.className='rt-track';
+      track.appendChild(inner);
+      track.appendChild(sep);
+      track.appendChild(clone);
+      t.innerHTML='';
+      t.appendChild(track);
+      const total=textW+sep.offsetWidth;
+      t.style.setProperty('--rt-total',`-${total}px`);
+      t.style.setProperty('--rt-dur',`${Math.max(3,total/70)}s`);
+    }
+    t.style.setProperty('--rt-delay',`${i*0.2}s`);
+    t.classList.add('rt-scrolling');
+  });
+}
 
 /* ===== HELPERS ===== */
 function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
@@ -1049,17 +1083,19 @@ function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').r
   <div class="report-inner">
     <button class="rclose" onclick="closeReportModal()">&times;</button>
     <div style="text-align:center;margin-bottom:18px">
-      <h3>🔧 Report an Issue</h3>
-      <p>Help us by reporting bugs or connect with admin<br><small style="font-size:12px;color:#888">报告错误或联系管理员</small></p>
+      <h3>📬 Report & Recommend</h3>
+      <div style="font-size:13px;color:#888;margin-bottom:4px">联系 · 荐文</div>
+      <p>Report issues, recommend articles for archiving, or connect with admin<br><small style="font-size:12px;color:#888">报告问题 · 荐文收录 · 联系管理员</small></p>
     </div>
     <form id="reportForm" class="report-form" action="https://formsubmit.co/canadaxfx1005@gmail.com" method="POST">
       <input type="text" name="_honey" style="display:none">
       <input type="hidden" name="_captcha" value="true">
       <input type="hidden" name="_next" value="https://canadaxfx.github.io/XZ-article-archive/report-success.html">
-      <input type="hidden" name="_subject" value="XZ Article Archive Issue Report">
-      <label for="rType">Issue Type 问题类型</label>
-      <select id="rType" name="issue_type" required>
-        <option value="">Select issue type...</option>
+      <input type="hidden" id="rSubject" name="_subject" value="XZ Article Archive — Issue Report">
+      <label for="rType">Type / Category 类型</label>
+      <select id="rType" name="issue_type" required onchange="onReportTypeChange(this.value)">
+        <option value="">Select type... 请选择</option>
+        <option value="recommend-article">Recommend Article 荐文收录</option>
         <option value="broken-link">Broken Link 链接失效</option>
         <option value="missing-article">Missing Article 文章丢失</option>
         <option value="missing-snapshot">Missing Snapshot 截图丢失</option>
@@ -1067,36 +1103,52 @@ function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').r
         <option value="feature-request">Feature Request 功能建议</option>
         <option value="other">Other 其他</option>
       </select>
-      <label for="rArticle">Article/Section 文章/部分</label>
+      <label for="rArticle" id="rArticleLabel">Article / Section 文章 / 部分</label>
       <input type="text" id="rArticle" name="article_section" placeholder="e.g., article title or year">
-      <label for="rDesc">Description 详细描述</label>
-      <textarea id="rDesc" name="description" rows="4" placeholder="Please describe the issue in detail..." required></textarea>
+      <label for="rDesc" id="rDescLabel">Description 详细描述</label>
+      <textarea id="rDesc" name="description" rows="4" placeholder="Please describe the issue in detail... 请详细描述问题" required></textarea>
       <label for="rEmail">Your Email (Optional) 邮箱（可选）</label>
       <input type="email" id="rEmail" name="user_email" placeholder="your@email.com (for follow-up)">
       <div class="report-form-actions">
         <button type="button" class="btn-rcancel" onclick="closeReportModal()">Cancel 取消</button>
-        <button type="submit" class="btn-rsubmit">Send Report 发送报告</button>
+        <button type="submit" id="rSubmitBtn" class="btn-rsubmit">Send 发送</button>
       </div>
     </form>
   </div>
 </div>
 <script>
 function openReportModal(){document.getElementById('reportModal').classList.remove('hidden');}
-function closeReportModal(){document.getElementById('reportModal').classList.add('hidden');document.getElementById('reportForm').reset();}
+function closeReportModal(){document.getElementById('reportModal').classList.add('hidden');document.getElementById('reportForm').reset();onReportTypeChange('');}
+function onReportTypeChange(val){
+  var isRec=val==='recommend-article';
+  document.getElementById('rArticleLabel').textContent=isRec?'Article Title(s) 文章标题':'Article / Section 文章 / 部分';
+  document.getElementById('rArticle').placeholder=isRec?'e.g., 肖战：温暖中国2023':'e.g., article title or year';
+  document.getElementById('rDescLabel').textContent=isRec?'Article Links & Notes 文章链接及说明':'Description 详细描述';
+  document.getElementById('rDesc').placeholder=isRec?'Paste article URL(s) here, one per line. 每行一条链接\nOptional: 可简短说明荐文理由':'Please describe the issue in detail... 请详细描述问题';
+  document.getElementById('rDesc').required=true;
+  document.getElementById('rSubject').value=isRec?'XZ Article Archive — Article Recommendation 荐文':'XZ Article Archive — Issue Report 问题反馈';
+  document.getElementById('rSubmitBtn').textContent=isRec?'Recommend 荐文':'Send 发送';
+}
 function toggleTerms(){var tc=document.getElementById('terms-content');var show=tc.style.display!=='block';tc.style.display=show?'block':'none';if(show)tc.scrollIntoView({behavior:'smooth',block:'nearest'});}
 document.getElementById('reportModal').addEventListener('click',function(e){if(e.target===this)closeReportModal();});
 </script>
 
 <footer class="site-footer">
   <div class="footer-content">
-    <div style="margin-bottom:10px;font-weight:700">Explore more</div>
-    <a class="footer-link" href="https://canadaxfx.github.io/XZworks/" target="_blank">Screen Arts of Xiao Zhan</a>
-    <a class="footer-link" href="https://xz-studio-gallery.com/" target="_blank">XZ Studio Gallery</a>
+    <a class="hub-card" href="https://canadaxfx.github.io/xzhub/" target="_blank" rel="noopener">
+      <span class="hc-corner hc-tl"></span>
+      <span class="hc-corner hc-tr"></span>
+      <div style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.95);margin-bottom:3px">🌐 Xiao Zhan Universe ↗</div>
+      <div style="font-size:11px;color:rgba(200,168,75,0.85);margin-bottom:6px">肖战粉丝站 · 全站导航</div>
+      <div class="hub-cta" style="font-size:11px;color:rgba(200,168,75,0.8);line-height:1.6;transition:color .2s">Galleries · Video · Articles · Social Media<br>Explore all 8 fan sites &nbsp;→</div>
+      <span class="hc-corner hc-bl"></span>
+      <span class="hc-corner hc-br"></span>
+    </a>
   </div>
   <div class="footer-content" style="margin-top:20px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.2)">
     <a class="footer-link" href="#" onclick="openReportModal();return false;">
-      🔧 Report Bugs or Connect with Admin<br>
-      <small style="font-size:11px;opacity:.8;font-weight:normal">报告错误或联系管理员</small>
+      📬 Report & Recommend 联系 · 荐文<br>
+      <small style="font-size:11px;opacity:.8;font-weight:normal">报告问题 · 荐文收录 · 联系管理员</small>
     </a>
   </div>
   <div class="copyright-notice">&copy; 2026 CanadaXFX. All rights reserved.</div>
