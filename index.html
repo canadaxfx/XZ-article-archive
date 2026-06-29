@@ -374,7 +374,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
 .modal-close:hover{background:#fff;color:rgba(0,0,0,0.85)}
 #modalProgress{position:sticky;top:0;left:0;height:3px;width:0%;background:var(--gold);z-index:9;border-radius:0 2px 2px 0;transition:width .08s linear;}
-#modalScrollTop{position:fixed;bottom:32px;right:32px;z-index:9600;width:38px;height:38px;border-radius:50%;border:none;background:var(--gold);color:#fff;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(0,0,0,0.28);transition:opacity .2s;}
+#modalScrollTop{position:absolute;bottom:16px;right:16px;z-index:10;width:38px;height:38px;border-radius:50%;border:none;background:var(--gold);color:#fff;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(0,0,0,0.28);transition:opacity .2s;}
 #modalScrollTop.vis{display:flex;}
 /* Modal hero — title-as-visual (matches card hero) */
 .modal-hero{position:relative;min-height:90px;background:var(--grad-red);overflow:hidden;padding:10px 20px 12px;display:flex;flex-direction:column;justify-content:flex-end}
@@ -392,8 +392,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-meta a:hover{text-decoration:underline}
 .modal-meta .msep{opacity:.32}
 .modal-meta-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.modal-src{display:inline-flex;align-items:center;font-size:12px;color:#555;padding:4px 12px;background:#f0f0f4;border:1px solid #d0d0da;border-radius:10px;text-decoration:none;transition:all .15s;white-space:nowrap}
+.modal-src{display:inline-flex;align-items:center;font-size:12px;color:#555;padding:4px 12px;background:#f0f0f4;border:1px solid #d0d0da;border-radius:10px;text-decoration:none;transition:all .15s;white-space:nowrap;cursor:pointer;font-family:inherit}
 .modal-src:hover{color:#111;background:#e4e4ee;border-color:#aaa}
+#articleLinksPop{position:fixed;z-index:9999;display:none;flex-direction:column;padding:6px;border-radius:10px;min-width:160px;box-shadow:0 4px 20px rgba(0,0,0,0.38);background:#2a2a3a;border:1px solid rgba(255,255,255,0.12)}
+#articleLinksPop a{display:block;padding:8px 14px;color:rgba(255,255,255,0.93);font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap}
+#articleLinksPop a:hover{background:rgba(255,255,255,0.13)}
 .modal-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:18px}
 .modal-tag{padding:3px 10px;border-radius:8px;font-size:12px;background:var(--tag-bg);color:var(--tag-color);border:1px solid var(--tag-border)}
 .modal-text{font-size:15px;line-height:1.85;color:#2a2a3a;white-space:pre-wrap;word-break:break-word}
@@ -531,6 +534,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
       <option value="thepaper">澎湃新闻</option>
       <option value="sohu">搜狐</option>
       <option value="netease">网易</option>
+      <option value="huanqiu">环球网</option>
       <option value="unknown">其他</option>
     </select>
     <div class="article-count" id="articleCount">共 <strong id="countNum">0</strong> 篇</div>
@@ -567,6 +571,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 </div><!-- end contentArea -->
 
 <!-- Modal (for featured card clicks) -->
+<div id="articleLinksPop"></div>
 <div id="articleModal" role="dialog" aria-modal="true">
   <div id="modalWrapper">
     <button class="modal-close" id="modalClose">×</button>
@@ -604,6 +609,7 @@ const PLAT = {
   thepaper: {label:'澎湃新闻',bg:'rgba(18,18,18,0.85)'},
   sohu:     {label:'搜狐',    bg:'rgba(24,90,165,0.88)'},
   netease:  {label:'网易',    bg:'rgba(192,0,0,0.88)'},
+  huanqiu:  {label:'环球网',  bg:'rgba(180,0,0,0.88)'},
   unknown:  {label:'其他',    bg:'rgba(70,70,70,0.85)'},
 };
 const SNAP_BG = {
@@ -612,6 +618,7 @@ const SNAP_BG = {
   thepaper:'linear-gradient(135deg,#111 0%,#2a2a2a 100%)',
   sohu:'linear-gradient(135deg,#0A2856 0%,#103880 100%)',
   netease:'linear-gradient(135deg,#680000 0%,#990000 100%)',
+  huanqiu:'linear-gradient(135deg,#7A0000 0%,#B00000 100%)',
 };
 const p = k => PLAT[k] || {label:k, bg:'rgba(70,70,70,0.85)'};
 const sb = k => SNAP_BG[k] || 'linear-gradient(135deg,#222 0%,#3a3a3a 100%)';
@@ -843,6 +850,39 @@ function rowHTML(a){
 
 
 /* ===== MODAL (featured cards) ===== */
+function _platLabel(a){
+  if(a.platform==='unknown'&&a.source_name) return a.source_name;
+  return (PLAT[a.platform]||{label:'原文'}).label;
+}
+function _buildArticleSrcBtn(a){
+  if(!a.url&&!(a.extra_links&&a.extra_links.length)) return '';
+  const links=[];
+  if(a.url) links.push({label:_platLabel(a)+' 原文',url:a.url});
+  (a.extra_links||[]).forEach(l=>{if(l.url) links.push(l);});
+  if(!links.length) return '';
+  if(links.length===1) return '<a class="modal-src" href="'+eh(links[0].url)+'" target="_blank" rel="noopener">'+eh(links[0].label)+' ↗</a>';
+  return '<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(links))+')" style="border:1px solid #d0d0da">多来源 🔗</button>';
+}
+function _buildSnapshotBtn(a){
+  if(a.snapshots&&a.snapshots.length>1){
+    const snaps=a.snapshots.map(function(u,i){return {label:'截图 '+(i+1),url:u};});
+    return '<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(snaps))+')" style="border:1px solid #d0d0da">Snapshots 截图('+a.snapshots.length+') 🔗</button>';
+  }
+  if(a.snapshot_url) return '<a class="modal-src" href="'+eh(a.snapshot_url)+'" target="_blank" rel="noopener">Snapshot 截图 ↗</a>';
+  return '';
+}
+function _showArticleLinksPop(btn,links){
+  const pop=document.getElementById('articleLinksPop');
+  pop.innerHTML=links.map(l=>`<a href="${eh(l.url)}" target="_blank" rel="noopener">${eh(l.label)}</a>`).join('');
+  pop.style.display='flex';
+  const r=btn.getBoundingClientRect();
+  const pw=pop.offsetWidth||180, ph=pop.offsetHeight||100;
+  let left=r.left+r.width/2-pw/2, top=r.top-ph-8;
+  if(top<8) top=r.bottom+8;
+  pop.style.left=Math.max(8,Math.min(left,window.innerWidth-pw-8))+'px';
+  pop.style.top=top+'px';
+  setTimeout(()=>document.addEventListener('click',()=>{pop.style.display='none';},{once:true}),0);
+}
 function openModal(id,year){
   const a=ALL.find(x=>x.id===id&&String(x.year)===String(year));if(!a)return;
   const pt=p(a.platform);
@@ -862,8 +902,8 @@ function openModal(id,year){
     `<a href="${eh(a.author_url||'#')}" target="_blank" rel="noopener">${eh(a.author)}</a>
      <span class="msep">·</span><time>${eh(a.date)}</time>
      <div class="modal-meta-links">
-       <a class="modal-src" href="${eh(a.url)}" target="_blank" rel="noopener">Source 原文 ↗</a>
-       ${a.snapshots&&a.snapshots.length>1?`<a class="modal-src" href="${eh(a.snapshots[0])}" target="_blank" rel="noopener">Snapshots 截图(${a.snapshots.length}) ↗</a>`:a.snapshot_url?`<a class="modal-src" href="${eh(a.snapshot_url)}" target="_blank" rel="noopener">Snapshot 截图 ↗</a>`:''}
+       ${_buildArticleSrcBtn(a)}
+       ${_buildSnapshotBtn(a)}
      </div>`;
   document.getElementById('mTags').innerHTML=(a.tags||[]).map(t=>`<span class="modal-tag">${eh(t)}</span>`).join('');
   document.getElementById('mText').textContent=a.text||'';
@@ -925,11 +965,23 @@ document.getElementById('articleRows').addEventListener('keydown',e=>{
 
 /* ===== SCROLL ===== */
 window.addEventListener('scroll',()=>{document.getElementById('backToTopFloat').classList.toggle('vis',window.scrollY>350);},{passive:true});
+window.addEventListener('resize',()=>{document.querySelectorAll('.year-group').forEach(g=>syncRowTickers(g));},{passive:true});
 
 /* ===== ROW TITLE TICKER ===== */
 function syncRowTickers(grp){
   const open=grp.classList.contains('open');
-  if(window.innerWidth>=768){grp.querySelectorAll('.row-title').forEach(t=>t.classList.remove('rt-scrolling'));return;}
+  if(window.innerWidth>=768){
+    grp.querySelectorAll('.row-title').forEach(t=>{
+      t.classList.remove('rt-scrolling');
+      const track=t.querySelector('.rt-track');
+      if(track){
+        const inner=t.querySelector('.rt-inner');
+        t.innerHTML='';
+        if(inner){inner.className='rt-inner';t.appendChild(inner);}
+      }
+    });
+    return;
+  }
   grp.querySelectorAll('.row-title').forEach((t,i)=>{
     t.classList.remove('rt-scrolling');
     if(!open)return;
