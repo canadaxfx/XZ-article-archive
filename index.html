@@ -373,6 +373,12 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 #modalWrapper{position:relative;max-width:800px;width:100%;margin:auto;}
 .modal-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
 .modal-close:hover{background:#fff;color:rgba(0,0,0,0.85)}
+#modalTtsBtn{position:absolute;top:12px;right:56px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
+#modalTtsBtn:hover{background:#fff;color:rgba(0,0,0,0.85)}
+#modalTtsBtn.tts-playing{background:rgba(109,40,217,0.88);color:#fff}
+#ttsIosNotice{display:none;margin:10px 16px 0;padding:8px 12px;background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.4);border-radius:8px;font-size:12px;color:#92400e;line-height:1.5;align-items:flex-start;gap:8px}
+#ttsIosNotice.vis{display:flex}
+#ttsIosNotice button{flex-shrink:0;border:none;background:none;cursor:pointer;color:#92400e;font-size:14px;padding:0;line-height:1}
 #modalProgress{position:sticky;top:0;left:0;height:3px;width:0%;background:var(--gold);z-index:9;border-radius:0 2px 2px 0;transition:width .08s linear;}
 #modalScrollTop{position:absolute;bottom:16px;right:16px;z-index:10;width:38px;height:38px;border-radius:50%;border:none;background:var(--gold);color:#fff;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(0,0,0,0.28);transition:opacity .2s;}
 #modalScrollTop.vis{display:flex;}
@@ -460,6 +466,54 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 [data-theme="washi-garnet"] #backToTopFloat .float-top-text,[data-theme="washi-slate"] #backToTopFloat .float-top-text{color:rgba(255,255,255,0.92)}
 @media(max-width:768px){#floatBtnGroup{right:8px}.float-btn{width:50px;height:50px;font-size:18px}}
 @media(min-width:768px){.row-title.rt-scrolling .rt-track{animation:none;}}
+
+/* ===== PLAYLIST PLAYER ===== */
+#plFloatBtn{background:var(--grad-gold);color:#fff;border-color:rgba(255,255,255,0.3);font-size:20px;width:68px;height:68px;overflow:visible}
+#plFloatBadge{position:absolute;top:-3px;right:-3px;background:#ef4444;color:#fff;border-radius:10px;font-size:10px;font-weight:700;padding:1px 5px;min-width:18px;text-align:center;display:none;line-height:1.6}
+.pl-panel{position:fixed;width:300px;max-height:540px;background:var(--surface);border-radius:12px;box-shadow:0 6px 28px rgba(0,0,0,.28);z-index:9600;display:flex;flex-direction:column;overflow:hidden;bottom:160px;right:16px;transition:opacity .2s}
+.pl-panel.hidden{display:none}
+.pl-panel-hd{display:flex;align-items:center;gap:8px;padding:11px 14px;background:linear-gradient(135deg,#1e2a40,#111827);border-radius:12px 12px 0 0;color:#fff;font-size:13px;font-weight:700;flex-shrink:0}
+.pl-panel-title{flex:1;letter-spacing:.2px}
+.pl-cnt-badge{background:rgba(255,255,255,.25);border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700}
+.pl-panel-x{background:none;border:none;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;padding:0}
+.pl-panel-x:hover{color:#fff}
+.pl-list{overflow-y:auto;flex:1;min-height:40px;max-height:170px}
+.pl-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer}
+.pl-item:hover{background:var(--row-hover)}
+.pl-item.pl-active{background:rgba(var(--gold-dr),.12);border-left:3px solid var(--gold)}
+.pl-item-info{flex:1;min-width:0}
+.pl-item-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#374151;font-weight:500;font-size:12px}
+.pl-item-year{color:#9ca3af;font-size:10px}
+.pl-item-rm{flex-shrink:0;background:#e5e7eb;border:none;cursor:pointer;color:#6b7280;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.pl-item-rm:hover{background:#fecaca;color:#dc2626}
+.pl-panel-ft{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
+.pl-play-btn{flex:1;padding:6px;background:var(--grad-gold);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.pl-play-btn:disabled{opacity:.45;cursor:default}
+.pl-clear-btn{padding:6px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px}
+.pl-bgm-sec{padding:8px 10px 6px;border-top:1px solid var(--border);flex-shrink:0}
+.pl-bgm-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;font-size:12px;font-weight:600;color:#374151}
+.pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280}
+.pl-vol-row input[type=range]{width:72px;height:3px;cursor:pointer;accent-color:var(--gold)}
+.pl-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
+.pl-bgm-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#374151;cursor:pointer;padding:2px 0}
+.pl-bgm-item input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.pl-voice-sec{padding:5px 10px 8px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;font-size:12px;font-weight:600;color:#374151}
+.pl-voice-sel{flex:1;padding:3px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:#374151;cursor:pointer}
+/* Modal nav bar */
+.pl-nav-bar{display:none;align-items:center;gap:6px;padding:8px 10px;background:var(--surface-w);border-top:1px solid var(--border);flex-shrink:0;border-radius:0 0 16px 16px;position:sticky;bottom:0;z-index:5}
+.pl-nav-bar.vis{display:flex}
+.pl-nav-btn{background:rgba(0,0,0,0.1);color:#1a1a1a;border:1px solid rgba(0,0,0,0.18);border-radius:8px;width:30px;height:30px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;transition:all .15s}
+.pl-nav-btn:hover{background:rgba(0,0,0,0.18)}
+.pl-nav-btn:disabled{opacity:.3;cursor:default}
+#plPlayPauseBtn{background:#1a1a1a;color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:13px;flex-shrink:0}
+#plPlayPauseBtn:hover{background:#333}
+.pl-tts-prog{flex:1;height:4px;border-radius:2px;background:rgba(120,120,120,0.2);overflow:hidden;min-width:0}
+.pl-tts-bar{height:100%;background:var(--gold);border-radius:2px;width:0%;transition:width .4s}
+.pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
+.pl-modal-add:hover,.pl-modal-add.in-list{background:rgba(var(--gold-dr),.22);font-weight:600}
+.yg-add-btn{background:rgba(var(--gold-dr),.1);border:1px solid rgba(var(--gold-dr),.35);color:var(--gold);border-radius:10px;font-size:10px;padding:2px 7px;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:6px;transition:background .15s}
+.yg-add-btn:hover{background:rgba(var(--gold-dr),.22)}
+@media(max-width:600px){.pl-panel{width:calc(100vw - 90px);right:8px;bottom:140px}}
   </style>
 </head>
 <body>
@@ -575,8 +629,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <div id="articleModal" role="dialog" aria-modal="true">
   <div id="modalWrapper">
     <button class="modal-close" id="modalClose">×</button>
+    <button id="modalTtsBtn" title="朗读文章 Read aloud">▶</button>
+    <button class="pl-modal-add" id="modalAddBtn" onclick="plModalToggle()" title="加入朗读列表" style="position:absolute;top:14px;right:100px;z-index:10">＋ 列表</button>
     <div class="modal-inner">
       <div id="modalProgress"></div>
+      <div id="ttsIosNotice"><span>⚠️ iOS Safari 不支持自动连续朗读，部分内容可能中断。建议在电脑端使用此功能。</span><button onclick="document.getElementById('ttsIosNotice').classList.remove('vis')" aria-label="关闭">×</button></div>
       <div class="modal-hero" id="mHero">
         <img class="modal-hero-img" id="mHeroImg" alt="">
         <span class="modal-pbadge" id="mBadge"></span>
@@ -589,6 +646,14 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
         <div class="modal-media" id="mMedia" style="display:none"></div>
         <div class="modal-archived" id="mArchived"></div>
       </div>
+      <!-- Playlist nav bar (shown when playlist has items) -->
+      <div class="pl-nav-bar" id="plNavBar">
+        <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="上一篇">◁</button>
+        <button id="plPlayPauseBtn" onclick="plTogglePlay()">▶</button>
+        <div class="pl-tts-prog"><div class="pl-tts-bar" id="plTtsBar"></div></div>
+        <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="下一篇">▷</button>
+        <button onclick="plTogglePanel()" style="background:var(--grad-gold);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:12px;cursor:pointer;flex-shrink:0" title="打开列表">🎵</button>
+      </div>
     </div>
     <button id="modalScrollTop" title="回到顶部 Back to top">▲</button>
   </div>
@@ -596,10 +661,44 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 
 <!-- Float -->
 <div id="floatBtnGroup">
+  <button class="float-btn" id="plFloatBtn" onclick="plTogglePanel()" title="朗读列表 Reading Playlist">
+    <span>🎵</span>
+    <span class="float-top-text" style="-webkit-text-fill-color:#fff;color:#fff;">朗读<br>Play</span>
+    <span id="plFloatBadge">0</span>
+  </button>
   <button class="float-btn" id="backToTopFloat" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
     <span>▲</span><span class="float-top-text">TOP<br>回顶部</span>
   </button>
 </div>
+
+<!-- Playlist panel -->
+<div class="pl-panel hidden" id="plPanel">
+  <div class="pl-panel-hd">
+    <span>🎵</span>
+    <span class="pl-panel-title">朗读列表</span>
+    <span class="pl-cnt-badge" id="plCntBadge">0</span>
+    <button class="pl-panel-x" onclick="plTogglePanel()">×</button>
+  </div>
+  <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空。点击文章年份的「＋ 加入」或在文章内点击「＋ 列表」</div></div>
+  <div class="pl-panel-ft">
+    <button class="pl-play-btn" id="plPlayAllBtn" onclick="plPlayAll()" disabled>▶ 开始朗读</button>
+    <button class="pl-clear-btn" onclick="plClear()">清空</button>
+  </div>
+  <div class="pl-bgm-sec">
+    <div class="pl-bgm-hd">
+      <span>🎵 背景音乐</span>
+      <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
+    </div>
+    <div class="pl-bgm-grid" id="bgmGrid"></div>
+  </div>
+  <div class="pl-voice-sec">
+    <span>🗣️ 朗读声音</span>
+    <select class="pl-voice-sel" id="ttsVoiceSelect"><option value="">默认</option></select>
+  </div>
+</div>
+
+<!-- BGM audio -->
+<audio id="bgmAudio" loop style="display:none"></audio>
 
 <script>
 /* ===== PLATFORM CONFIG ===== */
@@ -758,6 +857,7 @@ function renderList(articles,groupByYear){
     <span class="yg-pill">+</span>
     <span class="yg-label">${eh(y)}</span>
     <span class="yg-count">${items.length} 篇</span>
+    <button class="yg-add-btn" data-year="${eh(y)}" onclick="event.stopPropagation();plAddYear('${eh(y)}')">＋ 加入</button>
     <div class="yg-ticker">${tickers}</div>
   </div>
   <div class="article-rows">${rows}</div>
@@ -927,15 +1027,297 @@ function openModal(id,year){
   document.getElementById('modalScrollTop').classList.remove('vis');
   document.getElementById('articleModal').classList.add('open');
   document.body.style.overflow='hidden';
+  _currentArticleId=a.id;
+  _syncModalAddBtn();
+  _syncNavBar();
 }
 function closeModal(){
   document.getElementById('articleModal').classList.remove('open');
   document.body.style.overflow='';
   document.getElementById('modalScrollTop').classList.remove('vis');
+  if('speechSynthesis' in window&&!_plPlaying) _ttsReset();
+  document.getElementById('ttsIosNotice').classList.remove('vis');
 }
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('articleModal').addEventListener('click',e=>{if(e.target===document.getElementById('articleModal'))closeModal();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ===== TTS ===== */
+let _ttsPaused=false;
+let _ttsGen=0; // incremented on every reset; stale next() chains check this and self-abort
+const _ttsBtn=document.getElementById('modalTtsBtn');
+const _ttsNotice=document.getElementById('ttsIosNotice');
+const _isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+
+function _ttsReset(){
+  _ttsGen++;
+  speechSynthesis.cancel();
+  _ttsPaused=false;
+  _ttsBtn.textContent='▶';
+  _ttsBtn.title='朗读文章 Read aloud';
+  _ttsBtn.classList.remove('tts-playing');
+}
+
+function _ttsGetVoice(){
+  const sel=document.getElementById('ttsVoiceSelect');
+  if(!sel||!sel.value)return null;
+  return speechSynthesis.getVoices().filter(v=>v.lang.startsWith('zh'))[+sel.value]||null;
+}
+
+function _ttsStart(onDone){
+  const text=document.getElementById('mText').textContent.trim();
+  if(!text)return;
+  if(!('speechSynthesis' in window)){alert('您的浏览器不支持朗读功能');return;}
+  _ttsReset();
+  const myGen=_ttsGen;
+  if(_isIOS) _ttsNotice.classList.add('vis');
+  _ttsBtn.textContent='⏸';
+  _ttsBtn.title='暂停 Pause';
+  _ttsBtn.classList.add('tts-playing');
+  const chunks=(text.match(/[^。！？!?\n]{1,120}[。！？!?\n]?/g)||[text]).filter(s=>s.trim());
+  const total=chunks.length;
+  let i=0;
+  function next(){
+    if(_ttsGen!==myGen)return;
+    // update progress bar
+    document.getElementById('plTtsBar').style.width=total>0?((i/total)*100)+'%':'0%';
+    if(i>=chunks.length){
+      document.getElementById('plTtsBar').style.width='100%';
+      _ttsReset();
+      if(typeof onDone==='function')onDone();
+      return;
+    }
+    const u=new SpeechSynthesisUtterance(chunks[i++]);
+    u.lang='zh-CN';u.rate=0.9;
+    const voice=_ttsGetVoice();
+    if(voice)u.voice=voice;
+    u.onend=next;u.onerror=next;
+    speechSynthesis.speak(u);
+  }
+  next();
+}
+
+_ttsBtn.addEventListener('click',()=>{
+  if(!('speechSynthesis' in window)){alert('您的浏览器不支持朗读功能');return;}
+  if(speechSynthesis.speaking&&!speechSynthesis.paused){
+    speechSynthesis.pause();_ttsPaused=true;
+    _ttsBtn.textContent='▶';_ttsBtn.title='继续 Resume';_ttsBtn.classList.remove('tts-playing');
+  } else if(_ttsPaused){
+    speechSynthesis.resume();_ttsPaused=false;
+    _ttsBtn.textContent='⏸';_ttsBtn.title='暂停 Pause';_ttsBtn.classList.add('tts-playing');
+  } else {
+    _ttsStart();
+  }
+});
+/* ===== VOICE SELECTOR ===== */
+function _populateVoices(){
+  const voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('zh'));
+  const sel=document.getElementById('ttsVoiceSelect');
+  if(!sel||!voices.length)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">默认</option>'+voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('');
+  if(cur)sel.value=cur;
+}
+speechSynthesis.onvoiceschanged=_populateVoices;
+_populateVoices();
+
+/* ===== BGM ===== */
+const BGM_CDN='https://assets.xz-studio-gallery.com/music/';
+const BGM_TRACKS=[
+  {name:'夢中的那片海', file:'dream-sea.mp3'},
+  {name:'心之所向',     file:'heart-direction.mp3'},
+  {name:'无羁',         file:'wuji-flute.mp3'},
+  {name:'書籤',         file:'bookmark.mp3'},
+  {name:'玉骨',         file:'jade-bone.mp3'},
+  {name:'萤火',         file:'firefly.mp3'},
+  {name:'莲花坞',       file:'lotus.mp3'},
+  {name:'醉梦',         file:'drunk-dream.mp3'},
+];
+const BGM_SEL_KEY='xzBgmSel';
+const BGM_VOL_KEY='xzBgmVol';
+let _bgmSel=new Set(JSON.parse(localStorage.getItem(BGM_SEL_KEY)||'[0,1,2,3,4,5,6,7]'));
+let _bgmIdx=0;
+const _bgmAudio=document.getElementById('bgmAudio');
+_bgmAudio.volume=parseFloat(localStorage.getItem(BGM_VOL_KEY)||'0.5');
+document.getElementById('bgmVol').value=_bgmAudio.volume;
+
+function _bgmBuildGrid(){
+  document.getElementById('bgmGrid').innerHTML=BGM_TRACKS.map((t,i)=>
+    `<label class="pl-bgm-item"><input type="checkbox" ${_bgmSel.has(i)?'checked':''} onchange="bgmToggle(${i},this.checked)">${t.name}</label>`
+  ).join('');
+}
+_bgmBuildGrid();
+
+function bgmToggle(i,on){
+  on?_bgmSel.add(i):_bgmSel.delete(i);
+  localStorage.setItem(BGM_SEL_KEY,JSON.stringify([..._bgmSel]));
+}
+function bgmSetVol(v){
+  _bgmAudio.volume=parseFloat(v);
+  localStorage.setItem(BGM_VOL_KEY,v);
+}
+function _bgmNextTrack(){
+  const sel=[..._bgmSel];
+  if(!sel.length)return;
+  _bgmIdx=(_bgmIdx+1)%sel.length;
+  _bgmAudio.src=BGM_CDN+BGM_TRACKS[sel[_bgmIdx]].file;
+  _bgmAudio.play().catch(()=>{});
+}
+function bgmPlay(){
+  const sel=[..._bgmSel];
+  if(!sel.length)return;
+  _bgmAudio.src=BGM_CDN+BGM_TRACKS[sel[_bgmIdx%sel.length]].file;
+  _bgmAudio.loop=false;
+  _bgmAudio.play().catch(()=>{});
+}
+function bgmStop(){_bgmAudio.pause();_bgmAudio.src='';}
+_bgmAudio.addEventListener('ended',_bgmNextTrack);
+
+/* ===== PLAYLIST ===== */
+const PL_KEY='xzArticlePlaylist';
+let _playlist=[];
+try{_playlist=JSON.parse(localStorage.getItem(PL_KEY)||'[]');}catch{_playlist=[];}
+let _plIdx=-1;
+let _plPlaying=false;
+let _currentArticleId=null;
+
+function _plSave(){localStorage.setItem(PL_KEY,JSON.stringify(_playlist));}
+
+function _plSyncBadge(){
+  const n=_playlist.length;
+  const b=document.getElementById('plFloatBadge');
+  b.textContent=n;b.style.display=n?'block':'none';
+  document.getElementById('plCntBadge').textContent=n;
+  document.getElementById('plPlayAllBtn').disabled=n===0;
+}
+
+function plRender(){
+  const list=document.getElementById('plList');
+  if(!_playlist.length){
+    list.innerHTML='<div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空。点击文章年份的「＋ 加入」或在文章内点击「＋ 列表」</div>';
+    _plSyncBadge();return;
+  }
+  list.innerHTML=_playlist.map((a,i)=>`
+    <div class="pl-item${i===_plIdx?' pl-active':''}" onclick="plJump(${i})">
+      <div class="pl-item-info">
+        <div class="pl-item-title">${eh(a.title)}</div>
+        <div class="pl-item-year">${eh(a.author||'')} · ${eh(a.year||'')}</div>
+      </div>
+      <button class="pl-item-rm" onclick="event.stopPropagation();plRemove(${i})" title="移出列表">×</button>
+    </div>`).join('');
+  _plSyncBadge();
+}
+plRender();
+
+function plTogglePanel(){
+  document.getElementById('plPanel').classList.toggle('hidden');
+}
+
+function plAdd(a){
+  if(_playlist.some(x=>x.id===a.id))return;
+  _playlist.push(a);_plSave();plRender();
+  _syncModalAddBtn();
+}
+function plRemove(i){
+  _playlist.splice(i,1);
+  if(_plIdx>=_playlist.length)_plIdx=_playlist.length-1;
+  _plSave();plRender();
+  _syncNavBar();_syncModalAddBtn();
+}
+function plClear(){
+  _playlist=[];_plIdx=-1;_plPlaying=false;
+  _plSave();plRender();
+  _ttsReset();bgmStop();
+  _syncNavBar();_syncModalAddBtn();
+}
+function plAddYear(year){
+  const arts=ALL.filter(a=>String(a.year)===String(year));
+  let added=0;
+  arts.forEach(a=>{if(!_playlist.some(x=>x.id===a.id)){_playlist.push(a);added++;}});
+  _plSave();plRender();
+  if(added)_showToast(`已加入 ${added} 篇 (${year}年)`);
+}
+function plModalToggle(){
+  if(!_currentArticleId)return;
+  const a=ALL.find(x=>x.id===_currentArticleId);
+  if(!a)return;
+  const inList=_playlist.some(x=>x.id===a.id);
+  inList?plRemove(_playlist.findIndex(x=>x.id===a.id)):plAdd(a);
+}
+function _syncModalAddBtn(){
+  const btn=document.getElementById('modalAddBtn');
+  if(!btn||!_currentArticleId)return;
+  const inList=_playlist.some(x=>x.id===_currentArticleId);
+  btn.textContent=inList?'✓ 列表':'＋ 列表';
+  btn.classList.toggle('in-list',inList);
+}
+function _syncNavBar(){
+  const bar=document.getElementById('plNavBar');
+  if(!_playlist.length){bar.classList.remove('vis');return;}
+  bar.classList.add('vis');
+  document.getElementById('plPrevBtn').disabled=_plIdx<=0;
+  document.getElementById('plNextBtn').disabled=_plIdx>=_playlist.length-1;
+  document.getElementById('plPlayPauseBtn').textContent=_plPlaying?'⏸':'▶';
+}
+
+function plPlayAll(){
+  if(!_playlist.length)return;
+  _plIdx=0;_plPlaying=true;
+  _loadAndPlay(_plIdx);
+  bgmPlay();
+  document.getElementById('plPanel').classList.add('hidden');
+}
+function plJump(i){
+  _plIdx=i;_plPlaying=true;
+  _loadAndPlay(i);
+  bgmPlay();
+}
+function plPrev(){if(_plIdx>0){_plIdx--;_loadAndPlay(_plIdx);}}
+function plNext(){if(_plIdx<_playlist.length-1){_plIdx++;_loadAndPlay(_plIdx);}}
+function plTogglePlay(){
+  if(!_plPlaying){
+    if(_plIdx<0)_plIdx=0;
+    _plPlaying=true;
+    _ttsStart(()=>plAdvance());
+    bgmPlay();
+  } else if(speechSynthesis.speaking&&!speechSynthesis.paused){
+    speechSynthesis.pause();_ttsPaused=true;_bgmAudio.pause();
+    document.getElementById('plPlayPauseBtn').textContent='▶';
+    _plPlaying=false;
+  } else if(_ttsPaused){
+    speechSynthesis.resume();_ttsPaused=false;_bgmAudio.play().catch(()=>{});
+    document.getElementById('plPlayPauseBtn').textContent='⏸';
+    _plPlaying=true;
+  }
+}
+function plAdvance(){
+  if(_plIdx<_playlist.length-1){
+    _plIdx++;
+    _loadAndPlay(_plIdx);
+  } else {
+    _plPlaying=false;bgmStop();_syncNavBar();
+    document.getElementById('plTtsBar').style.width='0%';
+  }
+}
+function _loadAndPlay(idx){
+  const a=_playlist[idx];
+  if(!a)return;
+  openModal(a.id,a.year);
+  setTimeout(()=>{
+    _ttsStart(()=>plAdvance());
+    _syncNavBar();
+  },400);
+}
+
+function _showToast(msg){
+  let t=document.getElementById('plToast');
+  if(!t){t=document.createElement('div');t.id='plToast';
+    t.style.cssText='position:fixed;bottom:160px;left:50%;transform:translateX(-50%);background:#1f2937;color:#fff;padding:8px 18px;border-radius:8px;font-size:13px;z-index:99999;pointer-events:none;opacity:0;transition:opacity .3s';
+    document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(t._tid);t._tid=setTimeout(()=>t.style.opacity='0',2000);
+}
+
 document.getElementById('modalScrollTop').addEventListener('click',()=>document.querySelector('.modal-inner').scrollTo({top:0,behavior:'smooth'}));
 document.querySelector('.modal-inner').addEventListener('scroll',function(){
   const max=this.scrollHeight-this.clientHeight;
