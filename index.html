@@ -290,12 +290,14 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 
 /* ===== YEAR GROUP ===== */
 .year-group{margin-bottom:8px}
-.yg-header{display:flex;align-items:center;gap:12px;padding:8px 14px;cursor:pointer;user-select:none;border-radius:8px;border:1px solid rgba(var(--gold-dr),0.28);background:rgba(var(--gold-dr),0.03);transition:background .15s,border-color .2s}
+.yg-header{display:flex;flex-direction:column;gap:4px;padding:8px 14px;cursor:pointer;user-select:none;border-radius:8px;border:1px solid rgba(var(--gold-dr),0.28);background:rgba(var(--gold-dr),0.03);transition:background .15s,border-color .2s}
+.yg-row1{display:flex;align-items:center;gap:12px;width:100%}
+.yg-row2{display:flex;padding-left:0}
 .yg-header:hover{background:rgba(var(--gold-dr),0.08);border-color:rgba(var(--gold-dr),0.55)}
 .yg-pill{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(var(--gold-dr),0.35);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.35rem;font-weight:700;line-height:1;transition:background .2s,border-color .2s;font-family:system-ui,sans-serif}
 .yg-header:hover .yg-pill{border-color:var(--gold)}
 .year-group.open>.yg-header{background:rgba(var(--gold-dr),0.06);border-color:rgba(var(--gold-dr),0.45)}
-.year-group.open>.yg-header>.yg-pill{background:rgba(var(--gold-dr),0.12);border-color:var(--gold)}
+.year-group.open>.yg-header .yg-pill{background:rgba(var(--gold-dr),0.12);border-color:var(--gold)}
 .yg-label{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.55rem;font-weight:700;color:var(--gold);letter-spacing:.04em;line-height:1;flex-shrink:0}
 .yg-count{font-size:12px;color:var(--txt-sub);letter-spacing:.08em;white-space:nowrap}
 .yg-ticker{flex:1;min-width:0;position:relative;height:1.25em;overflow:hidden}
@@ -400,6 +402,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-meta-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .modal-src{display:inline-flex;align-items:center;font-size:12px;color:#555;padding:4px 12px;background:#f0f0f4;border:1px solid #d0d0da;border-radius:10px;text-decoration:none;transition:all .15s;white-space:nowrap;cursor:pointer;font-family:inherit}
 .modal-src:hover{color:#111;background:#e4e4ee;border-color:#aaa}
+.modal-pl-btn{display:inline-flex;align-items:center;font-size:12px;color:#666;padding:3px 10px;background:none;border:1px solid #d0d0da;border-radius:10px;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit}
+.modal-pl-btn:hover{background:#f0f0f4;color:#111;border-color:#aaa}
+.modal-pl-btn.in-list{color:var(--gold);border-color:rgba(var(--gold-dr),.5);background:rgba(var(--gold-dr),.06)}
 #articleLinksPop{position:fixed;z-index:9999;display:none;flex-direction:column;padding:6px;border-radius:10px;min-width:160px;box-shadow:0 4px 20px rgba(0,0,0,0.38);background:#2a2a3a;border:1px solid rgba(255,255,255,0.12)}
 #articleLinksPop a{display:block;padding:8px 14px;color:rgba(255,255,255,0.93);font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap}
 #articleLinksPop a:hover{background:rgba(255,255,255,0.13)}
@@ -455,20 +460,22 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .hc-bl{bottom:0;left:0;border-width:0 0 2px 2px}
 .hc-br{bottom:0;right:0;border-width:0 2px 2px 0}
 /* ===== FLOAT ===== */
-#floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:8000}
+#floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:8000;touch-action:none;cursor:grab}
 .float-btn{width:58px;height:58px;border-radius:50%;border:3px solid rgba(var(--red-rgb),0.9);background:var(--bg-float);color:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,0.15),0 0 0 3px rgba(var(--red-rgb),0.4);font-size:22px;font-weight:600;transition:transform .18s,box-shadow .18s;position:relative;flex-shrink:0;user-select:none;overflow:hidden}
 .float-btn:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,0.22)}
 .float-top-text{font-size:9px;font-weight:700;line-height:1.1;margin-top:0;text-align:center}
 #backToTopFloat{opacity:0;pointer-events:none;transition:opacity .3s;font-size:18px;line-height:1}
 #backToTopFloat.vis{opacity:.88;pointer-events:all}
 #backToTopFloat .float-top-text{color:var(--gold)}
-[data-theme="washi-garnet"] #backToTopFloat,[data-theme="washi-slate"] #backToTopFloat{color:rgba(255,255,255,0.92)}
-[data-theme="washi-garnet"] #backToTopFloat .float-top-text,[data-theme="washi-slate"] #backToTopFloat .float-top-text{color:rgba(255,255,255,0.92)}
+[data-theme="washi-garnet"] #backToTopFloat,[data-theme="washi-slate"] #backToTopFloat,
+[data-theme="washi-garnet"] #plFloatBtn,[data-theme="washi-slate"] #plFloatBtn{color:rgba(255,255,255,0.92)}
+[data-theme="washi-garnet"] #backToTopFloat .float-top-text,[data-theme="washi-slate"] #backToTopFloat .float-top-text,
+[data-theme="washi-garnet"] #plFloatBtn .float-top-text,[data-theme="washi-slate"] #plFloatBtn .float-top-text{color:rgba(255,255,255,0.92)}
 @media(max-width:768px){#floatBtnGroup{right:8px}.float-btn{width:50px;height:50px;font-size:18px}}
 @media(min-width:768px){.row-title.rt-scrolling .rt-track{animation:none;}}
 
 /* ===== PLAYLIST PLAYER ===== */
-#plFloatBtn{background:var(--grad-gold);color:#fff;border-color:rgba(255,255,255,0.3);font-size:20px;width:68px;height:68px;overflow:visible}
+#plFloatBtn{font-size:20px;width:68px;height:68px;overflow:visible}
 #plFloatBadge{position:absolute;top:-3px;right:-3px;background:#ef4444;color:#fff;border-radius:10px;font-size:10px;font-weight:700;padding:1px 5px;min-width:18px;text-align:center;display:none;line-height:1.6}
 .pl-panel{position:fixed;width:300px;max-height:540px;background:var(--surface);border-radius:12px;box-shadow:0 6px 28px rgba(0,0,0,.28);z-index:9600;display:flex;flex-direction:column;overflow:hidden;bottom:160px;right:16px;transition:opacity .2s}
 .pl-panel.hidden{display:none}
@@ -487,8 +494,12 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-item-rm{flex-shrink:0;background:#e5e7eb;border:none;cursor:pointer;color:#6b7280;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
 .pl-item-rm:hover{background:#fecaca;color:#dc2626}
 .pl-panel-ft{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
-.pl-play-btn{flex:1;padding:6px;background:var(--grad-gold);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
+.pl-play-btn{flex:1;padding:6px;background:linear-gradient(135deg,#1e2a40,#111827);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
 .pl-play-btn:disabled{opacity:.45;cursor:default}
+.pl-stop-btn{padding:6px 10px;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;font-size:12px}
+.pl-stop-btn:hover{background:#e5e7eb}
+.pl-bgm-play{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:11px;padding:1px 7px;cursor:pointer;white-space:nowrap}
+.pl-bgm-play:hover{background:rgba(var(--gold-dr),.1)}
 .pl-clear-btn{padding:6px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px}
 .pl-bgm-sec{padding:8px 10px 6px;border-top:1px solid var(--border);flex-shrink:0}
 .pl-bgm-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;font-size:12px;font-weight:600;color:#374151}
@@ -497,8 +508,20 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
 .pl-bgm-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#374151;cursor:pointer;padding:2px 0}
 .pl-bgm-item input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
-.pl-voice-sec{padding:5px 10px 8px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;font-size:12px;font-weight:600;color:#374151}
+.pl-voice-sec{padding:5px 10px 6px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;font-size:12px;font-weight:600;color:#374151}
 .pl-voice-sel{flex:1;padding:3px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:#374151;cursor:pointer}
+.pl-timer-sec{padding:5px 10px 8px;border-top:1px solid var(--border);flex-shrink:0}
+.pl-timer-row{display:flex;align-items:center;gap:4px}
+.pl-timer-lbl{font-size:12px;font-weight:600;color:#374151;flex-shrink:0}
+.pl-timer-btn{background:rgba(var(--gold-dr),.1);border:1px solid rgba(var(--gold-dr),.35);color:var(--gold);border-radius:8px;font-size:11px;padding:2px 8px;cursor:pointer;white-space:nowrap}
+.pl-timer-btn:hover{background:rgba(var(--gold-dr),.22)}
+.pl-timer-inp{width:40px;padding:2px 4px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:#374151;text-align:center}
+.pl-timer-go{background:var(--gold);color:#fff;border:none;border-radius:6px;font-size:11px;padding:2px 7px;cursor:pointer}
+.pl-timer-disp{font-size:12px;font-weight:700;color:var(--gold);font-variant-numeric:tabular-nums;flex:1;text-align:right;letter-spacing:.03em}
+.pl-timer-x{background:none;border:none;color:#9ca3af;font-size:15px;cursor:pointer;padding:0;line-height:1;flex-shrink:0}
+.pl-timer-x:hover{color:#374151}
+.pl-wakelock-note{display:none;font-size:10px;color:#9ca3af;padding:3px 10px 5px;text-align:center}
+.pl-wakelock-note.vis{display:block;color:var(--gold)}
 /* Modal nav bar */
 .pl-nav-bar{display:none;align-items:center;gap:6px;padding:8px 10px;background:var(--surface-w);border-top:1px solid var(--border);flex-shrink:0;border-radius:0 0 16px 16px;position:sticky;bottom:0;z-index:5}
 .pl-nav-bar.vis{display:flex}
@@ -630,7 +653,6 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   <div id="modalWrapper">
     <button class="modal-close" id="modalClose">×</button>
     <button id="modalTtsBtn" title="朗读文章 Read aloud">▶</button>
-    <button class="pl-modal-add" id="modalAddBtn" onclick="plModalToggle()" title="加入朗读列表" style="position:absolute;top:14px;right:100px;z-index:10">＋ 列表</button>
     <div class="modal-inner">
       <div id="modalProgress"></div>
       <div id="ttsIosNotice"><span>⚠️ iOS Safari 不支持自动连续朗读，部分内容可能中断。建议在电脑端使用此功能。</span><button onclick="document.getElementById('ttsIosNotice').classList.remove('vis')" aria-label="关闭">×</button></div>
@@ -650,9 +672,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
       <div class="pl-nav-bar" id="plNavBar">
         <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="上一篇">◁</button>
         <button id="plPlayPauseBtn" onclick="plTogglePlay()">▶</button>
+        <button class="pl-nav-btn" onclick="plStop()" title="停止" style="font-size:10px">■</button>
         <div class="pl-tts-prog"><div class="pl-tts-bar" id="plTtsBar"></div></div>
         <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="下一篇">▷</button>
-        <button onclick="plTogglePanel()" style="background:var(--grad-gold);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:12px;cursor:pointer;flex-shrink:0" title="打开列表">🎵</button>
+        <button onclick="plTogglePanel()" style="background:linear-gradient(135deg,#1e2a40,#111827);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:12px;cursor:pointer;flex-shrink:0" title="打开列表">🎵</button>
       </div>
     </div>
     <button id="modalScrollTop" title="回到顶部 Back to top">▲</button>
@@ -663,7 +686,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <div id="floatBtnGroup">
   <button class="float-btn" id="plFloatBtn" onclick="plTogglePanel()" title="朗读列表 Reading Playlist">
     <span>🎵</span>
-    <span class="float-top-text" style="-webkit-text-fill-color:#fff;color:#fff;">朗读<br>Play</span>
+    <span class="float-top-text">朗读<br>Play</span>
     <span id="plFloatBadge">0</span>
   </button>
   <button class="float-btn" id="backToTopFloat" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
@@ -682,19 +705,33 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空。点击文章年份的「＋ 加入」或在文章内点击「＋ 列表」</div></div>
   <div class="pl-panel-ft">
     <button class="pl-play-btn" id="plPlayAllBtn" onclick="plPlayAll()" disabled>▶ 开始朗读</button>
+    <button class="pl-stop-btn" id="plStopBtn" onclick="plStop()" title="停止">■ 停止</button>
     <button class="pl-clear-btn" onclick="plClear()">清空</button>
   </div>
   <div class="pl-bgm-sec">
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐</span>
+      <span>🎵 背景音乐 <button class="pl-bgm-play" id="bgmPlayBtn" onclick="bgmTogglePlay()">▶</button></span>
       <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
     </div>
     <div class="pl-bgm-grid" id="bgmGrid"></div>
   </div>
-  <div class="pl-voice-sec">
+  <div class="pl-voice-sec" id="plVoiceSec">
     <span>🗣️ 朗读声音</span>
     <select class="pl-voice-sel" id="ttsVoiceSelect"><option value="">默认</option></select>
   </div>
+  <div class="pl-timer-sec">
+    <div class="pl-timer-row">
+      <span class="pl-timer-lbl">⏱️</span>
+      <button class="pl-timer-btn" onclick="plTimerSet(15)">15'</button>
+      <button class="pl-timer-btn" onclick="plTimerSet(30)">30'</button>
+      <button class="pl-timer-btn" onclick="plTimerSet(60)">60'</button>
+      <input class="pl-timer-inp" id="plTimerInp" type="number" min="1" max="999" placeholder="min" onkeydown="if(event.key==='Enter')plTimerCustom()">
+      <button class="pl-timer-go" onclick="plTimerCustom()">Go</button>
+      <span class="pl-timer-disp" id="plTimerDisp" style="display:none"></span>
+      <button class="pl-timer-x" id="plTimerX" onclick="plTimerCancel()" style="display:none" title="取消定时">×</button>
+    </div>
+  </div>
+  <div class="pl-wakelock-note" id="plWakeLockNote">📱 屏幕常亮中 — 如屏幕手动关闭则定时和朗读不可用<br><span style="font-size:9px;opacity:0.8">Screen is kept on — locking it will pause TTS &amp; timer</span></div>
 </div>
 
 <!-- BGM audio -->
@@ -854,11 +891,15 @@ function renderList(articles,groupByYear){
       const tickers=items.map(a=>`<span class="yg-title">${eh(a.title)}</span>`).join('');
       return `<div class="year-group" data-year="${eh(y)}">
   <div class="yg-header">
-    <span class="yg-pill">+</span>
-    <span class="yg-label">${eh(y)}</span>
-    <span class="yg-count">${items.length} 篇</span>
-    <button class="yg-add-btn" data-year="${eh(y)}" onclick="event.stopPropagation();plAddYear('${eh(y)}')">＋ 加入</button>
-    <div class="yg-ticker">${tickers}</div>
+    <div class="yg-row1">
+      <span class="yg-pill">+</span>
+      <span class="yg-label">${eh(y)}</span>
+      <span class="yg-count">${items.length} 篇</span>
+      <div class="yg-ticker">${tickers}</div>
+    </div>
+    <div class="yg-row2">
+      <button class="yg-add-btn" data-year="${eh(y)}" onclick="event.stopPropagation();plAddYear('${eh(y)}')">＋ Playlist</button>
+    </div>
   </div>
   <div class="article-rows">${rows}</div>
 </div>`;
@@ -1001,6 +1042,7 @@ function openModal(id,year){
   document.getElementById('mMeta').innerHTML=
     `<a href="${eh(a.author_url||'#')}" target="_blank" rel="noopener">${eh(a.author)}</a>
      <span class="msep">·</span><time>${eh(a.date)}</time>
+     <button id="modalAddBtn" class="modal-pl-btn" onclick="plModalToggle()">＋ Playlist</button>
      <div class="modal-meta-links">
        ${_buildArticleSrcBtn(a)}
        ${_buildSnapshotBtn(a)}
@@ -1058,14 +1100,10 @@ function _ttsReset(){
   _ttsBtn.classList.remove('tts-playing');
 }
 
-function _ttsGetVoice(){
-  const sel=document.getElementById('ttsVoiceSelect');
-  if(!sel||!sel.value)return null;
-  return speechSynthesis.getVoices().filter(v=>v.lang.startsWith('zh'))[+sel.value]||null;
-}
+function _ttsGetVoice(){ return _ttsGetVoiceByName(); }
 
-function _ttsStart(onDone){
-  const text=document.getElementById('mText').textContent.trim();
+function _ttsStart(onDone, text){
+  if(!text) text=document.getElementById('mText').textContent.trim();
   if(!text)return;
   if(!('speechSynthesis' in window)){alert('您的浏览器不支持朗读功能');return;}
   _ttsReset();
@@ -1110,14 +1148,63 @@ _ttsBtn.addEventListener('click',()=>{
   }
 });
 /* ===== VOICE SELECTOR ===== */
-function _populateVoices(){
-  const voices=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('zh'));
-  const sel=document.getElementById('ttsVoiceSelect');
-  if(!sel||!voices.length)return;
-  const cur=sel.value;
-  sel.innerHTML='<option value="">默认</option>'+voices.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('');
-  if(cur)sel.value=cur;
+const TTS_VOICE_KEY='xzTtsVoice';
+const TTS_MALE=/Yunyang|Kangkang|Zhiwei|Yunhao|Male|男/i;
+
+function _zhVoicesSorted(){
+  const all=speechSynthesis.getVoices().filter(v=>v.lang.startsWith('zh'));
+  // Female first (natural reading voices), male at bottom
+  const female=all.filter(v=>!TTS_MALE.test(v.name));
+  const male=all.filter(v=>TTS_MALE.test(v.name));
+  return [...female,...male];
 }
+
+function _populateVoices(){
+  const sorted=_zhVoicesSorted();
+  const sel=document.getElementById('ttsVoiceSelect');
+  const ttsBtn=document.getElementById('modalTtsBtn');
+  const voiceSec=document.getElementById('plVoiceSec');
+  if(!sel)return;
+
+  if(!sorted.length){
+    // No Chinese TTS voices on this device
+    sel.style.display='none';
+    if(voiceSec){
+      const note=voiceSec.querySelector('.pl-no-tts')||document.createElement('span');
+      note.className='pl-no-tts';
+      note.style.cssText='font-size:11px;color:#9ca3af;font-weight:400';
+      note.textContent='设备不支持中文朗读';
+      if(!voiceSec.querySelector('.pl-no-tts'))voiceSec.appendChild(note);
+    }
+    if(ttsBtn){
+      ttsBtn.disabled=true;
+      ttsBtn.title='您的设备暂不支持中文语音朗读';
+      ttsBtn.style.opacity='0.35';
+    }
+    return;
+  }
+
+  // Voices available — restore button if previously disabled
+  sel.style.display='';
+  const note=voiceSec&&voiceSec.querySelector('.pl-no-tts');
+  if(note)note.remove();
+  if(ttsBtn){ttsBtn.disabled=false;ttsBtn.title='朗读文章 Read aloud';ttsBtn.style.opacity='';}
+
+  const saved=localStorage.getItem(TTS_VOICE_KEY)||'';
+  const defaultName=saved||(sorted.find(v=>/Yaoyao/i.test(v.name))||sorted[0]||{}).name||'';
+  sel.innerHTML='<option value="">默认</option>'+sorted.map((v,i)=>`<option value="${i}"${v.name===defaultName?' selected':''}>${v.name}</option>`).join('');
+  if(!saved&&defaultName)localStorage.setItem(TTS_VOICE_KEY,defaultName);
+}
+function _ttsGetVoiceByName(){
+  const sel=document.getElementById('ttsVoiceSelect');
+  if(!sel||!sel.value)return null;
+  return _zhVoicesSorted()[+sel.value]||null;
+}
+document.getElementById('ttsVoiceSelect').addEventListener('change',function(){
+  const v=_zhVoicesSorted()[+this.value];
+  if(v)localStorage.setItem(TTS_VOICE_KEY,v.name);
+  else localStorage.removeItem(TTS_VOICE_KEY);
+});
 speechSynthesis.onvoiceschanged=_populateVoices;
 _populateVoices();
 
@@ -1166,12 +1253,27 @@ function _bgmNextTrack(){
 function bgmPlay(){
   const sel=[..._bgmSel];
   if(!sel.length)return;
-  _bgmAudio.src=BGM_CDN+BGM_TRACKS[sel[_bgmIdx%sel.length]].file;
-  _bgmAudio.loop=false;
+  if(!_bgmAudio.src||_bgmAudio.paused){
+    _bgmAudio.src=BGM_CDN+BGM_TRACKS[sel[_bgmIdx%sel.length]].file;
+    _bgmAudio.loop=false;
+  }
   _bgmAudio.play().catch(()=>{});
+  _syncBgmBtn();
 }
-function bgmStop(){_bgmAudio.pause();_bgmAudio.src='';}
-_bgmAudio.addEventListener('ended',_bgmNextTrack);
+function bgmStop(){
+  _bgmAudio.pause();_bgmAudio.src='';
+  _syncBgmBtn();
+}
+function bgmTogglePlay(){
+  if(_bgmAudio.paused)bgmPlay();else{_bgmAudio.pause();_syncBgmBtn();}
+}
+function _syncBgmBtn(){
+  const btn=document.getElementById('bgmPlayBtn');
+  if(btn)btn.textContent=_bgmAudio.paused?'▶':'⏸';
+}
+_bgmAudio.addEventListener('ended',()=>{_bgmNextTrack();_syncBgmBtn();});
+_bgmAudio.addEventListener('play',_syncBgmBtn);
+_bgmAudio.addEventListener('pause',_syncBgmBtn);
 
 /* ===== PLAYLIST ===== */
 const PL_KEY='xzArticlePlaylist';
@@ -1210,7 +1312,10 @@ function plRender(){
 plRender();
 
 function plTogglePanel(){
-  document.getElementById('plPanel').classList.toggle('hidden');
+  const panel=document.getElementById('plPanel');
+  const opening=panel.classList.contains('hidden');
+  panel.classList.toggle('hidden');
+  if(opening)plRender(); // always re-render on open to reflect latest state
 }
 
 function plAdd(a){
@@ -1224,10 +1329,18 @@ function plRemove(i){
   _plSave();plRender();
   _syncNavBar();_syncModalAddBtn();
 }
+function plStop(){
+  _plPlaying=false;
+  _ttsReset();
+  _releaseWakeLock();
+  document.getElementById('plTtsBar').style.width='0%';
+  _syncNavBar();
+}
 function plClear(){
   _playlist=[];_plIdx=-1;_plPlaying=false;
   _plSave();plRender();
-  _ttsReset();bgmStop();
+  _ttsReset();bgmStop();_releaseWakeLock();
+  document.getElementById('plTtsBar').style.width='0%';
   _syncNavBar();_syncModalAddBtn();
 }
 function plAddYear(year){
@@ -1248,7 +1361,7 @@ function _syncModalAddBtn(){
   const btn=document.getElementById('modalAddBtn');
   if(!btn||!_currentArticleId)return;
   const inList=_playlist.some(x=>x.id===_currentArticleId);
-  btn.textContent=inList?'✓ 列表':'＋ 列表';
+  btn.textContent=inList?'✓ Playlist':'＋ Playlist';
   btn.classList.toggle('in-list',inList);
 }
 function _syncNavBar(){
@@ -1260,17 +1373,19 @@ function _syncNavBar(){
   document.getElementById('plPlayPauseBtn').textContent=_plPlaying?'⏸':'▶';
 }
 
+function _ttsAvailable(){return 'speechSynthesis' in window&&_zhVoicesSorted().length>0;}
 function plPlayAll(){
   if(!_playlist.length)return;
   _plIdx=0;_plPlaying=true;
-  _loadAndPlay(_plIdx);
-  bgmPlay();
+  if(_ttsAvailable())_loadAndPlay(_plIdx);
+  else{_currentArticleId=_playlist[0].id;_syncNavBar();}
+  bgmPlay();_requestWakeLock();
   document.getElementById('plPanel').classList.add('hidden');
 }
 function plJump(i){
   _plIdx=i;_plPlaying=true;
   _loadAndPlay(i);
-  bgmPlay();
+  bgmPlay();_requestWakeLock();
 }
 function plPrev(){if(_plIdx>0){_plIdx--;_loadAndPlay(_plIdx);}}
 function plNext(){if(_plIdx<_playlist.length-1){_plIdx++;_loadAndPlay(_plIdx);}}
@@ -1287,7 +1402,7 @@ function plTogglePlay(){
   } else if(_ttsPaused){
     speechSynthesis.resume();_ttsPaused=false;_bgmAudio.play().catch(()=>{});
     document.getElementById('plPlayPauseBtn').textContent='⏸';
-    _plPlaying=true;
+    _plPlaying=true;_requestWakeLock();
   }
 }
 function plAdvance(){
@@ -1295,18 +1410,77 @@ function plAdvance(){
     _plIdx++;
     _loadAndPlay(_plIdx);
   } else {
-    _plPlaying=false;bgmStop();_syncNavBar();
+    _plPlaying=false;bgmStop();_releaseWakeLock();_syncNavBar();
     document.getElementById('plTtsBar').style.width='0%';
   }
 }
 function _loadAndPlay(idx){
   const a=_playlist[idx];
   if(!a)return;
-  openModal(a.id,a.year);
-  setTimeout(()=>{
-    _ttsStart(()=>plAdvance());
-    _syncNavBar();
-  },400);
+  _currentArticleId=a.id;
+  _syncModalAddBtn();
+  _ttsStart(()=>plAdvance(), a.text||'');
+  _syncNavBar();
+}
+
+/* ===== WAKE LOCK ===== */
+let _wakeLock=null;
+async function _requestWakeLock(){
+  if(!('wakeLock' in navigator))return;
+  try{
+    _wakeLock=await navigator.wakeLock.request('screen');
+    _wakeLock.addEventListener('release',()=>{_wakeLock=null;_syncWakeLockNote();});
+    _syncWakeLockNote();
+  }catch(e){_wakeLock=null;}
+}
+function _releaseWakeLock(){
+  if(_wakeLock){_wakeLock.release();_wakeLock=null;}
+  _syncWakeLockNote();
+}
+function _syncWakeLockNote(){
+  const el=document.getElementById('plWakeLockNote');
+  if(el)el.classList.toggle('vis',!!_wakeLock);
+}
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&_plPlaying&&!_wakeLock)_requestWakeLock();
+});
+
+/* ===== SLEEP TIMER ===== */
+let _timerSecs=0,_timerTick=null;
+
+function plTimerSet(mins){
+  plTimerCancel();
+  _timerSecs=mins*60;
+  _startTimer();
+}
+function plTimerCustom(){
+  const v=parseInt(document.getElementById('plTimerInp').value)||0;
+  if(v<1||v>999)return;
+  plTimerCancel();
+  _timerSecs=v*60;
+  _startTimer();
+}
+function _startTimer(){
+  const disp=document.getElementById('plTimerDisp');
+  const x=document.getElementById('plTimerX');
+  disp.style.display='';x.style.display='';
+  _renderTimer();
+  _timerTick=setInterval(()=>{
+    _timerSecs--;
+    if(_timerSecs<=0){plTimerCancel();plStop();bgmStop();_showToast('⏱️ 定时停止');}
+    else _renderTimer();
+  },1000);
+}
+function _renderTimer(){
+  const m=Math.floor(_timerSecs/60),s=_timerSecs%60;
+  document.getElementById('plTimerDisp').textContent=m+':'+String(s).padStart(2,'0');
+}
+function plTimerCancel(){
+  clearInterval(_timerTick);_timerTick=null;_timerSecs=0;
+  const disp=document.getElementById('plTimerDisp');
+  const x=document.getElementById('plTimerX');
+  if(disp)disp.style.display='none';
+  if(x)x.style.display='none';
 }
 
 function _showToast(msg){
@@ -1347,6 +1521,68 @@ document.getElementById('articleRows').addEventListener('keydown',e=>{
 
 /* ===== SCROLL ===== */
 window.addEventListener('scroll',()=>{document.getElementById('backToTopFloat').classList.toggle('vis',window.scrollY>350);},{passive:true});
+
+/* ===== FLOAT GROUP DRAG (vertical only) ===== */
+(function(){
+  const group=document.getElementById('floatBtnGroup');
+  const margin=10;
+  let dragging=false,startY,startTop,moved;
+
+  const saved=localStorage.getItem('xzFloatTop');
+  if(saved){
+    try{
+      const top=parseFloat(saved);
+      const h=group.offsetHeight||130;
+      group.style.top=Math.max(margin,Math.min(top,window.innerHeight-h-margin))+'px';
+      group.style.bottom='auto';
+    }catch{localStorage.removeItem('xzFloatTop');}
+  }
+
+  function convertToTop(){
+    if(!group.style.top||group.style.bottom!=='auto'){
+      group.style.top=group.getBoundingClientRect().top+'px';
+      group.style.bottom='auto';
+    }
+  }
+  function clamp(v,lo,hi){return Math.max(lo,Math.min(hi,v));}
+
+  group.addEventListener('click',e=>{if(moved){e.stopPropagation();e.preventDefault();moved=false;}},true);
+
+  function onStart(e){
+    const p=e.touches?e.touches[0]:e;
+    convertToTop();
+    startY=p.clientY;startTop=parseFloat(group.style.top);
+    dragging=true;moved=false;
+  }
+  function onMove(e){
+    if(!dragging)return;
+    const p=e.touches?e.touches[0]:e;
+    const dy=p.clientY-startY;
+    if(Math.abs(dy)>4)moved=true;
+    group.style.top=clamp(startTop+dy,margin,window.innerHeight-group.offsetHeight-margin)+'px';
+    e.preventDefault();
+    // reposition panel if open
+    const panel=document.getElementById('plPanel');
+    if(panel&&!panel.classList.contains('hidden')){
+      const rect=group.getBoundingClientRect();
+      const panelH=panel.offsetHeight||420;
+      panel.style.bottom='auto';
+      panel.style.top=Math.max(10,Math.min(rect.top,window.innerHeight-panelH-10))+'px';
+    }
+  }
+  function onEnd(){
+    if(!dragging)return;
+    dragging=false;
+    if(moved)localStorage.setItem('xzFloatTop',parseFloat(group.style.top));
+  }
+
+  group.addEventListener('mousedown',onStart);
+  group.addEventListener('touchstart',onStart,{passive:false});
+  document.addEventListener('mousemove',onMove);
+  document.addEventListener('touchmove',onMove,{passive:false});
+  document.addEventListener('mouseup',onEnd);
+  document.addEventListener('touchend',onEnd);
+})();
 window.addEventListener('resize',()=>{document.querySelectorAll('.year-group').forEach(g=>syncRowTickers(g));},{passive:true});
 
 /* ===== ROW TITLE TICKER ===== */
