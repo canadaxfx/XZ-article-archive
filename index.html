@@ -698,11 +698,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <div class="pl-panel hidden" id="plPanel">
   <div class="pl-panel-hd">
     <span>🎵</span>
-    <span class="pl-panel-title">朗读列表</span>
+    <span class="pl-panel-title">朗读器 <span style="font-size:10px;opacity:0.55;font-weight:400;letter-spacing:.5px">· Reader</span></span>
     <span class="pl-cnt-badge" id="plCntBadge">0</span>
     <button class="pl-panel-x" onclick="plTogglePanel()">×</button>
   </div>
-  <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空。点击文章年份的「＋ 加入」或在文章内点击「＋ 列表」</div></div>
+  <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读队列</div></div>
   <div class="pl-panel-ft">
     <button class="pl-play-btn" id="plPlayAllBtn" onclick="plPlayAll()" disabled>▶ 开始朗读</button>
     <button class="pl-stop-btn" id="plStopBtn" onclick="plStop()" title="停止">■ 停止</button>
@@ -1296,7 +1296,7 @@ function _plSyncBadge(){
 function plRender(){
   const list=document.getElementById('plList');
   if(!_playlist.length){
-    list.innerHTML='<div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空。点击文章年份的「＋ 加入」或在文章内点击「＋ 列表」</div>';
+    list.innerHTML='<div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读队列</div>';
     _plSyncBadge();return;
   }
   list.innerHTML=_playlist.map((a,i)=>`
