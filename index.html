@@ -1069,7 +1069,7 @@ function openModal(id,year){
   document.getElementById('modalScrollTop').classList.remove('vis');
   document.getElementById('articleModal').classList.add('open');
   document.body.style.overflow='hidden';
-  _currentArticleId=a.id;
+  _modalArticle=a;
   _syncModalAddBtn();
   _syncNavBar();
 }
@@ -1281,7 +1281,8 @@ let _playlist=[];
 try{_playlist=JSON.parse(localStorage.getItem(PL_KEY)||'[]');}catch{_playlist=[];}
 let _plIdx=-1;
 let _plPlaying=false;
-let _currentArticleId=null;
+let _currentArticleId=null; // currently playing in playlist
+let _modalArticle=null;     // full article object currently displayed in modal
 
 function _plSave(){localStorage.setItem(PL_KEY,JSON.stringify(_playlist));}
 
@@ -1319,7 +1320,7 @@ function plTogglePanel(){
 }
 
 function plAdd(a){
-  if(_playlist.some(x=>x.id===a.id))return;
+  if(_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)))return;
   _playlist.push(a);_plSave();plRender();
   _syncModalAddBtn();
 }
@@ -1351,16 +1352,14 @@ function plAddYear(year){
   if(added)_showToast(`已加入 ${added} 篇 (${year}年)`);
 }
 function plModalToggle(){
-  if(!_currentArticleId)return;
-  const a=ALL.find(x=>x.id===_currentArticleId);
-  if(!a)return;
-  const inList=_playlist.some(x=>x.id===a.id);
-  inList?plRemove(_playlist.findIndex(x=>x.id===a.id)):plAdd(a);
+  if(!_modalArticle)return;
+  const inList=_playlist.some(x=>x.id===_modalArticle.id&&String(x.year)===String(_modalArticle.year));
+  inList?plRemove(_playlist.findIndex(x=>x.id===_modalArticle.id&&String(x.year)===String(_modalArticle.year))):plAdd(_modalArticle);
 }
 function _syncModalAddBtn(){
   const btn=document.getElementById('modalAddBtn');
-  if(!btn||!_currentArticleId)return;
-  const inList=_playlist.some(x=>x.id===_currentArticleId);
+  if(!btn||!_modalArticle)return;
+  const inList=_playlist.some(x=>x.id===_modalArticle.id&&String(x.year)===String(_modalArticle.year));
   btn.textContent=inList?'✓ Playlist':'＋ Playlist';
   btn.classList.toggle('in-list',inList);
 }
