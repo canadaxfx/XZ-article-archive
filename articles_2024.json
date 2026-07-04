@@ -102,7 +102,7 @@
         "id": 6,
         "platform": "weibo",
         "url": "https://weibo.com/1594590224/NAjh9ux45",
-        "title": "2023年度人物 年度对话",
+        "title": "2023 年度人物 年度对话",
         "author": "博客天下",
         "date": "2024-01-04",
         "year": "2024",
@@ -118,6 +118,9 @@
             "https://assets.xz-studio-gallery.com/full/20240104_博客天下_XZ-MISC-7.jpg",
             "https://assets.xz-studio-gallery.com/full/20240104_博客天下_XZ-MISC-8.jpg",
             "https://assets.xz-studio-gallery.com/full/20240104_博客天下_XZ-MISC-9.jpg"
+        ],
+        "images": [
+            "https://assets.xz-studio-gallery.com/full/20240104_%E5%8D%9A%E5%AE%A2%E5%A4%A9%E4%B8%8B_XZ-MISC-5.jpg"
         ]
     }
 ]
