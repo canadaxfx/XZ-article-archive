@@ -668,7 +668,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <div id="floatBtnGroup">
   <button class="float-btn" id="plFloatBtn" onclick="plTogglePanel()" title="朗读列表 Reading Playlist">
     <span>🎵</span>
-    <span class="float-top-text">朗读<br>Play</span>
+    <span class="float-top-text">Play<br>朗读</span>
     <span id="plFloatBadge">0</span>
   </button>
   <button class="float-btn" id="backToTopFloat" onclick="(document.getElementById('articleModal').classList.contains('open')?document.querySelector('.modal-inner'):window).scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
@@ -760,7 +760,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260704-2'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260704-3'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
