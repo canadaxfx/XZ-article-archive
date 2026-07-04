@@ -1304,7 +1304,18 @@ function plTogglePanel(){
   const panel=document.getElementById('plPanel');
   const opening=panel.classList.contains('hidden');
   panel.classList.toggle('hidden');
-  if(opening)plRender(); // always re-render on open to reflect latest state
+  if(opening){
+    plRender();
+    // Snap panel to just above the float button group (one-time on open only)
+    const group=document.getElementById('floatBtnGroup');
+    if(group){
+      const rect=group.getBoundingClientRect();
+      const panelH=panel.offsetHeight||420;
+      const top=Math.max(10,Math.min(rect.top-panelH-8,window.innerHeight-panelH-10));
+      panel.style.top=top+'px';
+      panel.style.bottom='auto';
+    }
+  }
 }
 
 function plAdd(a){
@@ -1412,6 +1423,7 @@ function _loadAndPlay(idx){
   _ttsStart(()=>plAdvance(), a.text||'');
   _ttsBtn.textContent='▶ 朗读本篇';_ttsBtn.title='朗读文章 Read aloud';_ttsBtn.classList.remove('tts-playing');
   _syncPlayBar();
+  plRender();
 }
 
 /* ===== WAKE LOCK ===== */
@@ -1550,14 +1562,6 @@ window.addEventListener('scroll',()=>{document.getElementById('backToTopFloat').
     if(Math.abs(dy)>4)moved=true;
     group.style.top=clamp(startTop+dy,margin,window.innerHeight-group.offsetHeight-margin)+'px';
     e.preventDefault();
-    // reposition panel if open
-    const panel=document.getElementById('plPanel');
-    if(panel&&!panel.classList.contains('hidden')){
-      const rect=group.getBoundingClientRect();
-      const panelH=panel.offsetHeight||420;
-      panel.style.bottom='auto';
-      panel.style.top=Math.max(10,Math.min(rect.top,window.innerHeight-panelH-10))+'px';
-    }
   }
   function onEnd(){
     if(!dragging)return;
