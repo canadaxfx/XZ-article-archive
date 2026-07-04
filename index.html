@@ -375,25 +375,19 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 #modalWrapper{position:relative;max-width:800px;width:100%;margin:auto;}
 .modal-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
 .modal-close:hover{background:#fff;color:rgba(0,0,0,0.85)}
-#modalTtsBtn{position:absolute;top:12px;right:56px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
-#modalTtsBtn:hover{background:#fff;color:rgba(0,0,0,0.85)}
-#modalTtsBtn.tts-playing{background:rgba(109,40,217,0.88);color:#fff}
+#modalTtsBtn{z-index:2;padding:2px 8px;border-radius:0 10px 10px 0;border:1px solid rgba(255,255,255,0.28);background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.88);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;backdrop-filter:blur(6px);flex-shrink:0}
+#modalTtsBtn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.55)}
 #ttsIosNotice{display:none;margin:10px 16px 0;padding:8px 12px;background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.4);border-radius:8px;font-size:12px;color:#92400e;line-height:1.5;align-items:flex-start;gap:8px}
 #ttsIosNotice.vis{display:flex}
 #ttsIosNotice button{flex-shrink:0;border:none;background:none;cursor:pointer;color:#92400e;font-size:14px;padding:0;line-height:1}
 #modalProgress{position:sticky;top:0;left:0;height:3px;width:0%;background:var(--gold);z-index:9;border-radius:0 2px 2px 0;transition:width .08s linear;}
-#modalScrollTop{position:absolute;bottom:16px;right:16px;z-index:10;width:38px;height:38px;border-radius:50%;border:none;background:var(--gold);color:#fff;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 3px 14px rgba(0,0,0,0.28);transition:opacity .2s;}
-#modalScrollTop.vis{display:flex;}
 /* Modal hero — title-as-visual (matches card hero) */
-.modal-hero{position:relative;min-height:90px;background:var(--grad-red);overflow:hidden;padding:10px 20px 12px;display:flex;flex-direction:column;justify-content:flex-end}
+.modal-hero{position:relative;min-height:90px;background:var(--grad-red);overflow:hidden;padding:10px 20px 12px;display:flex;flex-direction:column;justify-content:space-between}
 .modal-hero::before{content:'〝';position:absolute;top:-24px;right:10px;font-family:'Cormorant Garamond',Georgia,serif;font-size:150px;line-height:1;font-style:italic;color:rgba(255,255,255,0.06);pointer-events:none;user-select:none}
 .modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.22) 0%,transparent 55%);pointer-events:none}
-/* When real snapshot image is present */
-.modal-hero.has-img::before{display:none}
-.modal-hero.has-img::after{background:linear-gradient(180deg,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.62) 100%)}
-.modal-hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;display:none}
-.modal-pbadge{position:absolute;top:12px;left:16px;padding:3px 11px;border-radius:11px;font-size:11px;font-weight:700;color:#fff;z-index:2;text-shadow:0 1px 3px rgba(0,0,0,0.3)}
-.modal-hero-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:700;font-style:italic;line-height:1.3;color:rgba(255,255,255,0.97);text-shadow:0 2px 18px rgba(0,0,0,0.55);position:relative;z-index:1}
+.modal-hero-top{display:flex;flex-direction:column;align-items:flex-start;gap:6px;position:relative;z-index:2;padding-right:50px}
+.modal-pbadge{padding:3px 11px;border-radius:11px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3);flex-shrink:0}
+.modal-hero-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:700;font-style:italic;line-height:1.3;color:rgba(255,255,255,0.97);text-shadow:0 2px 18px rgba(0,0,0,0.55);position:relative;z-index:1;margin-top:8px}
 .modal-body{padding:12px 24px 20px}
 .modal-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:#666;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .modal-meta a{color:inherit;text-decoration:none}
@@ -402,9 +396,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-meta-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .modal-src{display:inline-flex;align-items:center;font-size:12px;color:#555;padding:4px 12px;background:#f0f0f4;border:1px solid #d0d0da;border-radius:10px;text-decoration:none;transition:all .15s;white-space:nowrap;cursor:pointer;font-family:inherit}
 .modal-src:hover{color:#111;background:#e4e4ee;border-color:#aaa}
-.modal-pl-btn{display:inline-flex;align-items:center;font-size:12px;color:#666;padding:3px 10px;background:none;border:1px solid #d0d0da;border-radius:10px;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:inherit}
-.modal-pl-btn:hover{background:#f0f0f4;color:#111;border-color:#aaa}
-.modal-pl-btn.in-list{color:var(--gold);border-color:rgba(var(--gold-dr),.5);background:rgba(var(--gold-dr),.06)}
+#modalAddBtn{display:none;align-items:center;gap:3px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.88);padding:2px 9px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.28);border-right:none;border-radius:10px 0 0 10px;cursor:pointer;backdrop-filter:blur(6px);transition:all .15s;white-space:nowrap;font-family:inherit;letter-spacing:.02em;flex-shrink:0}
+#modalAddBtn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.55)}
+#modalAddBtn.in-list{background:rgba(var(--gold-dr),.55);border-color:rgba(var(--gold-rgb),0.7);color:#fff}
 #articleLinksPop{position:fixed;z-index:9999;display:none;flex-direction:column;padding:6px;border-radius:10px;min-width:160px;box-shadow:0 4px 20px rgba(0,0,0,0.38);background:#2a2a3a;border:1px solid rgba(255,255,255,0.12)}
 #articleLinksPop a{display:block;padding:8px 14px;color:rgba(255,255,255,0.93);font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap}
 #articleLinksPop a:hover{background:rgba(255,255,255,0.13)}
@@ -460,11 +454,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .hc-bl{bottom:0;left:0;border-width:0 0 2px 2px}
 .hc-br{bottom:0;right:0;border-width:0 2px 2px 0}
 /* ===== FLOAT ===== */
-#floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:8000;touch-action:none;cursor:grab}
+#floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:9700;touch-action:none;cursor:grab}
 .float-btn{width:58px;height:58px;border-radius:50%;border:3px solid rgba(var(--red-rgb),0.9);background:var(--bg-float);color:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,0.15),0 0 0 3px rgba(var(--red-rgb),0.4);font-size:22px;font-weight:600;transition:transform .18s,box-shadow .18s;position:relative;flex-shrink:0;user-select:none;overflow:hidden}
 .float-btn:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,0.22)}
 .float-top-text{font-size:9px;font-weight:700;line-height:1.1;margin-top:0;text-align:center}
-#backToTopFloat{opacity:0;pointer-events:none;transition:opacity .3s;font-size:18px;line-height:1}
+#backToTopFloat{opacity:0.88;pointer-events:all;transition:opacity .3s;font-size:18px;line-height:1}
 #backToTopFloat.vis{opacity:.88;pointer-events:all}
 #backToTopFloat .float-top-text{color:var(--gold)}
 [data-theme="washi-garnet"] #backToTopFloat,[data-theme="washi-slate"] #backToTopFloat,
@@ -522,16 +516,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-timer-x:hover{color:#374151}
 .pl-wakelock-note{display:none;font-size:10px;color:#9ca3af;padding:3px 10px 5px;text-align:center}
 .pl-wakelock-note.vis{display:block;color:var(--gold)}
-/* Modal nav bar */
-.pl-nav-bar{display:none;align-items:center;gap:6px;padding:8px 10px;background:var(--surface-w);border-top:1px solid var(--border);flex-shrink:0;border-radius:0 0 16px 16px;position:sticky;bottom:0;z-index:5}
-.pl-nav-bar.vis{display:flex}
-.pl-nav-btn{background:rgba(0,0,0,0.1);color:#1a1a1a;border:1px solid rgba(0,0,0,0.18);border-radius:8px;width:30px;height:30px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;transition:all .15s}
-.pl-nav-btn:hover{background:rgba(0,0,0,0.18)}
-.pl-nav-btn:disabled{opacity:.3;cursor:default}
-#plPlayPauseBtn{background:#1a1a1a;color:#fff;border:none;border-radius:50%;width:32px;height:32px;font-size:13px;flex-shrink:0}
-#plPlayPauseBtn:hover{background:#333}
-.pl-tts-prog{flex:1;height:4px;border-radius:2px;background:rgba(120,120,120,0.2);overflow:hidden;min-width:0}
-.pl-tts-bar{height:100%;background:var(--gold);border-radius:2px;width:0%;transition:width .4s}
+.pl-nav-btn{background:rgba(110,110,110,0.2);color:rgba(110,110,110,0.85);border:1px solid rgba(110,110,110,0.3);border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.pl-nav-btn:hover{opacity:.75}
+.pl-nav-btn:disabled{opacity:.25;cursor:default}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
 .pl-modal-add:hover,.pl-modal-add.in-list{background:rgba(var(--gold-dr),.22);font-weight:600}
 .yg-add-btn{background:rgba(var(--gold-dr),.1);border:1px solid rgba(var(--gold-dr),.35);color:var(--gold);border-radius:10px;font-size:10px;padding:2px 7px;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:6px;transition:background .15s}
@@ -652,13 +639,17 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <div id="articleModal" role="dialog" aria-modal="true">
   <div id="modalWrapper">
     <button class="modal-close" id="modalClose">×</button>
-    <button id="modalTtsBtn" title="朗读文章 Read aloud">▶</button>
     <div class="modal-inner">
       <div id="modalProgress"></div>
       <div id="ttsIosNotice"><span>⚠️ iOS Safari 不支持自动连续朗读，部分内容可能中断。建议在电脑端使用此功能。</span><button onclick="document.getElementById('ttsIosNotice').classList.remove('vis')" aria-label="关闭">×</button></div>
       <div class="modal-hero" id="mHero">
-        <img class="modal-hero-img" id="mHeroImg" alt="">
-        <span class="modal-pbadge" id="mBadge"></span>
+        <div class="modal-hero-top">
+          <span class="modal-pbadge" id="mBadge"></span>
+          <div style="display:flex;align-items:center;gap:0">
+            <button id="modalAddBtn" onclick="plModalToggle()">＋ Playlist</button>
+            <button id="modalTtsBtn" title="朗读文章 Read aloud">▶</button>
+          </div>
+        </div>
         <h2 class="modal-hero-title" id="mTitle"></h2>
       </div>
       <div class="modal-body">
@@ -668,17 +659,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
         <div class="modal-media" id="mMedia" style="display:none"></div>
         <div class="modal-archived" id="mArchived"></div>
       </div>
-      <!-- Playlist nav bar (shown when playlist has items) -->
-      <div class="pl-nav-bar" id="plNavBar">
-        <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="上一篇">◁</button>
-        <button id="plPlayPauseBtn" onclick="plTogglePlay()">▶</button>
-        <button class="pl-nav-btn" onclick="plStop()" title="停止" style="font-size:10px">■</button>
-        <div class="pl-tts-prog"><div class="pl-tts-bar" id="plTtsBar"></div></div>
-        <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="下一篇">▷</button>
-        <button onclick="plTogglePanel()" style="background:linear-gradient(135deg,#1e2a40,#111827);color:#fff;border:none;border-radius:50%;width:28px;height:28px;font-size:12px;cursor:pointer;flex-shrink:0" title="打开列表">🎵</button>
-      </div>
     </div>
-    <button id="modalScrollTop" title="回到顶部 Back to top">▲</button>
   </div>
 </div>
 
@@ -689,7 +670,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     <span class="float-top-text">朗读<br>Play</span>
     <span id="plFloatBadge">0</span>
   </button>
-  <button class="float-btn" id="backToTopFloat" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
+  <button class="float-btn" id="backToTopFloat" onclick="(document.getElementById('articleModal').classList.contains('open')?document.querySelector('.modal-inner'):window).scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
     <span>▲</span><span class="float-top-text">TOP<br>回顶部</span>
   </button>
 </div>
@@ -704,8 +685,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   </div>
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读队列</div></div>
   <div class="pl-panel-ft">
-    <button class="pl-play-btn" id="plPlayAllBtn" onclick="plPlayAll()" disabled>▶ 开始朗读</button>
-    <button class="pl-stop-btn" id="plStopBtn" onclick="plStop()" title="停止">■ 停止</button>
+    <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
+    <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶ 开始朗读</button>
+    <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next" disabled>⏭</button>
+    <button class="pl-stop-btn" onclick="plStop()">停</button>
     <button class="pl-clear-btn" onclick="plClear()">清空</button>
   </div>
   <div class="pl-bgm-sec">
@@ -776,7 +759,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260703-3'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260704-1'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
@@ -1027,22 +1010,12 @@ function _showArticleLinksPop(btn,links){
 function openModal(id,year){
   const a=ALL.find(x=>x.id===id&&String(x.year)===String(year));if(!a)return;
   const pt=p(a.platform);
-  // Hero: snapshot as background image when available, otherwise gradient + decorative text
-  const heroImg=document.getElementById('mHeroImg');
-  if(a.snapshot_url){
-    heroImg.src=a.snapshot_url; heroImg.style.display='block';
-    document.getElementById('mHero').classList.add('has-img');
-  } else {
-    heroImg.style.display='none';
-    document.getElementById('mHero').classList.remove('has-img');
-  }
   document.getElementById('mBadge').textContent=(a.platform==='unknown'&&a.source_name)?a.source_name:pt.label;
   document.getElementById('mBadge').style.background=pt.bg;
   document.getElementById('mTitle').textContent=a.title||'';
   document.getElementById('mMeta').innerHTML=
     `<a href="${eh(a.author_url||'#')}" target="_blank" rel="noopener">${eh(a.author)}</a>
      <span class="msep">·</span><time>${eh(a.date)}</time>
-     <button id="modalAddBtn" class="modal-pl-btn" onclick="plModalToggle()">＋ Playlist</button>
      <div class="modal-meta-links">
        ${_buildArticleSrcBtn(a)}
        ${_buildSnapshotBtn(a)}
@@ -1066,17 +1039,15 @@ function openModal(id,year){
   const _mi=document.querySelector('.modal-inner');
   _mi.scrollTop=0;
   document.getElementById('modalProgress').style.width='0%';
-  document.getElementById('modalScrollTop').classList.remove('vis');
   document.getElementById('articleModal').classList.add('open');
   document.body.style.overflow='hidden';
   _modalArticle=a;
   _syncModalAddBtn();
-  _syncNavBar();
+  _syncPlayBar();
 }
 function closeModal(){
   document.getElementById('articleModal').classList.remove('open');
   document.body.style.overflow='';
-  document.getElementById('modalScrollTop').classList.remove('vis');
   if('speechSynthesis' in window&&!_plPlaying) _ttsReset();
   document.getElementById('ttsIosNotice').classList.remove('vis');
 }
@@ -1118,9 +1089,9 @@ function _ttsStart(onDone, text){
   function next(){
     if(_ttsGen!==myGen)return;
     // update progress bar
-    document.getElementById('plTtsBar').style.width=total>0?((i/total)*100)+'%':'0%';
+    // progress bar removed
     if(i>=chunks.length){
-      document.getElementById('plTtsBar').style.width='100%';
+      // progress bar removed
       _ttsReset();
       if(typeof onDone==='function')onDone();
       return;
@@ -1137,6 +1108,7 @@ function _ttsStart(onDone, text){
 
 _ttsBtn.addEventListener('click',()=>{
   if(!('speechSynthesis' in window)){alert('您的浏览器不支持朗读功能');return;}
+  if(_plPlaying){plStop();_ttsStart();return;}
   if(speechSynthesis.speaking&&!speechSynthesis.paused){
     speechSynthesis.pause();_ttsPaused=true;
     _ttsBtn.textContent='▶';_ttsBtn.title='继续 Resume';_ttsBtn.classList.remove('tts-playing');
@@ -1322,27 +1294,27 @@ function plTogglePanel(){
 function plAdd(a){
   if(_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)))return;
   _playlist.push(a);_plSave();plRender();
-  _syncModalAddBtn();
+  _syncModalAddBtn();_syncPlayBar();
 }
 function plRemove(i){
   _playlist.splice(i,1);
   if(_plIdx>=_playlist.length)_plIdx=_playlist.length-1;
   _plSave();plRender();
-  _syncNavBar();_syncModalAddBtn();
+  _syncPlayBar();_syncModalAddBtn();
 }
 function plStop(){
   _plPlaying=false;
   _ttsReset();
   _releaseWakeLock();
-  document.getElementById('plTtsBar').style.width='0%';
-  _syncNavBar();
+  // progress bar removed
+  _syncPlayBar();
 }
 function plClear(){
   _playlist=[];_plIdx=-1;_plPlaying=false;
   _plSave();plRender();
   _ttsReset();bgmStop();_releaseWakeLock();
-  document.getElementById('plTtsBar').style.width='0%';
-  _syncNavBar();_syncModalAddBtn();
+  // progress bar removed
+  _syncPlayBar();_syncModalAddBtn();
 }
 function plAddYear(year){
   const arts=ALL.filter(a=>String(a.year)===String(year));
@@ -1358,18 +1330,20 @@ function plModalToggle(){
 }
 function _syncModalAddBtn(){
   const btn=document.getElementById('modalAddBtn');
-  if(!btn||!_modalArticle)return;
+  if(!btn)return;
+  if(!_modalArticle){btn.style.display='none';return;}
+  btn.style.display='inline-flex';
   const inList=_playlist.some(x=>x.id===_modalArticle.id&&String(x.year)===String(_modalArticle.year));
   btn.textContent=inList?'✓ Playlist':'＋ Playlist';
   btn.classList.toggle('in-list',inList);
 }
-function _syncNavBar(){
-  const bar=document.getElementById('plNavBar');
-  if(!_playlist.length){bar.classList.remove('vis');return;}
-  bar.classList.add('vis');
-  document.getElementById('plPrevBtn').disabled=_plIdx<=0;
-  document.getElementById('plNextBtn').disabled=_plIdx>=_playlist.length-1;
-  document.getElementById('plPlayPauseBtn').textContent=_plPlaying?'⏸':'▶';
+function _syncPlayBar(){
+  const prev=document.getElementById('plPrevBtn');
+  const next=document.getElementById('plNextBtn');
+  const playBtn=document.getElementById('plPlayAllBtn');
+  if(prev)prev.disabled=_plIdx<=0;
+  if(next)next.disabled=_plIdx>=_playlist.length-1;
+  if(playBtn)playBtn.textContent=(_plPlaying&&!_ttsPaused)?'⏸ 暂停':'▶ 开始朗读';
 }
 
 function _ttsAvailable(){return 'speechSynthesis' in window&&_zhVoicesSorted().length>0;}
@@ -1377,7 +1351,7 @@ function plPlayAll(){
   if(!_playlist.length)return;
   _plIdx=0;_plPlaying=true;
   if(_ttsAvailable())_loadAndPlay(_plIdx);
-  else{_currentArticleId=_playlist[0].id;_syncNavBar();}
+  else{_currentArticleId=_playlist[0].id;_syncPlayBar();}
   bgmPlay();_requestWakeLock();
   document.getElementById('plPanel').classList.add('hidden');
 }
@@ -1392,25 +1366,25 @@ function plTogglePlay(){
   if(!_plPlaying){
     if(_plIdx<0)_plIdx=0;
     _plPlaying=true;
-    _ttsStart(()=>plAdvance());
-    bgmPlay();
+    if(_ttsAvailable())_loadAndPlay(_plIdx);
+    else{_currentArticleId=_playlist[_plIdx]?.id;_syncPlayBar();}
+    bgmPlay();_requestWakeLock();
   } else if(speechSynthesis.speaking&&!speechSynthesis.paused){
     speechSynthesis.pause();_ttsPaused=true;_bgmAudio.pause();
-    document.getElementById('plPlayPauseBtn').textContent='▶';
     _plPlaying=false;
   } else if(_ttsPaused){
     speechSynthesis.resume();_ttsPaused=false;_bgmAudio.play().catch(()=>{});
-    document.getElementById('plPlayPauseBtn').textContent='⏸';
     _plPlaying=true;_requestWakeLock();
   }
+  _syncPlayBar();
 }
 function plAdvance(){
   if(_plIdx<_playlist.length-1){
     _plIdx++;
     _loadAndPlay(_plIdx);
   } else {
-    _plPlaying=false;bgmStop();_releaseWakeLock();_syncNavBar();
-    document.getElementById('plTtsBar').style.width='0%';
+    _plPlaying=false;bgmStop();_releaseWakeLock();_syncPlayBar();
+    // progress bar removed
   }
 }
 function _loadAndPlay(idx){
@@ -1419,7 +1393,8 @@ function _loadAndPlay(idx){
   _currentArticleId=a.id;
   _syncModalAddBtn();
   _ttsStart(()=>plAdvance(), a.text||'');
-  _syncNavBar();
+  _ttsBtn.textContent='▶';_ttsBtn.title='朗读文章 Read aloud';_ttsBtn.classList.remove('tts-playing');
+  _syncPlayBar();
 }
 
 /* ===== WAKE LOCK ===== */
@@ -1491,11 +1466,9 @@ function _showToast(msg){
   clearTimeout(t._tid);t._tid=setTimeout(()=>t.style.opacity='0',2000);
 }
 
-document.getElementById('modalScrollTop').addEventListener('click',()=>document.querySelector('.modal-inner').scrollTo({top:0,behavior:'smooth'}));
 document.querySelector('.modal-inner').addEventListener('scroll',function(){
   const max=this.scrollHeight-this.clientHeight;
   document.getElementById('modalProgress').style.width=max>0?(this.scrollTop/max*100)+'%':'0%';
-  document.getElementById('modalScrollTop').classList.toggle('vis',this.scrollTop>280);
 });
 
 /* ===== SEARCH ===== */
