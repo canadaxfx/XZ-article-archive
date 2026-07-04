@@ -292,7 +292,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .year-group{margin-bottom:8px}
 .yg-header{display:flex;flex-direction:column;gap:4px;padding:8px 14px;cursor:pointer;user-select:none;border-radius:8px;border:1px solid rgba(var(--gold-dr),0.28);background:rgba(var(--gold-dr),0.03);transition:background .15s,border-color .2s}
 .yg-row1{display:flex;align-items:center;gap:12px;width:100%}
-.yg-row2{display:flex;padding-left:0}
+.yg-row2{display:flex;padding-left:0;margin-top:4px}
 .yg-header:hover{background:rgba(var(--gold-dr),0.08);border-color:rgba(var(--gold-dr),0.55)}
 .yg-pill{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(var(--gold-dr),0.35);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.35rem;font-weight:700;line-height:1;transition:background .2s,border-color .2s;font-family:system-ui,sans-serif}
 .yg-header:hover .yg-pill{border-color:var(--gold)}
@@ -375,8 +375,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 #modalWrapper{position:relative;max-width:800px;width:100%;margin:auto;}
 .modal-close{position:absolute;top:12px;right:12px;z-index:10;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:rgba(0,0,0,0.55);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .15s,color .15s;box-shadow:0 2px 8px rgba(0,0,0,0.18)}
 .modal-close:hover{background:#fff;color:rgba(0,0,0,0.85)}
-#modalTtsBtn{z-index:2;padding:2px 8px;border-radius:0 10px 10px 0;border:1px solid rgba(255,255,255,0.28);background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.88);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;backdrop-filter:blur(6px);flex-shrink:0}
-#modalTtsBtn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.55)}
+#modalTtsBtn{z-index:2;padding:3px 9px;border-radius:0;border:none;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.88);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;backdrop-filter:blur(6px);flex-shrink:0}
+#modalTtsBtn:hover{background:rgba(255,255,255,0.22)}
 #ttsIosNotice{display:none;margin:10px 16px 0;padding:8px 12px;background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.4);border-radius:8px;font-size:12px;color:#92400e;line-height:1.5;align-items:flex-start;gap:8px}
 #ttsIosNotice.vis{display:flex}
 #ttsIosNotice button{flex-shrink:0;border:none;background:none;cursor:pointer;color:#92400e;font-size:14px;padding:0;line-height:1}
@@ -396,8 +396,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-meta-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .modal-src{display:inline-flex;align-items:center;font-size:12px;color:#555;padding:4px 12px;background:#f0f0f4;border:1px solid #d0d0da;border-radius:10px;text-decoration:none;transition:all .15s;white-space:nowrap;cursor:pointer;font-family:inherit}
 .modal-src:hover{color:#111;background:#e4e4ee;border-color:#aaa}
-#modalAddBtn{display:none;align-items:center;gap:3px;font-size:10px;font-weight:600;color:rgba(255,255,255,0.88);padding:2px 9px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.28);border-right:none;border-radius:10px 0 0 10px;cursor:pointer;backdrop-filter:blur(6px);transition:all .15s;white-space:nowrap;font-family:inherit;letter-spacing:.02em;flex-shrink:0}
-#modalAddBtn:hover{background:rgba(255,255,255,0.22);border-color:rgba(255,255,255,0.55)}
+#modalAddBtn{display:none;align-items:center;gap:3px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.88);padding:2px 9px;background:rgba(255,255,255,0.12);border:none;border-radius:0;cursor:pointer;backdrop-filter:blur(6px);transition:all .15s;white-space:nowrap;font-family:inherit;letter-spacing:.02em;flex-shrink:0}
+#modalAddBtn:hover{background:rgba(255,255,255,0.22)}
 #modalAddBtn.in-list{background:rgba(var(--gold-dr),.55);border-color:rgba(var(--gold-rgb),0.7);color:#fff}
 #articleLinksPop{position:fixed;z-index:9999;display:none;flex-direction:column;padding:6px;border-radius:10px;min-width:160px;box-shadow:0 4px 20px rgba(0,0,0,0.38);background:#2a2a3a;border:1px solid rgba(255,255,255,0.12)}
 #articleLinksPop a{display:block;padding:8px 14px;color:rgba(255,255,255,0.93);font-size:13px;font-weight:600;border-radius:6px;text-decoration:none;white-space:nowrap}
@@ -649,9 +649,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
       <div class="modal-hero" id="mHero">
         <div class="modal-hero-top">
           <span class="modal-pbadge" id="mBadge"></span>
-          <div style="display:flex;align-items:center;gap:0">
-            <button id="modalAddBtn" onclick="plModalToggle()">＋ Playlist</button>
-            <button id="modalTtsBtn" title="朗读文章 Read aloud">▶</button>
+          <div style="display:inline-flex;align-items:stretch;border:1px solid rgba(255,255,255,0.32);border-radius:10px;overflow:hidden;backdrop-filter:blur(6px)">
+            <button id="modalTtsBtn" title="朗读文章 Read aloud">▶ 朗读本篇</button>
+            <span style="width:1px;background:rgba(255,255,255,0.32);flex-shrink:0"></span>
+            <button id="modalAddBtn" onclick="plModalToggle()">＋ Playlist · 加入朗读器</button>
           </div>
         </div>
         <h2 class="modal-hero-title" id="mTitle"></h2>
@@ -687,7 +688,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     <span class="pl-cnt-badge" id="plCntBadge">0</span>
     <button class="pl-panel-x" onclick="plTogglePanel()">×</button>
   </div>
-  <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读队列</div></div>
+  <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读器队列</div></div>
   <div class="pl-panel-ft">
     <span class="pl-read-lbl">🔊 朗读 <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
     <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
@@ -884,7 +885,7 @@ function renderList(articles,groupByYear){
       <div class="yg-ticker">${tickers}</div>
     </div>
     <div class="yg-row2">
-      <button class="yg-add-btn" data-year="${eh(y)}" onclick="event.stopPropagation();plAddYear('${eh(y)}')">＋ Playlist</button>
+      <button class="yg-add-btn" data-year="${eh(y)}" onclick="event.stopPropagation();plAddYear('${eh(y)}')">＋ Playlist · 加入朗读器</button>
     </div>
   </div>
   <div class="article-rows">${rows}</div>
@@ -1070,7 +1071,7 @@ function _ttsReset(){
   _ttsGen++;
   speechSynthesis.cancel();
   _ttsPaused=false;
-  _ttsBtn.textContent='▶';
+  _ttsBtn.textContent='▶ 朗读本篇';
   _ttsBtn.title='朗读文章 Read aloud';
   _ttsBtn.classList.remove('tts-playing');
 }
@@ -1084,8 +1085,8 @@ function _ttsStart(onDone, text){
   _ttsReset();
   const myGen=_ttsGen;
   if(_isIOS) _ttsNotice.classList.add('vis');
-  _ttsBtn.textContent='⏸';
-  _ttsBtn.title='暂停 Pause';
+  _ttsBtn.textContent='⏹ 停止';
+  _ttsBtn.title='停止 Stop';
   _ttsBtn.classList.add('tts-playing');
   const chunks=(text.match(/[^。！？!?\n]{1,120}[。！？!?\n]?/g)||[text]).filter(s=>s.trim());
   const total=chunks.length;
@@ -1113,12 +1114,8 @@ function _ttsStart(onDone, text){
 _ttsBtn.addEventListener('click',()=>{
   if(!('speechSynthesis' in window)){alert('您的浏览器不支持朗读功能');return;}
   if(_plPlaying){plStop();_ttsStart();return;}
-  if(speechSynthesis.speaking&&!speechSynthesis.paused){
-    speechSynthesis.pause();_ttsPaused=true;
-    _ttsBtn.textContent='▶';_ttsBtn.title='继续 Resume';_ttsBtn.classList.remove('tts-playing');
-  } else if(_ttsPaused){
-    speechSynthesis.resume();_ttsPaused=false;
-    _ttsBtn.textContent='⏸';_ttsBtn.title='暂停 Pause';_ttsBtn.classList.add('tts-playing');
+  if(speechSynthesis.speaking||speechSynthesis.pending){
+    _ttsReset();
   } else {
     _ttsStart();
   }
@@ -1287,7 +1284,7 @@ function _plSyncBadge(){
 function plRender(){
   const list=document.getElementById('plList');
   if(!_playlist.length){
-    list.innerHTML='<div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读队列</div>';
+    list.innerHTML='<div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读器队列</div>';
     _plSyncBadge();return;
   }
   list.innerHTML=_playlist.map((a,i)=>`
@@ -1353,7 +1350,7 @@ function _syncModalAddBtn(){
   if(!_modalArticle){btn.style.display='none';return;}
   btn.style.display='inline-flex';
   const inList=_playlist.some(x=>x.id===_modalArticle.id&&String(x.year)===String(_modalArticle.year));
-  btn.textContent=inList?'✓ Playlist':'＋ Playlist';
+  btn.textContent=inList?'✓ Playlist · 已加入':'＋ Playlist · 加入朗读器';
   btn.classList.toggle('in-list',inList);
 }
 function _syncPlayBar(){
@@ -1413,7 +1410,7 @@ function _loadAndPlay(idx){
   _currentArticleId=a.id;
   _syncModalAddBtn();
   _ttsStart(()=>plAdvance(), a.text||'');
-  _ttsBtn.textContent='▶';_ttsBtn.title='朗读文章 Read aloud';_ttsBtn.classList.remove('tts-playing');
+  _ttsBtn.textContent='▶ 朗读本篇';_ttsBtn.title='朗读文章 Read aloud';_ttsBtn.classList.remove('tts-playing');
   _syncPlayBar();
 }
 
