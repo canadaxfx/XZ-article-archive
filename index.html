@@ -390,7 +390,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-hero-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:700;font-style:italic;line-height:1.3;color:rgba(255,255,255,0.97);text-shadow:0 2px 18px rgba(0,0,0,0.55);position:relative;z-index:1;margin-top:8px}
 .modal-body{padding:12px 24px 20px}
 .modal-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:#666;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.modal-meta a{color:inherit;text-decoration:none}
+.modal-meta a{color:inherit;text-decoration:none;white-space:pre-line}
 .modal-meta a:hover{text-decoration:underline}
 .modal-meta .msep{opacity:.32}
 .modal-meta-links{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
@@ -672,7 +672,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <div id="floatBtnGroup">
   <button class="float-btn" id="plFloatBtn" onclick="plTogglePanel()" title="朗读列表 Reading Playlist">
     <span>🎵</span>
-    <span class="float-top-text">Play<br>朗读</span>
+    <span class="float-top-text">Read<br>朗读</span>
     <span id="plFloatBadge">0</span>
   </button>
   <button class="float-btn" id="backToTopFloat" onclick="(document.getElementById('articleModal').classList.contains('open')?document.querySelector('.modal-inner'):window).scrollTo({top:0,behavior:'smooth'})" title="回到顶部">
@@ -763,7 +763,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260704-5'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260704-6'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
