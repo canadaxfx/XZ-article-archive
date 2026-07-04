@@ -455,7 +455,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .hc-bl{bottom:0;left:0;border-width:0 0 2px 2px}
 .hc-br{bottom:0;right:0;border-width:0 2px 2px 0}
 /* ===== FLOAT ===== */
-#floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:9700;touch-action:none;cursor:grab}
+#floatBtnGroup{position:fixed;right:16px;bottom:80px;display:flex;flex-direction:column;align-items:center;gap:8px;z-index:9550;touch-action:none;cursor:grab}
 .float-btn{width:58px;height:58px;border-radius:50%;border:3px solid rgba(var(--red-rgb),0.9);background:var(--bg-float);color:var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,0.15),0 0 0 3px rgba(var(--red-rgb),0.4);font-size:22px;font-weight:600;transition:transform .18s,box-shadow .18s;position:relative;flex-shrink:0;user-select:none;overflow:hidden}
 .float-btn:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(0,0,0,0.22)}
 .float-top-text{font-size:9px;font-weight:700;line-height:1.1;margin-top:0;text-align:center}
@@ -489,22 +489,23 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-item-rm{flex-shrink:0;background:#e5e7eb;border:none;cursor:pointer;color:#6b7280;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
 .pl-item-rm:hover{background:#fecaca;color:#dc2626}
 .pl-panel-ft{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
-.pl-play-btn{flex:1;padding:6px;background:linear-gradient(135deg,#1e2a40,#111827);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
-.pl-play-btn:disabled{opacity:.45;cursor:default}
-.pl-stop-btn{padding:6px 10px;background:#f3f4f6;color:#374151;border:1px solid #d1d5db;border-radius:6px;cursor:pointer;font-size:12px}
-.pl-stop-btn:hover{background:#e5e7eb}
+.pl-read-lbl{font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.pl-play-btn{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:12px;padding:2px 9px;cursor:pointer;white-space:nowrap;transition:background .15s}
+.pl-play-btn:hover{background:rgba(var(--gold-dr),.1)}
+.pl-play-btn.playing{background:rgba(var(--gold-dr),.15)}
+.pl-play-btn:disabled{opacity:.35;cursor:default}
 .pl-bgm-play{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:11px;padding:1px 7px;cursor:pointer;white-space:nowrap}
 .pl-bgm-play:hover{background:rgba(var(--gold-dr),.1)}
 .pl-clear-btn{padding:6px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px}
 .pl-bgm-sec{padding:8px 10px 6px;border-top:1px solid var(--border);flex-shrink:0}
-.pl-bgm-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;font-size:12px;font-weight:600;color:#374151}
+.pl-bgm-hd{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:12px;font-weight:600;color:#374151}
 .pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280}
 .pl-vol-row input[type=range]{width:72px;height:3px;cursor:pointer;accent-color:var(--gold)}
 .pl-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
 .pl-bgm-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#374151;cursor:pointer;padding:2px 0}
 .pl-bgm-item input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
-.pl-voice-sec{padding:5px 10px 6px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;font-size:12px;font-weight:600;color:#374151}
-.pl-voice-sel{flex:1;padding:3px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:#374151;cursor:pointer}
+.pl-voice-sec{padding:5px 10px 6px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:4px;flex-shrink:0;font-size:12px;font-weight:600;color:#374151}
+.pl-voice-sel{width:100%;padding:3px 6px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:#374151;cursor:pointer;box-sizing:border-box}
 .pl-timer-sec{padding:5px 10px 8px;border-top:1px solid var(--border);flex-shrink:0}
 .pl-timer-row{display:flex;align-items:center;gap:4px}
 .pl-timer-lbl{font-size:12px;font-weight:600;color:#374151;flex-shrink:0}
@@ -517,9 +518,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-timer-x:hover{color:#374151}
 .pl-wakelock-note{display:none;font-size:10px;color:#9ca3af;padding:3px 10px 5px;text-align:center}
 .pl-wakelock-note.vis{display:block;color:var(--gold)}
-.pl-nav-btn{background:rgba(110,110,110,0.2);color:rgba(110,110,110,0.85);border:1px solid rgba(110,110,110,0.3);border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
-.pl-nav-btn:hover{opacity:.75}
-.pl-nav-btn:disabled{opacity:.25;cursor:default}
+.pl-nav-btn{background:rgba(80,80,80,0.15);color:rgba(55,65,81,0.9);border:1px solid rgba(80,80,80,0.3);border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
+.pl-nav-btn:hover{opacity:.7}
+.pl-nav-btn:disabled{opacity:.2;cursor:default}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
 .pl-modal-add:hover,.pl-modal-add.in-list{background:rgba(var(--gold-dr),.22);font-weight:600}
 .yg-add-btn{background:rgba(var(--gold-dr),.1);border:1px solid rgba(var(--gold-dr),.35);color:var(--gold);border-radius:10px;font-size:10px;padding:2px 7px;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:6px;transition:background .15s}
@@ -686,22 +687,21 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   </div>
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读队列</div></div>
   <div class="pl-panel-ft">
+    <span class="pl-read-lbl">🔊 朗读 <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
     <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
-    <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶ 开始朗读</button>
     <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next" disabled>⏭</button>
-    <button class="pl-stop-btn" onclick="plStop()">停</button>
     <button class="pl-clear-btn" onclick="plClear()">清空</button>
   </div>
+  <div class="pl-voice-sec" id="plVoiceSec">
+    <span>🗣️ 人声</span>
+    <select class="pl-voice-sel" id="ttsVoiceSelect"><option value="">默认</option></select>
+  </div>
   <div class="pl-bgm-sec">
+    <div class="pl-bgm-grid" id="bgmGrid"></div>
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐 <button class="pl-bgm-play" id="bgmPlayBtn" onclick="bgmTogglePlay()">▶</button></span>
+      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="width:22px;height:22px;font-size:11px">⏮</button> <button class="pl-bgm-play" id="bgmPlayBtn" onclick="bgmTogglePlay()">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="width:22px;height:22px;font-size:11px">⏭</button></span>
       <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
     </div>
-    <div class="pl-bgm-grid" id="bgmGrid"></div>
-  </div>
-  <div class="pl-voice-sec" id="plVoiceSec">
-    <span>🗣️ 朗读声音</span>
-    <select class="pl-voice-sel" id="ttsVoiceSelect"><option value="">默认</option></select>
   </div>
   <div class="pl-timer-sec">
     <div class="pl-timer-row">
@@ -760,7 +760,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260704-3'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260704-4'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
@@ -1217,6 +1217,20 @@ function bgmSetVol(v){
   _bgmAudio.volume=parseFloat(v);
   localStorage.setItem(BGM_VOL_KEY,v);
 }
+function bgmPrev(){
+  const sel=[..._bgmSel];if(!sel.length)return;
+  const wasPlaying=!_bgmAudio.paused;
+  _bgmIdx=(_bgmIdx-1+sel.length)%sel.length;
+  _bgmAudio.src=BGM_CDN+BGM_TRACKS[sel[_bgmIdx]].file;
+  if(wasPlaying)_bgmAudio.play().catch(()=>{});
+}
+function bgmNext(){
+  const sel=[..._bgmSel];if(!sel.length)return;
+  const wasPlaying=!_bgmAudio.paused;
+  _bgmIdx=(_bgmIdx+1)%sel.length;
+  _bgmAudio.src=BGM_CDN+BGM_TRACKS[sel[_bgmIdx]].file;
+  if(wasPlaying)_bgmAudio.play().catch(()=>{});
+}
 function _bgmNextTrack(){
   const sel=[..._bgmSel];
   if(!sel.length)return;
@@ -1345,7 +1359,8 @@ function _syncPlayBar(){
   const playBtn=document.getElementById('plPlayAllBtn');
   if(prev)prev.disabled=_plIdx<=0;
   if(next)next.disabled=_plIdx>=_playlist.length-1;
-  if(playBtn)playBtn.textContent=(_plPlaying&&!_ttsPaused)?'⏸ 暂停':'▶ 开始朗读';
+  const isActive=_plPlaying&&!_ttsPaused;
+  if(playBtn){playBtn.textContent=isActive?'⏸':'▶';playBtn.classList.toggle('playing',isActive);}
 }
 
 function _ttsAvailable(){return 'speechSynthesis' in window&&_zhVoicesSorted().length>0;}
