@@ -528,9 +528,9 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-nav-btn:disabled{opacity:.2;cursor:default}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
 .pl-modal-add:hover,.pl-modal-add.in-list{background:rgba(var(--gold-dr),.22);font-weight:600}
-.yg-add-btn{background:rgba(var(--gold-dr),.1);border:1px solid rgba(var(--gold-dr),.35);color:var(--gold);border-radius:10px;font-size:10px;padding:2px 7px;cursor:pointer;white-space:nowrap;flex-shrink:0;margin-left:6px;transition:background .15s,color .15s}
-.yg-add-btn:hover{background:rgba(var(--gold-dr),.22)}
-.yg-add-btn.in-list{background:rgba(var(--gold-dr),.25);color:var(--gold);opacity:0.7;cursor:default;}
+.yg-add-btn{background:var(--gold);border:1px solid var(--gold);color:#fff;border-radius:10px;font-size:11px;font-weight:600;padding:4px 12px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s,background .15s;letter-spacing:.03em}
+.yg-add-btn:hover{filter:brightness(1.12)}
+.yg-add-btn.in-list{background:transparent;border-color:var(--gold);color:var(--gold);font-weight:500;}
 @media(max-width:600px){.pl-panel{width:calc(100vw - 90px);right:8px;bottom:140px}}
   </style>
 </head>
@@ -1340,18 +1340,29 @@ function plClear(){
 }
 function plAddYear(year){
   const arts=ALL.filter(a=>String(a.year)===String(year));
-  let added=0;
-  arts.forEach(a=>{if(!_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year))){_playlist.push(a);added++;}});
-  _plSave();plRender();
-  _syncModalAddBtn();_syncYgAddBtns();_syncPlayBar();
-  if(added)_showToast(`已加入 ${added} 篇 (${year}年)`);
+  const allIn=arts.length>0&&arts.every(a=>_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)));
+  try{
+    if(allIn){
+      _playlist=_playlist.filter(x=>String(x.year)!==String(year));
+      if(_plIdx>=_playlist.length)_plIdx=_playlist.length-1;
+      _plSave();plRender();
+      _showToast(`已移出 ${arts.length} 篇 (${year}年)`);
+    } else {
+      let added=0;
+      arts.forEach(a=>{if(!_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year))){_playlist.push(a);added++;}});
+      _plSave();plRender();
+      if(added)_showToast(`已加入 ${added} 篇 (${year}年)`);
+    }
+  }finally{
+    _syncModalAddBtn();_syncYgAddBtns();_syncPlayBar();
+  }
 }
 function _syncYgAddBtns(){
   document.querySelectorAll('.yg-add-btn').forEach(btn=>{
     const year=btn.dataset.year;
     const arts=ALL.filter(a=>String(a.year)===String(year));
     const allIn=arts.length>0&&arts.every(a=>_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)));
-    btn.textContent=allIn?'✓ Playlist · 已加入':'＋ Playlist · 加入朗读器';
+    btn.textContent=allIn?'✓ 已加入 · 点击移出':'＋ Playlist · 加入朗读器';
     btn.classList.toggle('in-list',allIn);
   });
 }
