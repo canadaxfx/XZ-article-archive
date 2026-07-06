@@ -266,7 +266,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .card-hero{position:relative;background:var(--grad-red);overflow:hidden;flex-shrink:0;padding:42px 16px 14px;display:flex;flex-direction:column;justify-content:flex-start;border-bottom:1px solid rgba(var(--gold-dr),0.20)}
 .card-hero::before{content:'〝';position:absolute;top:-16px;right:4px;font-family:'Cormorant Garamond',Georgia,serif;font-size:110px;line-height:1;font-style:italic;color:rgba(255,255,255,0.07);pointer-events:none;user-select:none}
 .card-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.22) 0%,transparent 50%);pointer-events:none}
-.card-hero-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.08rem;font-weight:700;font-style:italic;line-height:1.38;color:rgba(255,255,255,0.96);text-shadow:0 1px 12px rgba(0,0,0,0.5);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;position:relative;z-index:1;text-wrap:balance}
+.card-hero-title{font-family:"FangSong","STFangsong",Georgia,serif;font-size:1.08rem;font-weight:700;font-style:normal;line-height:1.38;color:rgba(255,255,255,0.96);text-shadow:0 1px 12px rgba(0,0,0,0.5);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;position:relative;z-index:1;text-wrap:balance}
 .platform-badge{position:absolute;top:10px;left:10px;padding:3px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3);z-index:2}
 .card-body{padding:14px 15px 15px;flex:1;display:flex;flex-direction:column;gap:7px}
 .card-title{font-size:14.5px;font-weight:600;line-height:1.45;color:var(--txt-head);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -340,6 +340,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .row-main:hover .row-title{color:var(--txt-head)}
 .rt-inner,.rt-clone{display:inline-block;}
 .rt-author{opacity:0.55;font-size:0.9em;}
+.rt-date{display:none;opacity:0.5;font-size:0.88em;font-family:'Courier New',Courier,monospace;}
+@media(max-width:480px){.rt-date{display:inline;}}
 .rt-sep{display:inline-block;padding:0 20px;color:var(--txt-sub);}
 .rt-track{display:inline-block;white-space:nowrap;}
 .row-title.rt-scrolling{text-overflow:clip;}
@@ -964,7 +966,7 @@ function rowHTML(a){
   <div class="row-main" tabindex="0" role="button">
     <span class="row-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <time class="row-date">${eh(a.date)}</time>
-    <span class="row-title"><span class="rt-inner">${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
+    <span class="row-title"><span class="rt-inner"><span class="rt-date">${eh(a.date.slice(5))} · </span>${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
     <div class="row-tags-inline">${tagsInline}</div>
     <span class="row-chevron">›</span>
   </div>
