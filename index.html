@@ -248,8 +248,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .main{max-width:1200px;margin:0 auto;padding:28px 20px 100px}
 
 /* ===== SECTION EYEBROW ===== */
-.section-eyebrow{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.0rem;font-weight:400;letter-spacing:.18em;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-eyebrow{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.0rem;font-weight:400;letter-spacing:.18em;color:var(--gold);margin-bottom:0;display:flex;align-items:center;gap:12px;flex:1}
 .section-eyebrow::after{content:'';flex:1;height:1px;background:rgba(var(--gold-dr),0.22)}
+.eyebrow-wrap{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.last-updated-badge{font-family:'Segoe UI',sans-serif;font-size:0.68rem;letter-spacing:.04em;color:var(--gold);opacity:0.6;white-space:nowrap;flex-shrink:0}
 
 /* ===== FEATURED CARDS GRID ===== */
 #featuredSection{margin-bottom:36px}
@@ -609,7 +611,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 <main class="main">
   <!-- Featured: 3 most recent as cards -->
   <section id="featuredSection">
-    <p class="section-eyebrow">最新收录 · Recent</p>
+    <div class="eyebrow-wrap">
+      <p class="section-eyebrow">最新收录 · Recent</p>
+      <span id="last-updated" class="last-updated-badge"></span>
+    </div>
     <div id="featuredGrid"></div>
   </section>
 
@@ -1618,6 +1623,8 @@ function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').r
   ALL=await loadData();
   buildDateSelects(ALL);
   render();
+  const latest=ALL.map(a=>a.archived_at||'').filter(Boolean).sort().at(-1);
+  if(latest) document.getElementById('last-updated').textContent='更新于 '+latest;
 })();
 </script>
 <script>
