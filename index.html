@@ -599,10 +599,6 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
       <option value="all">Platforms</option>
       <option value="weibo">微博</option>
       <option value="wechat">微信</option>
-      <option value="thepaper">澎湃新闻</option>
-      <option value="sohu">搜狐</option>
-      <option value="netease">网易</option>
-      <option value="huanqiu">环球网</option>
       <option value="unknown">其他</option>
     </select>
     <div class="article-count" id="articleCount">共 <strong id="countNum">0</strong> 篇</div>
@@ -729,19 +725,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 const PLAT = {
   weibo:    {label:'微博',    bg:'rgba(240,160,0,0.92)'},
   wechat:   {label:'微信',    bg:'rgba(7,193,96,0.88)'},
-  thepaper: {label:'澎湃新闻',bg:'rgba(18,18,18,0.85)'},
-  sohu:     {label:'搜狐',    bg:'rgba(24,90,165,0.88)'},
-  netease:  {label:'网易',    bg:'rgba(192,0,0,0.88)'},
-  huanqiu:  {label:'环球网',  bg:'rgba(180,0,0,0.88)'},
   unknown:  {label:'其他',    bg:'rgba(70,70,70,0.85)'},
 };
 const SNAP_BG = {
   weibo:'linear-gradient(135deg,#7A0010 0%,#B01020 100%)',
   wechat:'linear-gradient(135deg,#045030 0%,#077845 100%)',
-  thepaper:'linear-gradient(135deg,#111 0%,#2a2a2a 100%)',
-  sohu:'linear-gradient(135deg,#0A2856 0%,#103880 100%)',
-  netease:'linear-gradient(135deg,#680000 0%,#990000 100%)',
-  huanqiu:'linear-gradient(135deg,#7A0000 0%,#B00000 100%)',
 };
 const p = k => PLAT[k] || {label:k, bg:'rgba(70,70,70,0.85)'};
 const sb = k => SNAP_BG[k] || 'linear-gradient(135deg,#222 0%,#3a3a3a 100%)';
