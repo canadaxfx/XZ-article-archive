@@ -232,8 +232,24 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 
 /* ===== FILTER BAR ===== */
 #filterBar{position:sticky;top:0;z-index:100;background:var(--filter-bar-bg);backdrop-filter:blur(14px);border-bottom:1px solid var(--filter-bar-border)}
-.filter-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:9px 20px;flex-wrap:wrap}
-.date-selects{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.filter-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:9px 20px;flex-wrap:nowrap;overflow:hidden}
+.date-selects{display:flex;gap:6px;align-items:center;flex-wrap:nowrap;flex-shrink:0}
+.filter-break{display:none}
+@media(max-width:600px){
+  .filter-inner{gap:6px;padding:7px 10px;flex-wrap:wrap}
+  .date-selects{gap:4px}
+  .date-sel{font-size:11.5px;padding:3px 6px}
+  #platformFilter{font-size:11.5px;padding:3px 6px}
+  .filter-sep{display:none}
+  .filter-break{display:block;flex-basis:100%;height:0}
+  .article-count{display:block;font-size:11.5px;margin-left:auto}
+  .reset-btn{font-size:11px;padding:3px 8px;margin-right:auto}
+}
+@media(max-width:400px){
+  .filter-inner{gap:4px;padding:6px 8px}
+  .date-selects{gap:3px}
+  .date-sel,#platformFilter{font-size:10.5px;padding:2px 4px}
+}
 .date-sel{padding:4px 10px;border-radius:20px;border:1px solid rgba(var(--gold-dr),0.22);background:var(--select-bg);color:var(--select-color);font-size:13px;cursor:pointer;outline:none;font-family:inherit;transition:border-color .18s,opacity .18s,color .18s}
 .date-sel:hover,.date-sel:focus{border-color:rgba(var(--gold-rgb),0.45);color:var(--txt-main)}
 .date-sel option{background:#1a1a2e;color:#ddd}
@@ -241,7 +257,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 #platformFilter{padding:5px 10px;border-radius:20px;border:1px solid rgba(var(--gold-dr),0.22);background:var(--select-bg);color:var(--select-color);font-size:13px;cursor:pointer;outline:none;font-family:inherit;transition:border-color .18s}
 #platformFilter:focus{border-color:rgba(var(--gold-rgb),0.45);color:var(--txt-main)}
 #platformFilter option{background:#1a1a2e;color:#ddd}
-.article-count{margin-left:auto;font-size:12px;color:var(--txt-sub);white-space:nowrap}
+.article-count{font-size:12px;color:var(--txt-sub);white-space:nowrap;margin-left:auto}
+.reset-btn{padding:4px 12px;border-radius:20px;border:1px solid rgba(var(--gold-dr),0.35);background:transparent;color:var(--gold);font-size:12px;font-family:inherit;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.reset-btn:hover{background:var(--gold);color:#fff}
+.reset-btn.hidden{display:none}
 .article-count strong{color:var(--gold);font-weight:600}
 
 /* ===== MAIN ===== */
@@ -392,7 +411,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.22) 0%,transparent 55%);pointer-events:none}
 .modal-hero-top{display:flex;flex-direction:column;align-items:flex-start;gap:6px;position:relative;z-index:2;padding-right:50px}
 .modal-pbadge{padding:3px 11px;border-radius:11px;font-size:11px;font-weight:700;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.3);flex-shrink:0}
-.modal-hero-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:700;font-style:italic;line-height:1.3;color:rgba(255,255,255,0.97);text-shadow:0 2px 18px rgba(0,0,0,0.55);position:relative;z-index:1;margin-top:8px}
+.modal-hero-title{font-family:"FangSong","STFangsong",Georgia,serif;font-size:clamp(1rem,2vw,1.35rem);font-weight:700;font-style:normal;line-height:1.3;color:rgba(255,255,255,0.97);text-shadow:0 2px 18px rgba(0,0,0,0.55);position:relative;z-index:1;margin-top:8px}
 .modal-body{padding:12px 24px 20px}
 .modal-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:13px;color:#666;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
 .modal-meta a{color:inherit;text-decoration:none;white-space:pre-line}
@@ -599,15 +618,17 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
       <select id="yearSelect" class="date-sel"><option value="all">Years</option></select>
       <select id="monthSelect" class="date-sel"><option value="all">Months</option></select>
       <select id="daySelect" class="date-sel"><option value="all">Days</option></select>
+      <div class="filter-sep"></div>
+      <select id="platformFilter" title="筛选平台">
+        <option value="all">Platforms</option>
+        <option value="weibo">微博</option>
+        <option value="wechat">微信</option>
+        <option value="unknown">其他</option>
+      </select>
     </div>
-    <div class="filter-sep"></div>
-    <select id="platformFilter" title="筛选平台">
-      <option value="all">Platforms</option>
-      <option value="weibo">微博</option>
-      <option value="wechat">微信</option>
-      <option value="unknown">其他</option>
-    </select>
+    <div class="filter-break"></div>
     <div class="article-count" id="articleCount">共 <strong id="countNum">0</strong> 篇</div>
+    <button id="resetFilters" class="reset-btn hidden" onclick="resetFilters()">Reset · 重置</button>
   </div>
 </div>
 
@@ -806,9 +827,19 @@ function getFiltered(){
 const isDefaultView=()=>fYear==='all'&&fMonth==='all'&&fDay==='all'&&fPlat==='all'&&!fQ;
 
 /* ===== RENDER MAIN ===== */
+function resetFilters(){
+  fYear='all';fMonth='all';fDay='all';fPlat='all';fQ='';
+  document.getElementById('yearSelect').value='all';
+  document.getElementById('monthSelect').value='all';
+  document.getElementById('daySelect').value='all';
+  document.getElementById('platformFilter').value='all';
+  document.getElementById('searchInput').value='';
+  render();
+}
 function render(){
   const list=getFiltered();
   document.getElementById('countNum').textContent=list.length;
+  document.getElementById('resetFilters').classList.toggle('hidden',isDefaultView());
   const isEmpty=list.length===0;
   document.getElementById('emptyState').classList.toggle('vis',isEmpty);
 
