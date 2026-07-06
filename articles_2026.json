@@ -3,7 +3,7 @@
         "id": 4,
         "platform": "unknown",
         "url": "https://app.people.cn/h5/detail/paper/20260617_30163392",
-        "title": "文化出海，东方美更具世界范（古韵国风 顶流审美）",
+        "title": "文化出海，东方美更具世界范（古韵国风 顶流审美）——  非遗“入戏”，影像直观呈现中式美学",
         "author": "人民日报 任姗姗",
         "date": "2026-06-17",
         "year": "2026",
@@ -11,7 +11,9 @@
         "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20260617_文化出海_东方美更具世界范_古韵国风_顶流审美_01.png",
         "archived_at": "2026-07-05",
         "source_name": "人民日报",
-        "images": []
+        "images": [
+            "https://assets.xz-studio-gallery.com/articles/images/20260617_文化出海_东方美更具世界范_古韵国风_顶流审美/img_01.jpg"
+        ]
     },
     {
         "id": 2,
