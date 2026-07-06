@@ -70,7 +70,8 @@
     },
     {
         "id": 39,
-        "platform": "thepaper",
+        "platform": "unknown",
+        "source_name": "澎湃新闻",
         "url": "https://m.thepaper.cn/newsDetail_forward_32195239",
         "title": "莫得闲修过无数次的那门苏罗通小炮",
         "author": "澎湃 冯杰",
@@ -115,7 +116,8 @@
     },
     {
         "id": 38,
-        "platform": "thepaper",
+        "platform": "unknown",
+        "source_name": "澎湃",
         "url": "https://m.thepaper.cn/newsDetail_forward_32162972",
         "title": "正午阳光的长片首秀，一众布衣甲的抗战史诗",
         "author": "澎湃 钟琪",
