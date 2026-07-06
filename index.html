@@ -339,6 +339,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 }
 .row-main:hover .row-title{color:var(--txt-head)}
 .rt-inner,.rt-clone{display:inline-block;}
+.rt-author{opacity:0.55;font-size:0.9em;}
 .rt-sep{display:inline-block;padding:0 20px;color:var(--txt-sub);}
 .rt-track{display:inline-block;white-space:nowrap;}
 .row-title.rt-scrolling{text-overflow:clip;}
@@ -962,7 +963,7 @@ function rowHTML(a){
   <div class="row-main" tabindex="0" role="button">
     <span class="row-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <time class="row-date">${eh(a.date)}</time>
-    <span class="row-title"><span class="rt-inner">${eh(a.title)}</span></span>
+    <span class="row-title"><span class="rt-inner">${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
     <div class="row-tags-inline">${tagsInline}</div>
     <span class="row-chevron">›</span>
   </div>
