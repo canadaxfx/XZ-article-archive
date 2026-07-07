@@ -3,7 +3,7 @@
         "id": 1,
         "platform": "weibo",
         "url": "https://weibo.com/1899959773/GBI9u12hT",
-        "title": "静达少年，未来可期",
+        "title": "肖战：用天真去追一段深刻",
         "author": "哲思2_0杂志 程宇瀚",
         "date": "2018-09-29",
         "year": "2018",
@@ -13,6 +13,9 @@
         "snapshots": [
             "https://assets.xz-studio-gallery.com/full/20180930_哲思_XZ-MISC-2.jpg",
             "https://assets.xz-studio-gallery.com/full/20180930_哲思_XZ-MISC-3.jpg"
+        ],
+        "images": [
+            "https://assets.xz-studio-gallery.com/full/20180930_%E5%93%B2%E6%80%9D_XZ-MISC-1.jpg"
         ]
     }
 ]
