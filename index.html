@@ -812,6 +812,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
         <div class="help-sec-title">朗读中途停止 · TTS Stops Mid-Article</div>
         <ul class="help-ul">
           <li>锁屏会暂停朗读，请保持屏幕常亮，或使用右下角定时关机功能。<br><span class="help-sub">Screen lock pauses TTS — keep screen on, or use the sleep timer in the reader.</span></li>
+          <li>Android 省电模式可能在屏幕亮着时仍中断朗读——省电模式会在后台暂停浏览器音频进程，与屏幕是否关闭无关。解决方法：<span class="help-path">设置 → 应用 → 浏览器 → 电池 → 无限制</span>，并确认浏览器未被列入"后台耗电限制"名单。<br><span class="help-sub">Android battery optimization can stop playback even with the screen on — it suspends the browser's audio process regardless of screen state. Fix: Settings → Apps → [Browser] → Battery → Unrestricted, and remove the browser from any background usage limits list.</span></li>
           <li>iOS Safari 不支持连续朗读，建议使用电脑端浏览器。<br><span class="help-sub">iOS Safari does not support continuous TTS — use a desktop browser for best experience.</span></li>
           <li>如问题持续，刷新页面后重新开始朗读。<br><span class="help-sub">If the issue persists, refresh the page and start again.</span></li>
         </ul>
