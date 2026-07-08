@@ -1130,17 +1130,21 @@ function _ttsStart(onDone, text){
   _ttsBtn.classList.add('tts-playing');
   const chunks=(text.match(/[^。！？!?\n]{1,120}[。！？!?\n]?/g)||[text]).filter(s=>s.trim());
   if(!chunks.length){_ttsReset();if(typeof onDone==='function')onDone();return;}
-  // Get voice once; queue all chunks upfront so browser plays them back-to-back with minimal gaps
+  // Sliding window of 2: always keep next chunk pre-queued without flooding mobile TTS queue
   const voice=_ttsGetVoice();
-  let ended=0;
-  chunks.forEach((chunk)=>{
-    const u=new SpeechSynthesisUtterance(chunk);
+  let queued=0;
+  function speakNext(){
+    if(queued>=chunks.length||_ttsGen!==myGen)return;
+    const idx=queued++;
+    const u=new SpeechSynthesisUtterance(chunks[idx]);
     u.lang='zh-CN';u.rate=0.9;
     if(voice)u.voice=voice;
-    const done=()=>{if(_ttsGen!==myGen)return;if(++ended===chunks.length){_ttsReset();if(typeof onDone==='function')onDone();}};
-    u.onend=done;u.onerror=done;
+    const isLast=idx===chunks.length-1;
+    u.onend=()=>{if(_ttsGen!==myGen)return;if(isLast){_ttsReset();if(typeof onDone==='function')onDone();return;}speakNext();};
+    u.onerror=()=>{if(_ttsGen!==myGen)return;if(isLast){_ttsReset();if(typeof onDone==='function')onDone();return;}speakNext();};
     speechSynthesis.speak(u);
-  });
+  }
+  speakNext();speakNext(); // queue current + next chunk upfront
   _startTtsKeepalive();
 }
 
