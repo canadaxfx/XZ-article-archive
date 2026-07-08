@@ -505,6 +505,24 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-cnt-badge{background:rgba(255,255,255,.25);border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700}
 .pl-panel-x{background:none;border:none;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;padding:0}
 .pl-panel-x:hover{color:#fff}
+.pl-help-btn{background:none;border:none;color:rgba(255,255,255,.60);font-size:13px;cursor:pointer;line-height:1;padding:0 4px;transition:color .15s}
+.pl-help-btn:hover{color:#fff}
+#plHelpModal{display:none;position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.65);align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+#plHelpModal.open{display:flex}
+.help-inner{background:#fff;border-radius:16px;max-width:520px;width:100%;margin:auto;overflow:hidden;font-family:'Segoe UI',sans-serif;font-size:13px;color:#374151;line-height:1.75}
+.help-hd{background:linear-gradient(135deg,#1e2a40,#111827);padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+.help-hd-title{color:#fff;font-size:14px;font-weight:700;letter-spacing:.3px}
+.help-hd-x{background:none;border:none;color:rgba(255,255,255,.75);font-size:20px;cursor:pointer;line-height:1;padding:0}
+.help-hd-x:hover{color:#fff}
+.help-body{padding:16px 18px;display:flex;flex-direction:column;gap:0}
+.help-sec{padding:12px 0}
+.help-sec+.help-sec{border-top:1px solid #e5e7eb}
+.help-sec-title{font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9ca3af;margin-bottom:8px}
+.help-p{margin:0 0 6px}
+.help-p:last-child{margin-bottom:0}
+.help-sub{color:#6b7280;font-size:12px}
+.help-ul{padding-left:16px;margin:0;display:flex;flex-direction:column;gap:4px}
+.help-note{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:12px;color:#92400e;margin-top:6px}
 .pl-list{overflow-y:auto;flex:1;min-height:40px;max-height:170px;overscroll-behavior:contain}
 .pl-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer}
 .pl-item:hover{background:var(--row-hover)}
@@ -712,6 +730,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     <span>🎵</span>
     <span class="pl-panel-title">朗读器 <span style="font-size:10px;opacity:0.55;font-weight:400;letter-spacing:.5px">· Reader</span></span>
     <span class="pl-cnt-badge" id="plCntBadge">0</span>
+    <button class="pl-help-btn" onclick="plShowHelp()" title="帮助 Help">❓</button>
     <button class="pl-panel-x" onclick="plTogglePanel()">×</button>
   </div>
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读器队列</div></div>
@@ -745,6 +764,68 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     </div>
   </div>
   <div class="pl-wakelock-note" id="plWakeLockNote">📱 屏幕常亮中 — 如屏幕手动关闭则定时和朗读不可用<br><span style="font-size:9px;opacity:0.8">Screen is kept on — locking it will pause TTS &amp; timer</span></div>
+</div>
+
+<!-- Reader Help Modal -->
+<div id="plHelpModal">
+  <div class="help-inner">
+    <div class="help-hd">
+      <span class="help-hd-title">❓ 朗读帮助 · Reader Help</span>
+      <button class="help-hd-x" onclick="document.getElementById('plHelpModal').classList.remove('open')">×</button>
+    </div>
+    <div class="help-body">
+
+      <div class="help-sec">
+        <div class="help-sec-title">如何开始 · Getting Started</div>
+        <p class="help-p">点击文章右上角 <b>「▶ 朗读本篇」</b> 开始朗读当前文章。<br><span class="help-sub">Click <b>"▶ 朗读本篇"</b> on any article to start reading it aloud.</span></p>
+        <p class="help-p">点击右下角 <b>🎵 浮动按钮</b> 打开朗读器，可将多篇文章加入队列，连续朗读。<br><span class="help-sub">Tap the <b>🎵 float button</b> to open the Reader panel — add multiple articles to the playlist for continuous playback.</span></p>
+      </div>
+
+      <div class="help-sec">
+        <div class="help-sec-title">安装中文语音 · Install Chinese TTS Voice</div>
+        <p class="help-p">如朗读按钮显示灰色或无声音，需先安装中文语音包。<br><span class="help-sub">If the read button is grayed out or produces no sound, install a Chinese voice first.</span></p>
+        <p class="help-p"><b>Android：</b><br>
+          设置 → 语言和输入法 → 文字转语音 → Google 文字转语音 → 语言 → 中文（普通话 / 台湾）→ 下载<br>
+          <span class="help-sub">Settings → Language & Input → Text-to-Speech → Google TTS → Language → Chinese (China / Taiwan) → Download</span></p>
+        <p class="help-p"><b>iOS：</b><br>
+          ⚠️ iOS Safari 不支持连续朗读，建议使用电脑端浏览器获得完整体验。如仍希望在 iOS 上使用，可按以下步骤安装中文语音：<br>
+          <span class="help-sub">⚠️ iOS Safari does not support continuous TTS. A desktop browser is recommended. If you still wish to use it on iOS, install a Chinese voice as follows:</span><br>
+          设置 → 辅助功能 → 朗读内容 → 声音 → 中文 → 下载<br>
+          <span class="help-sub">Settings → Accessibility → Spoken Content → Voices → Chinese → Download</span></p>
+      </div>
+
+      <div class="help-sec">
+        <div class="help-sec-title">朗读卡顿 · TTS Hiccups</div>
+        <p class="help-p"><b>先诊断：</b>在手机「设置 → 文字转语音」中试听语音预览。<br>若预览也卡顿 → 是系统缓存问题，与本站无关。<br>
+          <span class="help-sub"><b>Diagnose first:</b> go to phone Settings → Text-to-Speech and play a voice preview. If it hiccups there too, it's a system cache issue, not this site.</span></p>
+        <p class="help-p"><b>Android 修复 / Fix:</b><br>
+          设置 → 应用 → 搜索「Speech Recognition and Synthesis from Google」→ 存储 → 清除缓存 → 重启手机<br>
+          （可能会显示两个同名应用，请都清除缓存。）<br>
+          <span class="help-sub">Settings → Apps → search "Speech Recognition and Synthesis from Google" → Storage → Clear Cache → Restart phone<br>
+          (Some phones show two entries with the same name — clear cache on both.)</span></p>
+        <div class="help-note">⚠️ 重启后语音预览如恢复正常，本站朗读功能也会恢复正常。<br>After restarting, if the voice preview is smooth again, the site's TTS will work fine too.</div>
+      </div>
+
+      <div class="help-sec">
+        <div class="help-sec-title">朗读中途停止 · TTS Stops Mid-Article</div>
+        <ul class="help-ul">
+          <li>锁屏会暂停朗读，请保持屏幕常亮，或使用右下角定时关机功能。<br><span class="help-sub">Screen lock pauses TTS — keep screen on, or use the sleep timer in the reader.</span></li>
+          <li>iOS Safari 不支持连续朗读，建议使用电脑端浏览器。<br><span class="help-sub">iOS Safari does not support continuous TTS — use a desktop browser for best experience.</span></li>
+          <li>如问题持续，刷新页面后重新开始朗读。<br><span class="help-sub">If the issue persists, refresh the page and start again.</span></li>
+        </ul>
+      </div>
+
+      <div class="help-sec">
+        <div class="help-sec-title">背景音乐 · Background Music</div>
+        <ul class="help-ul">
+          <li>音乐从云端流式加载，首次播放可能需几秒缓冲属正常现象。<br><span class="help-sub">Music streams from the cloud — first play may buffer for a few seconds.</span></li>
+          <li>网络较差时可能出现卡顿，为正常现象。<br><span class="help-sub">Hiccups on slow networks are expected.</span></li>
+          <li>在朗读器中勾选喜欢的曲目，系统将自动循环播放。<br><span class="help-sub">Check your favorite tracks in the reader — they loop automatically.</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- BGM audio (dual-buffer for gap-free track transitions) -->
@@ -1375,6 +1456,7 @@ function plRender(){
 plRender();
 
 document.getElementById('plPanel').addEventListener('wheel',e=>e.stopPropagation(),{passive:true});
+function plShowHelp(){document.getElementById('plHelpModal').classList.add('open');}
 function plTogglePanel(){
   const panel=document.getElementById('plPanel');
   const opening=panel.classList.contains('hidden');
