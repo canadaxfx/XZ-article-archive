@@ -1096,11 +1096,13 @@ let _ttsKeepalive=null;
 const _ttsBtn=document.getElementById('modalTtsBtn');
 const _ttsNotice=document.getElementById('ttsIosNotice');
 const _isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
+const _isAndroid=/Android/i.test(navigator.userAgent);
 
 function _stopTtsKeepalive(){if(_ttsKeepalive){clearInterval(_ttsKeepalive);_ttsKeepalive=null;}}
 function _startTtsKeepalive(){
   _stopTtsKeepalive();
-  // Chrome pauses speechSynthesis after ~15s without this nudge
+  // Desktop Chrome pauses speechSynthesis after ~15s — nudge it. Skip on mobile: pause/resume disrupts Android TTS.
+  if(_isIOS||_isAndroid)return;
   _ttsKeepalive=setInterval(()=>{
     if(speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();speechSynthesis.resume();}
   },10000);
