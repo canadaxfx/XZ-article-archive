@@ -505,8 +505,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-cnt-badge{background:rgba(255,255,255,.25);border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700}
 .pl-panel-x{background:none;border:none;color:rgba(255,255,255,.75);font-size:18px;cursor:pointer;line-height:1;padding:0}
 .pl-panel-x:hover{color:#fff}
-.pl-help-btn{background:none;border:none;color:rgba(255,255,255,.60);font-size:13px;cursor:pointer;line-height:1;padding:0 4px;transition:color .15s}
-.pl-help-btn:hover{color:#fff}
+.pl-help-btn{width:18px;height:18px;border-radius:50%;background:#ef4444;border:none;color:#fff;font-size:11px;font-weight:700;cursor:pointer;line-height:1;padding:0;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.pl-help-btn:hover{background:#dc2626}
 #plHelpModal{display:none;position:fixed;inset:0;z-index:9700;background:rgba(0,0,0,0.65);align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
 #plHelpModal.open{display:flex}
 .help-inner{background:#fff;border-radius:16px;max-width:520px;width:100%;margin:auto;overflow:hidden;font-family:'Segoe UI',sans-serif;font-size:13px;color:#374151;line-height:1.75}
@@ -730,7 +730,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
     <span>🎵</span>
     <span class="pl-panel-title">朗读器 <span style="font-size:10px;opacity:0.55;font-weight:400;letter-spacing:.5px">· Reader</span></span>
     <span class="pl-cnt-badge" id="plCntBadge">0</span>
-    <button class="pl-help-btn" onclick="plShowHelp()" title="帮助 Help">❓</button>
+    <button class="pl-help-btn" onclick="plShowHelp()" title="帮助 Help">?</button>
     <button class="pl-panel-x" onclick="plTogglePanel()">×</button>
   </div>
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读器队列</div></div>
