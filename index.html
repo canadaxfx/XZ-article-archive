@@ -275,8 +275,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 /* ===== FEATURED CARDS GRID ===== */
 #featuredSection{margin-bottom:36px}
 #featuredGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:900px){#featuredGrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){#featuredGrid{grid-template-columns:1fr}}
+@media(max-width:900px){#featuredGrid{grid-template-columns:repeat(2,1fr)}#featuredGrid .article-card:nth-child(3){display:none}}
+@media(max-width:520px){#featuredGrid{grid-template-columns:1fr}#featuredGrid .article-card:nth-child(3){display:none}}
 
 /* CARD */
 .article-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:13px;overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .22s,box-shadow .22s,border-color .22s}
