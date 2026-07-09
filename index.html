@@ -1131,7 +1131,7 @@ function openModal(id,year){
   document.getElementById('mBadge').style.background=pt.bg;
   document.getElementById('mTitle').textContent=a.title||'';
   document.getElementById('mMeta').innerHTML=
-    `<a href="${eh(a.author_url||'#')}" target="_blank" rel="noopener">${eh(a.author)}</a>
+    `<span>${eh(a.author)}</span>
      <span class="msep">·</span><time>${eh(a.date)}</time>
      <div class="modal-meta-links">
        ${_buildArticleSrcBtn(a)}
