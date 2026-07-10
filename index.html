@@ -310,14 +310,15 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 @media(max-width:520px){.list-divider{gap:8px}.toggle-all-btn .btn-label{display:none}}
 
 /* ===== YEAR GROUP ===== */
-.year-group{margin-bottom:8px}
-.yg-header{display:flex;flex-direction:column;gap:4px;padding:8px 14px;cursor:pointer;user-select:none;border-radius:8px;border:1px solid rgba(var(--gold-dr),0.28);background:rgba(var(--gold-dr),0.03);transition:background .15s,border-color .2s}
+.year-group{margin-bottom:8px;border:1px solid rgba(var(--gold-dr),0.28);border-right:none;border-radius:8px;overflow:hidden}
+.year-group.open{border-color:rgba(var(--gold-dr),0.45)}
+.yg-header{display:flex;flex-direction:column;gap:4px;padding:8px 14px;cursor:pointer;user-select:none;background:rgba(var(--gold-dr),0.03);transition:background .15s}
 .yg-row1{display:flex;align-items:center;gap:12px;width:100%}
 .yg-row2{display:flex;padding-left:0;margin-top:4px}
-.yg-header:hover{background:rgba(var(--gold-dr),0.08);border-color:rgba(var(--gold-dr),0.55)}
+.yg-header:hover{background:rgba(var(--gold-dr),0.08)}
 .yg-pill{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(var(--gold-dr),0.35);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.35rem;font-weight:700;line-height:1;transition:background .2s,border-color .2s;font-family:system-ui,sans-serif}
 .yg-header:hover .yg-pill{border-color:var(--gold)}
-.year-group.open>.yg-header{background:rgba(var(--gold-dr),0.06);border-color:rgba(var(--gold-dr),0.45)}
+.year-group.open>.yg-header{background:rgba(var(--gold-dr),0.06);border-bottom:1px solid rgba(var(--gold-dr),0.15)}
 .year-group.open>.yg-header .yg-pill{background:rgba(var(--gold-dr),0.12);border-color:var(--gold)}
 .yg-label{font-family:'Cormorant Garamond',Georgia,serif;font-size:1.55rem;font-weight:700;color:var(--gold);letter-spacing:.04em;line-height:1;flex-shrink:0}
 .yg-count{font-size:12px;color:var(--txt-sub);letter-spacing:.08em;white-space:nowrap}
@@ -325,7 +326,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .yg-ticker .yg-title{position:absolute;left:0;right:0;opacity:0;transition:opacity .5s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.8rem;color:var(--txt-sub);font-weight:400;line-height:1.25em}
 .yg-ticker .yg-title.vis{opacity:1}
 .year-group.open .yg-ticker{visibility:hidden}
-.article-rows{display:none}
+.article-rows{display:none;padding-left:8px}
 .year-group.open>.article-rows{display:block}
 
 /* ===== ARTICLE ROW ===== */
