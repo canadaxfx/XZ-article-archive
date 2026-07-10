@@ -734,9 +734,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空<br>在文章中点击「＋ Playlist」加入朗读器队列</div></div>
   <div class="pl-panel-ft">
     <div class="pl-ft-row">
-      <span class="pl-read-lbl">📢 朗读 <button class="pl-nav-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
-      <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
-      <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next" disabled>⏭</button>
+      <span class="pl-read-lbl">📢 朗读</span>
+      <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous">⏮</button>
+      <button class="pl-nav-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button>
+      <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next">⏭</button>
     </div>
     <div class="pl-ft-row">
       <label class="pl-autoremove-lbl" title="播完自动移出列表 · Auto-remove after playing"><input type="checkbox" id="plAutoRemove"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="11" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="11" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="8.5" y2="12"/><line x1="11" y1="10.5" x2="14" y2="13.5"/><line x1="14" y1="10.5" x2="11" y2="13.5"/></svg> 播完移出</label>
@@ -1565,8 +1566,6 @@ function _syncPlayBar(){
   const prev=document.getElementById('plPrevBtn');
   const next=document.getElementById('plNextBtn');
   const playBtn=document.getElementById('plPlayAllBtn');
-  if(prev)prev.disabled=_plIdx<=0;
-  if(next)next.disabled=_plIdx>=_playlist.length-1;
   const isActive=_plPlaying&&!_ttsPaused;
   if(playBtn){playBtn.textContent=isActive?'⏸':'▶';playBtn.classList.toggle('playing',isActive);}
 }
