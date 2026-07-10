@@ -538,12 +538,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-item-rm:hover{background:#fecaca;color:#dc2626}
 .pl-panel-ft{display:flex;flex-direction:column;gap:5px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
 .pl-read-lbl{font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;flex-shrink:0}
-.pl-play-btn{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:12px;padding:2px 4px;min-width:34px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap;transition:background .15s}
-.pl-play-btn:hover{background:rgba(var(--gold-dr),.1)}
-.pl-play-btn.playing{background:rgba(var(--gold-dr),.15)}
-.pl-play-btn:disabled{opacity:.35;cursor:default}
-.pl-bgm-play{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:11px;padding:1px 3px;min-width:24px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap}
-.pl-bgm-play:hover{background:rgba(var(--gold-dr),.1)}
+.pl-nav-btn.playing{background:rgba(var(--gold-dr),.15)}
 .pl-clear-btn{padding:2px 9px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0}
 .pl-ft-row{display:flex;align-items:center;gap:6px}
 .pl-autoremove-lbl{display:flex;align-items:center;gap:4px;font-size:12px;color:#6b7280;cursor:pointer;flex:1}
@@ -739,7 +734,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空<br>在文章中点击「＋ Playlist」加入朗读器队列</div></div>
   <div class="pl-panel-ft">
     <div class="pl-ft-row">
-      <span class="pl-read-lbl">📢 朗读 <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
+      <span class="pl-read-lbl">📢 朗读 <button class="pl-nav-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
       <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
       <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next" disabled>⏭</button>
     </div>
@@ -755,7 +750,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   <div class="pl-bgm-sec">
     <div class="pl-bgm-grid" id="bgmGrid"></div>
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-bgm-play" id="bgmPlayBtn" onclick="bgmTogglePlay()">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button></span>
+      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-nav-btn" id="bgmPlayBtn" onclick="bgmTogglePlay()" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button></span>
       <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
     </div>
   </div>
