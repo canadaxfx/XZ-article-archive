@@ -1185,8 +1185,8 @@ const _isAndroid=/Android/i.test(navigator.userAgent);
 function _stopTtsKeepalive(){if(_ttsKeepalive){clearInterval(_ttsKeepalive);_ttsKeepalive=null;}}
 function _startTtsKeepalive(){
   _stopTtsKeepalive();
-  // Desktop Chrome pauses speechSynthesis after ~15s — nudge it. Skip on mobile: pause/resume disrupts Android TTS.
-  if(_isIOS||_isAndroid)return;
+  // Desktop Chrome pauses speechSynthesis after ~15s — nudge it. Skip on touch devices: pause/resume disrupts mobile TTS.
+  if(_isIOS||_isAndroid||navigator.maxTouchPoints>0)return;
   _ttsKeepalive=setInterval(()=>{
     if(speechSynthesis.speaking&&!speechSynthesis.paused){speechSynthesis.pause();speechSynthesis.resume();}
   },10000);
@@ -1218,7 +1218,7 @@ function _ttsStart(onDone, text){
   if(!chunks.length){_ttsReset();if(typeof onDone==='function')onDone();return;}
   // Sliding window of 2: always keep next chunk pre-queued without flooding mobile TTS queue
   const voice=_ttsGetVoice();
-  let queued=0;
+  let queued=0,retrying=false;
   function speakNext(){
     if(queued>=chunks.length||_ttsGen!==myGen)return;
     const idx=queued++;
@@ -1227,10 +1227,22 @@ function _ttsStart(onDone, text){
     if(voice)u.voice=voice;
     const isLast=idx===chunks.length-1;
     u.onend=()=>{if(_ttsGen!==myGen)return;if(isLast){_ttsReset();if(typeof onDone==='function')onDone();return;}speakNext();};
-    u.onerror=()=>{if(_ttsGen!==myGen)return;if(isLast){_ttsReset();if(typeof onDone==='function')onDone();return;}speakNext();};
+    u.onerror=(e)=>{
+      if(_ttsGen!==myGen||retrying)return;
+      // TTS engine still initializing (Samsung TTS loads late) — retry once after delay
+      if(e.error==='synthesis-failed'){
+        retrying=true;
+        speechSynthesis.cancel();
+        setTimeout(()=>{if(_ttsGen!==myGen||!_plPlaying)return;retrying=false;queued=0;speakNext();speakNext();},2000);
+        return;
+      }
+      if(isLast){_ttsReset();if(typeof onDone==='function')onDone();return;}
+      speakNext();
+    };
     speechSynthesis.speak(u);
   }
-  speakNext();speakNext(); // queue current + next chunk upfront
+  // cancel() is async on some browsers — small delay prevents synthesis-failed cascade
+  setTimeout(()=>{if(_ttsGen===myGen){speakNext();speakNext();}},250);
   _startTtsKeepalive();
 }
 
@@ -1303,6 +1315,9 @@ document.getElementById('ttsVoiceSelect').addEventListener('change',function(){
 });
 speechSynthesis.onvoiceschanged=_populateVoices;
 _populateVoices();
+// Tablets (Samsung Internet/Chrome) often don't fire onvoiceschanged — retry to catch async load
+setTimeout(_populateVoices,500);
+setTimeout(_populateVoices,2000);
 
 /* ===== BGM ===== */
 const BGM_CDN='https://assets.xz-studio-gallery.com/music/';
@@ -1557,7 +1572,7 @@ function _syncPlayBar(){
   if(playBtn){playBtn.textContent=isActive?'⏸':'▶';playBtn.classList.toggle('playing',isActive);}
 }
 
-function _ttsAvailable(){return 'speechSynthesis' in window&&_zhVoicesSorted().length>0;}
+function _ttsAvailable(){return 'speechSynthesis' in window;}
 function plPlayAll(){
   if(!_playlist.length)return;
   _plIdx=0;_plPlaying=true;
