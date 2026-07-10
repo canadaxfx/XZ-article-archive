@@ -970,7 +970,7 @@ function cardHTML(a){
     <div class="card-hero-title">${eh(a.title)}</div>
   </div>
   <div class="card-body">
-    <div class="card-meta"><span class="platform-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span><span class="meta-author">${eh(a.author)}</span><span class="meta-dot">·</span><span>${eh(a.date)}</span></div>
+    <div class="card-meta"><span class="platform-badge" style="background:${a.extra_links&&a.extra_links.length?_multiSrcGrad(a,pt.bg):pt.bg}">${eh(a.extra_links&&a.extra_links.length?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span><span class="meta-author">${eh(a.author)}</span><span class="meta-dot">·</span><span>${eh(a.date)}</span></div>
     <p class="card-excerpt">${eh(excerpt)}<span class="card-arrow">›</span></p>
     <div class="card-footer"><div class="card-tags">${tags}</div></div>
   </div>
@@ -1081,7 +1081,7 @@ function rowHTML(a){
   const tagsInline=(a.tags||[]).slice(0,2).map(t=>`<span class="card-tag">${eh(t)}</span>`).join('');
   return `<div class="article-row" data-id="${a.id}" data-year="${a.year}">
   <div class="row-main" tabindex="0" role="button">
-    <span class="row-badge" style="background:${pt.bg}">${eh(a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
+    <span class="row-badge" style="background:${a.extra_links&&a.extra_links.length?_multiSrcGrad(a,pt.bg):pt.bg}">${eh(a.extra_links&&a.extra_links.length?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <time class="row-date">${eh(a.date)}</time>
     <span class="row-title"><span class="rt-inner"><span class="rt-date">${eh(a.date.slice(5))} · </span>${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
     <div class="row-tags-inline">${tagsInline}</div>
@@ -1096,6 +1096,19 @@ function _platLabel(a){
   if(a.platform==='unknown'&&a.source_name) return a.source_name;
   return (PLAT[a.platform]||{label:'原文'}).label;
 }
+function _platColorFromUrl(url){
+  if(!url) return 'rgba(70,70,70,0.85)';
+  if(url.includes('weibo.com')) return PLAT.weibo.bg;
+  if(url.includes('mp.weixin.qq.com')||url.includes('weixin.qq.com')) return PLAT.wechat.bg;
+  return 'rgba(70,70,70,0.85)';
+}
+function _multiSrcGrad(a,platColor){
+  const colors=[platColor||'rgba(70,70,70,0.85)'];
+  (a.extra_links||[]).forEach(l=>{if(l.url) colors.push(_platColorFromUrl(l.url));});
+  const step=100/colors.length;
+  const stops=colors.map((c,i)=>c+' '+(i*step)+'% '+((i+1)*step)+'%').join(',');
+  return 'linear-gradient(135deg,'+stops+')';
+}
 function _buildArticleSrcBtn(a,platColor){
   if(!a.url&&!(a.extra_links&&a.extra_links.length)) return '';
   const links=[];
@@ -1104,7 +1117,8 @@ function _buildArticleSrcBtn(a,platColor){
   if(!links.length) return '';
   const cs=platColor?` style="background:${platColor};color:#fff;border-color:transparent"`:'';
   if(links.length===1) return '<a class="modal-src" href="'+eh(links[0].url)+'" target="_blank" rel="noopener"'+cs+'>'+eh(links[0].label)+' ↗</a>';
-  return '<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(links))+')"'+cs+'>多来源 🔗</button>';
+  const grad=_multiSrcGrad(a,platColor);
+  return '<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(links))+')" style="background:'+grad+';color:#fff;border-color:transparent">多来源 🔗</button>';
 }
 function _buildSnapshotBtn(a){
   if(a.snapshots&&a.snapshots.length>1){
