@@ -569,7 +569,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-timer-x:hover{color:#374151}
 .pl-wakelock-note{display:none;font-size:10px;color:#9ca3af;padding:3px 10px 5px;text-align:center}
 .pl-wakelock-note.vis{display:block;color:var(--gold)}
-.pl-nav-btn{background:none;border:1px solid rgba(80,80,80,0.3);color:rgba(55,65,81,0.9);border-radius:6px;padding:2px 8px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.pl-nav-btn{background:none;border:1px solid rgba(80,80,80,0.3);color:rgba(55,65,81,0.9);border-radius:6px;padding:2px 8px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
 .pl-nav-btn:hover{background:rgba(80,80,80,0.1)}
 .pl-nav-btn:disabled{opacity:.2;cursor:default}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
@@ -755,7 +755,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   <div class="pl-bgm-sec">
     <div class="pl-bgm-grid" id="bgmGrid"></div>
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="width:22px;height:22px;font-size:11px">⏮</button> <button class="pl-bgm-play" id="bgmPlayBtn" onclick="bgmTogglePlay()">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="width:22px;height:22px;font-size:11px">⏭</button></span>
+      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="font-size:11px;padding:1px 7px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-bgm-play" id="bgmPlayBtn" onclick="bgmTogglePlay()">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="font-size:11px;padding:1px 7px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button></span>
       <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
     </div>
   </div>
