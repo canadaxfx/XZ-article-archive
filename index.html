@@ -535,7 +535,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-item-year{color:#9ca3af;font-size:10px}
 .pl-item-rm{flex-shrink:0;background:#e5e7eb;border:none;cursor:pointer;color:#6b7280;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
 .pl-item-rm:hover{background:#fecaca;color:#dc2626}
-.pl-panel-ft{display:flex;gap:6px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
+.pl-panel-ft{display:flex;flex-direction:column;gap:5px;padding:8px 10px;border-top:1px solid var(--border);flex-shrink:0}
 .pl-read-lbl{font-size:12px;font-weight:600;color:#374151;display:flex;align-items:center;gap:5px;flex-shrink:0}
 .pl-play-btn{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:12px;padding:2px 9px;cursor:pointer;white-space:nowrap;transition:background .15s}
 .pl-play-btn:hover{background:rgba(var(--gold-dr),.1)}
@@ -543,7 +543,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-play-btn:disabled{opacity:.35;cursor:default}
 .pl-bgm-play{background:none;border:1px solid rgba(var(--gold-dr),.5);color:var(--gold);border-radius:6px;font-size:11px;padding:1px 7px;cursor:pointer;white-space:nowrap}
 .pl-bgm-play:hover{background:rgba(var(--gold-dr),.1)}
-.pl-clear-btn{padding:6px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px}
+.pl-clear-btn{padding:2px 9px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0}
+.pl-ft-row{display:flex;align-items:center;gap:6px}
+.pl-autoremove-lbl{display:flex;align-items:center;gap:4px;font-size:12px;color:#6b7280;cursor:pointer;flex:1}
+.pl-autoremove-lbl input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
 .pl-bgm-sec{padding:8px 10px 6px;border-top:1px solid var(--border);flex-shrink:0}
 .pl-bgm-hd{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:12px;font-weight:600;color:#374151}
 .pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280}
@@ -565,15 +568,15 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-timer-x:hover{color:#374151}
 .pl-wakelock-note{display:none;font-size:10px;color:#9ca3af;padding:3px 10px 5px;text-align:center}
 .pl-wakelock-note.vis{display:block;color:var(--gold)}
-.pl-nav-btn{background:rgba(80,80,80,0.15);color:rgba(55,65,81,0.9);border:1px solid rgba(80,80,80,0.3);border-radius:50%;width:30px;height:30px;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .15s}
-.pl-nav-btn:hover{opacity:.7}
+.pl-nav-btn{background:none;border:1px solid rgba(80,80,80,0.3);color:rgba(55,65,81,0.9);border-radius:6px;padding:2px 8px;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.pl-nav-btn:hover{background:rgba(80,80,80,0.1)}
 .pl-nav-btn:disabled{opacity:.2;cursor:default}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
 .pl-modal-add:hover,.pl-modal-add.in-list{background:rgba(var(--gold-dr),.22);font-weight:600}
 .yg-add-btn{background:var(--gold);border:1px solid var(--gold);color:#fff;border-radius:10px;font-size:11px;font-weight:600;padding:4px 12px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s,background .15s;letter-spacing:.03em}
 .yg-add-btn:hover{filter:brightness(1.12)}
 .yg-add-btn.in-list{background:transparent;border-color:var(--gold);color:var(--gold);font-weight:500;}
-@media(max-width:600px){.pl-panel{width:calc(100vw - 90px);right:8px;bottom:140px}}
+@media(max-width:600px){.pl-panel{width:calc(100vw - 76px);right:8px;bottom:140px}}
   </style>
 </head>
 <body>
@@ -738,10 +741,15 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
   </div>
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空 — 在文章中点击「＋ Playlist」加入朗读器队列</div></div>
   <div class="pl-panel-ft">
-    <span class="pl-read-lbl">🔊 朗读 <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
-    <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
-    <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next" disabled>⏭</button>
-    <button class="pl-clear-btn" onclick="plClear()">清空</button>
+    <div class="pl-ft-row">
+      <span class="pl-read-lbl">📢 朗读 <button class="pl-play-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button></span>
+      <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous" disabled>⏮</button>
+      <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next" disabled>⏭</button>
+    </div>
+    <div class="pl-ft-row">
+      <label class="pl-autoremove-lbl" title="播完自动移出列表 · Auto-remove after playing"><input type="checkbox" id="plAutoRemove"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="11" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="11" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="8.5" y2="12"/><line x1="11" y1="10.5" x2="14" y2="13.5"/><line x1="14" y1="10.5" x2="11" y2="13.5"/></svg> 播完移出</label>
+      <button class="pl-clear-btn" onclick="plClear()">🗑️ 清空</button>
+    </div>
   </div>
   <div class="pl-voice-sec" id="plVoiceSec">
     <span>🗣️ 人声</span>
@@ -1606,12 +1614,17 @@ function plTogglePlay(){
   _syncPlayBar();
 }
 function plAdvance(){
-  if(_plIdx<_playlist.length-1){
+  if(document.getElementById('plAutoRemove')?.checked){
+    _playlist.splice(_plIdx,1);
+    plRender();
+    if(!_playlist.length){_plPlaying=false;bgmStop();_releaseWakeLock();_syncPlayBar();return;}
+    if(_plIdx>=_playlist.length)_plIdx=_playlist.length-1;
+    _loadAndPlay(_plIdx);
+  } else if(_plIdx<_playlist.length-1){
     _plIdx++;
     _loadAndPlay(_plIdx);
   } else {
     _plPlaying=false;bgmStop();_releaseWakeLock();_syncPlayBar();
-    // progress bar removed
   }
 }
 function _loadAndPlay(idx){
