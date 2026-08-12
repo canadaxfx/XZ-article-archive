@@ -38,9 +38,16 @@
         "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20260806_同一个故事_如何出新出彩_01.png",
         "archived_at": "2026-08-08",
         "images": [
-            "https://assets.xz-studio-gallery.com/articles/images/20260806_同一个故事_如何出新出彩/img_01.jpg"
+            "https://assets.xz-studio-gallery.com/articles/images/20260806_同一个故事_如何出新出彩/img_01.jpg",
+            "https://assets.xz-studio-gallery.com/full/20260812_%E8%8E%AB%E5%BE%97%E9%97%B2_XZ-MISC-4.jpg"
         ],
-        "source_name": "人民日报"
+        "source_name": "人民日报",
+        "extra_links": [
+            {
+                "label": "微博",
+                "url": "https://weibo.com/7408066931/Rc6CkribY"
+            }
+        ]
     },
     {
         "id": 9,
