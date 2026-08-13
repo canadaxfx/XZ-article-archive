@@ -204,8 +204,13 @@ body{
 .mg-pgrid{display:grid;grid-template-columns:1fr 1fr;gap:3px}
 
 /* ===== THEME SWITCHER ===== */
-#themeSwitcher{position:fixed;top:2px;right:8px;z-index:9000;display:flex;gap:6px;align-items:center;padding:5px 8px;border-radius:20px;background:#1a1a1a;border:1px solid rgba(255,255,255,0.2)}
+#themeSwitcher{position:fixed;top:2px;right:8px;z-index:9000;display:flex;gap:6px;align-items:center;padding:5px 10px;border-radius:20px;background:#1a1a1a;border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:opacity .3s}
+#themeSwitcher.ts-scrolled{opacity:0;pointer-events:none}
+.ts-expand{display:flex;gap:5px;align-items:center;max-width:0;overflow:hidden;opacity:0;transition:max-width .28s ease,opacity .2s ease}
+#themeSwitcher.ts-open .ts-expand{max-width:200px;opacity:1}
 #styleLabel{font-size:10px;color:#ffffff;letter-spacing:.06em;white-space:nowrap;pointer-events:none;user-select:none}
+#styleLabel::after{content:' ▾';font-size:8px;opacity:.7}
+#themeSwitcher.ts-open #styleLabel::after{content:' ▴'}
 [data-theme="washi-garnet"] #themeSwitcher,[data-theme="washi-slate"] #themeSwitcher{background:#2a2a2a;border-color:rgba(255,255,255,0.2)}
 .theme-dot{width:14px;height:14px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;transition:transform .18s,border-color .18s;outline:none;flex-shrink:0}
 .theme-dot:hover{transform:scale(1.25)}
@@ -591,15 +596,17 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
 <!-- Theme Switcher -->
 <div id="themeSwitcher">
   <span id="styleLabel">换肤 Skin</span>
-  <button class="theme-dot" data-t="red"          style="background:#8B0010"   title="红 Red"></button>
-  <button class="theme-dot" data-t="sakura"       style="background:#D07090"   title="樱 Sakura"></button>
-  <button class="theme-dot" data-t="sapphire"     style="background:#1A3FAA"   title="蓝宝石 Sapphire"></button>
-  <button class="theme-dot" data-t="lunar"        style="background:#3A5890"   title="月 Lunar"></button>
-  <button class="theme-dot" data-t="violet"       style="background:#5A0FA0"   title="紫 Violet"></button>
-  <button class="theme-dot" data-t="washi-garnet" style="background:linear-gradient(135deg,#EAEAEC 50%,#7A2030 50%)" title="和纸 Washi Garnet"></button>
-  <button class="theme-dot" data-t="washi-slate"  style="background:linear-gradient(135deg,#ECEDF1 50%,#3A4860 50%)" title="和纸 Washi Slate"></button>
-  <span id="mgDivider"></span>
-  <button id="mgBtn" title="玉兰水印 Magnolia watermark">❁</button>
+  <div class="ts-expand">
+    <button class="theme-dot" data-t="red"          style="background:#8B0010"   title="红 Red"></button>
+    <button class="theme-dot" data-t="sakura"       style="background:#D07090"   title="樱 Sakura"></button>
+    <button class="theme-dot" data-t="sapphire"     style="background:#1A3FAA"   title="蓝宝石 Sapphire"></button>
+    <button class="theme-dot" data-t="lunar"        style="background:#3A5890"   title="月 Lunar"></button>
+    <button class="theme-dot" data-t="violet"       style="background:#5A0FA0"   title="紫 Violet"></button>
+    <button class="theme-dot" data-t="washi-garnet" style="background:linear-gradient(135deg,#EAEAEC 50%,#7A2030 50%)" title="和纸 Washi Garnet"></button>
+    <button class="theme-dot" data-t="washi-slate"  style="background:linear-gradient(135deg,#ECEDF1 50%,#3A4860 50%)" title="和纸 Washi Slate"></button>
+    <span id="mgDivider"></span>
+    <button id="mgBtn" title="玉兰水印 Magnolia watermark">❁</button>
+  </div>
 </div>
 
 <div id="mgPanel">
@@ -875,7 +882,11 @@ function applyTheme(k){
 }
 (function(){
   applyTheme(localStorage.getItem('xzArticleTheme')||'washi-slate');
-  document.querySelectorAll('.theme-dot').forEach(b=>b.addEventListener('click',()=>applyTheme(b.dataset.t)));
+  const ts=document.getElementById('themeSwitcher');
+  document.querySelectorAll('.theme-dot').forEach(b=>b.addEventListener('click',()=>{applyTheme(b.dataset.t);ts.classList.remove('ts-open');}));
+  ts.addEventListener('click',e=>{if(!ts.classList.contains('ts-open')){ts.classList.add('ts-open');e.stopPropagation();}});
+  document.addEventListener('click',e=>{if(!ts.contains(e.target))ts.classList.remove('ts-open');});
+  window.addEventListener('scroll',()=>{ts.classList.toggle('ts-scrolled',window.scrollY>80);},{passive:true});
 })();
 
 /* ===== DATA ===== */
