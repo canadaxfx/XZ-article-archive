@@ -550,8 +550,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-autoremove-lbl{display:flex;align-items:center;gap:4px;font-size:12px;color:#6b7280;cursor:pointer;flex:1}
 .pl-autoremove-lbl input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
 .pl-bgm-sec{padding:8px 10px 6px;border-top:2px solid rgba(var(--gold-dr),.35);flex-shrink:0}
-.pl-bgm-hd{display:flex;align-items:center;justify-content:space-between;margin-top:6px;font-size:12px;font-weight:600;color:#374151}
-.pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280}
+.pl-bgm-hd{display:flex;align-items:center;margin-top:6px;font-size:12px;font-weight:600;color:#374151}
+.pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:4px}
 .pl-vol-row input[type=range]{width:72px;height:3px;cursor:pointer;accent-color:var(--gold)}
 .pl-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
 .pl-bgm-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#374151;cursor:pointer;padding:2px 0}
@@ -756,6 +756,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
       <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous">⏮</button>
       <button class="pl-nav-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button>
       <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next">⏭</button>
+      <button class="pl-nav-btn" onclick="plShuffle()" title="Shuffle order">🔀</button>
     </div>
     <div class="pl-ft-row">
       <label class="pl-autoremove-lbl" title="播完自动移出列表 · Auto-remove after playing"><input type="checkbox" id="plAutoRemove"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="11" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="11" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="8.5" y2="12"/><line x1="11" y1="10.5" x2="14" y2="13.5"/><line x1="14" y1="10.5" x2="11" y2="13.5"/></svg> 播完移出</label>
@@ -769,18 +770,20 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
   <div class="pl-bgm-sec">
     <div class="pl-bgm-grid" id="bgmGrid"></div>
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-nav-btn" id="bgmPlayBtn" onclick="bgmTogglePlay()" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button></span>
-      <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
+      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-nav-btn" id="bgmPlayBtn" onclick="bgmTogglePlay()" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button> <button class="pl-nav-btn" onclick="bgmShuffle()" title="Shuffle order" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">🔀</button></span>
     </div>
+    <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
   </div>
   <div class="pl-timer-sec">
     <div class="pl-timer-row">
       <span class="pl-timer-lbl">⏱️ 定时</span>
-      <button class="pl-timer-btn" onclick="plTimerSet(15)">15'</button>
-      <button class="pl-timer-btn" onclick="plTimerSet(30)">30'</button>
-      <button class="pl-timer-btn" onclick="plTimerSet(60)">60'</button>
-      <input class="pl-timer-inp" id="plTimerInp" type="number" min="1" max="999" placeholder="min" onkeydown="if(event.key==='Enter')plTimerCustom()">
-      <button class="pl-timer-go" onclick="plTimerCustom()">Go</button>
+      <span id="plTimerSetControls" style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">
+        <button class="pl-timer-btn" onclick="plTimerSet(15)">15'</button>
+        <button class="pl-timer-btn" onclick="plTimerSet(30)">30'</button>
+        <button class="pl-timer-btn" onclick="plTimerSet(60)">60'</button>
+        <input class="pl-timer-inp" id="plTimerInp" type="number" min="1" max="999" placeholder="min" onkeydown="if(event.key==='Enter')plTimerCustom()">
+        <button class="pl-timer-go" onclick="plTimerCustom()">Go</button>
+      </span>
       <span class="pl-timer-disp" id="plTimerDisp" style="display:none"></span>
       <button class="pl-timer-x" id="plTimerX" onclick="plTimerCancel()" style="display:none" title="取消定时">×</button>
     </div>
@@ -1397,6 +1400,24 @@ function bgmToggle(i,on){
   on?_bgmSel.add(i):_bgmSel.delete(i);
   localStorage.setItem(BGM_SEL_KEY,JSON.stringify([..._bgmSel]));
 }
+// Irreversible shuffle — reorders _bgmSel (a Set, order = insertion order).
+// Every bgm* function re-derives sel=[..._bgmSel] fresh on each call, so
+// replacing the Set here propagates automatically with no other changes
+// needed. Doesn't touch the checkbox grid — _bgmBuildGrid() always renders
+// BGM_TRACKS in its own fixed order, never _bgmSel's iteration order.
+function bgmShuffle(){
+  const arr=[..._bgmSel];
+  if(arr.length<2)return;
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  const playingTrackIdx=[..._bgmSel][_bgmIdx];
+  _bgmSel=new Set(arr);
+  const newIdx=arr.indexOf(playingTrackIdx);
+  if(newIdx>=0)_bgmIdx=newIdx;
+  _bgmPreloadNext();
+}
 function bgmSetVol(v){
   _bgmVol=parseFloat(v);
   _bgmBuf[0].volume=_bgmVol;_bgmBuf[1].volume=_bgmVol;
@@ -1607,6 +1628,24 @@ function _syncPlayBar(){
 }
 
 function _ttsAvailable(){return 'speechSynthesis' in window;}
+// Irreversible shuffle — reorders _playlist in place (also reorders what
+// plRender() shows, unlike a copy-based shuffle). Doesn't touch playback:
+// if something is currently reading, _plIdx is re-pointed at that same
+// article's new position so it keeps playing undisturbed and the "now
+// playing" highlight stays accurate; only what comes *next* changes.
+function plShuffle(){
+  if(_playlist.length<2)return;
+  const currentId=(_plPlaying&&_plIdx>=0)?_playlist[_plIdx]?.id:null;
+  for(let i=_playlist.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [_playlist[i],_playlist[j]]=[_playlist[j],_playlist[i]];
+  }
+  if(currentId!=null){
+    const newIdx=_playlist.findIndex(a=>a.id===currentId);
+    if(newIdx>=0)_plIdx=newIdx;
+  }
+  plRender();
+}
 function plPlayAll(){
   if(!_playlist.length)return;
   _plIdx=0;_plPlaying=true;
@@ -1703,7 +1742,9 @@ function plTimerCustom(){
 function _startTimer(){
   const disp=document.getElementById('plTimerDisp');
   const x=document.getElementById('plTimerX');
+  const setControls=document.getElementById('plTimerSetControls');
   disp.style.display='';x.style.display='';
+  if(setControls)setControls.style.display='none';
   _renderTimer();
   _timerTick=setInterval(()=>{
     _timerSecs--;
@@ -1719,8 +1760,10 @@ function plTimerCancel(){
   clearInterval(_timerTick);_timerTick=null;_timerSecs=0;
   const disp=document.getElementById('plTimerDisp');
   const x=document.getElementById('plTimerX');
+  const setControls=document.getElementById('plTimerSetControls');
   if(disp)disp.style.display='none';
   if(x)x.style.display='none';
+  if(setControls)setControls.style.display='';
 }
 
 function _showToast(msg){
