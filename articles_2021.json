@@ -85,6 +85,19 @@
         "source_name": "文汇报"
     },
     {
+        "id": 7,
+        "platform": "weibo",
+        "url": "",
+        "title": "肖战对时影说",
+        "author": "肖战",
+        "date": "2021-08-04",
+        "year": "2021",
+        "text": "肖战对时影说\n\n小影  \n\n写在玉骨遥的最后一天： \n \n记忆里，“人定胜天，事在人为！” \n是你说过最多的话。 \n欣赏你的执着，也敬佩你的担当！ \n \n时影， \n“莫愁前路无知己，天下谁人不识君。” \n祝好，再会！ ​​​",
+        "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20210804_肖战对时影说_01.png",
+        "archived_at": "2026-08-29",
+        "pinned": true
+    },
+    {
         "id": 1,
         "platform": "unknown",
         "url": "https://bjrbdzb.bjd.com.cn/bjrb/mobile/2021/20210507/20210507_013/content_20210507_013_2.htm#page11?digital:newspaperBjrb:AP60945431e4b054f0ea8384a2",
