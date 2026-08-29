@@ -907,7 +907,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260828-2'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260829-1'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
@@ -991,12 +991,12 @@ function renderPinned(){
   const arts=ALL.filter(a=>a.pinned).sort((a,b)=>b.date.localeCompare(a.date));
   if(!arts.length||!isDefaultView()){sec.style.display='none';wrap.innerHTML='';return;}
   sec.style.display='';
-  const rows=arts.map(a=>rowHTML(a)).join('');
+  const rows=arts.map(a=>rowHTML(a, a.year||String(a.date).slice(0,4))).join('');
   const tickers=arts.map(a=>`<span class="yg-title">${eh(a.title)}</span>`).join('');
-  wrap.innerHTML=`<div class="year-group pinned-group open" data-year="__pinned__">
+  wrap.innerHTML=`<div class="year-group pinned-group" data-year="__pinned__">
   <div class="yg-header">
     <div class="yg-row1">
-      <span class="yg-pill">−</span>
+      <span class="yg-pill">+</span>
       <span class="yg-label">肖战随笔 <span class="pin-sub">By Xiao Zhan</span></span>
       <span class="yg-count">${arts.length} 篇</span>
       <div class="yg-ticker">${tickers}</div>
@@ -1153,15 +1153,17 @@ function startTickers(container){
   });
 }
 
-function rowHTML(a){
+function rowHTML(a, dOverride){
   const pt=p(a.platform);
   const tags=(a.tags||[]).slice(0,3).map(t=>`<span class="card-tag">${eh(t)}</span>`).join('');
   const tagsInline=(a.tags||[]).slice(0,2).map(t=>`<span class="card-tag">${eh(t)}</span>`).join('');
+  const colDate=dOverride||a.date;
+  const inlineDate=dOverride||a.date.slice(5);
   return `<div class="article-row" data-id="${a.id}" data-year="${a.year}">
   <div class="row-main" tabindex="0" role="button">
     <span class="row-badge" style="background:${a.extra_links&&a.extra_links.length?_multiSrcGrad(a,pt.bg):pt.bg}">${eh(a.extra_links&&a.extra_links.length?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
-    <time class="row-date">${eh(a.date)}</time>
-    <span class="row-title"><span class="rt-inner"><span class="rt-date">${eh(a.date.slice(5))} · </span>${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
+    <time class="row-date">${eh(colDate)}</time>
+    <span class="row-title"><span class="rt-inner"><span class="rt-date">${eh(inlineDate)} · </span>${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
     <div class="row-tags-inline">${tagsInline}</div>
     <span class="row-chevron">›</span>
   </div>
