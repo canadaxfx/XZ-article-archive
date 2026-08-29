@@ -113,6 +113,19 @@
         "source_name": "中国艺术报"
     },
     {
+        "id": 36,
+        "platform": "weibo",
+        "url": "",
+        "title": "肖战对时影说",
+        "author": "肖战",
+        "date": "2023-07-20",
+        "year": "2023",
+        "text": "影\n\n你我都是芸芸众生里的一员，\n每一步的抉择都极其的可贵。\n“守护”“坚持”“珍惜”\n你做的很好。\n“人心不是笼中鸟，而是原上草，只待春风一至，便会重获新生。”\n你听，春风很快就会来了。",
+        "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20230720_肖战对时影说_01.png",
+        "archived_at": "2026-08-29",
+        "pinned": true
+    },
+    {
         "id": 35,
         "platform": "weibo",
         "url": "https://weibo.com/ttarticle/p/show?id=2309404924823158784642&mark_id=999_reallog_mark_ad%3A999%7CWeiboADNatural",
