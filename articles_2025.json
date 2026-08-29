@@ -453,6 +453,19 @@
         ]
     },
     {
+        "id": 56,
+        "platform": "weibo",
+        "url": "",
+        "title": "任少白说",
+        "author": "肖战",
+        "date": "2025-09-30",
+        "year": "2025",
+        "text": "任少白说\n\n天气渐凉，窗外的霓虹还沾着金陵城的薄雾。收拾好所有的思绪，准备出门。\n他们都笑我“识时务”，只有我知道我守着的从来都不是眼前的荣华，而是千万人能挺直腰杆说话的明天。\n想每天深夜独自穿过的街巷，路灯把影子拉得老长，倒像是有人在身后陪着。手里的情报好像已经被攥得有一些发烫。在暗夜里再走一程吧，天际的光亮正在拉开新时代的篇章。",
+        "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20250930_任少白说_01.png",
+        "archived_at": "2026-08-29",
+        "pinned": true
+    },
+    {
         "id": 36,
         "platform": "wechat",
         "url": "https://mp.weixin.qq.com/s/ph8oK0aKLCmYFnuu7NCJsQ",
