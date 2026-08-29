@@ -335,6 +335,15 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .article-rows{display:none;padding-left:8px}
 .year-group.open>.article-rows{display:block}
 
+/* ===== PINNED GROUP (肖战随笔) ===== */
+#pinnedSection{margin-bottom:22px}
+.pinned-group{border-color:rgba(var(--gold-dr),0.5);box-shadow:0 0 0 1px rgba(var(--gold-dr),0.14),0 1px 10px rgba(var(--gold-dr),0.06)}
+.pinned-group>.yg-header{background:rgba(var(--gold-dr),0.07)}
+.pinned-group .yg-pill{border-color:var(--gold)}
+.pinned-group .yg-label{font-size:1.15rem;white-space:normal;display:flex;align-items:baseline;gap:7px}
+.pinned-group .yg-label .pin-sub{font-size:.72rem;font-weight:600;letter-spacing:.12em;opacity:.6;text-transform:uppercase}
+.pinned-group .yg-label::before{content:"✎";font-size:.95rem;opacity:.7}
+
 /* ===== ARTICLE ROW ===== */
 .article-row{border-bottom:1px solid var(--row-border)}
 .article-row:first-child{border-top:1px solid var(--row-border)}
@@ -681,6 +690,11 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
     <div id="featuredGrid"></div>
   </section>
 
+  <!-- Pinned: 肖战随笔 · By Xiao Zhan -->
+  <section id="pinnedSection" style="display:none">
+    <div id="pinnedRows"></div>
+  </section>
+
   <!-- Divider -->
   <div class="list-divider" id="listDivider">
     <div class="dl"></div>
@@ -967,6 +981,45 @@ function render(){
     document.getElementById('listDivider').style.display='none';
     renderList(list,!fQ); // group by year unless searching
   }
+  renderPinned();
+}
+
+/* ===== PINNED GROUP (肖战随笔) ===== */
+function renderPinned(){
+  const sec=document.getElementById('pinnedSection');
+  const wrap=document.getElementById('pinnedRows');
+  const arts=ALL.filter(a=>a.pinned).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!arts.length||!isDefaultView()){sec.style.display='none';wrap.innerHTML='';return;}
+  sec.style.display='';
+  const rows=arts.map(a=>rowHTML(a)).join('');
+  const tickers=arts.map(a=>`<span class="yg-title">${eh(a.title)}</span>`).join('');
+  wrap.innerHTML=`<div class="year-group pinned-group open" data-year="__pinned__">
+  <div class="yg-header">
+    <div class="yg-row1">
+      <span class="yg-pill">−</span>
+      <span class="yg-label">肖战随笔 <span class="pin-sub">By Xiao Zhan</span></span>
+      <span class="yg-count">${arts.length} 篇</span>
+      <div class="yg-ticker">${tickers}</div>
+    </div>
+    <div class="yg-row2">
+      <button class="yg-add-btn" data-year="__pinned__" onclick="event.stopPropagation();plAddYear('__pinned__')">＋ Playlist · 加入朗读器</button>
+    </div>
+  </div>
+  <div class="article-rows">${rows}</div>
+</div>`;
+  const grp=wrap.querySelector('.year-group');
+  wrap.querySelector('.yg-header').addEventListener('click',()=>{
+    grp.classList.toggle('open');
+    grp.querySelector('.yg-pill').textContent=grp.classList.contains('open')?'−':'+';
+    requestAnimationFrame(()=>syncRowTickers(grp));
+  });
+  wrap.querySelectorAll('.row-main').forEach(rm=>{
+    const row=rm.closest('.article-row');
+    rm.addEventListener('click',()=>openModal(+row.dataset.id, row.dataset.year));
+  });
+  const t0=wrap.querySelector('.yg-ticker .yg-title');if(t0)t0.classList.add('vis');
+  requestAnimationFrame(()=>syncRowTickers(grp));
+  _syncYgAddBtns();
 }
 
 /* ===== FEATURED CARDS ===== */
@@ -1576,7 +1629,9 @@ function plClear(){
   _syncPlayBar();_syncModalAddBtn();_syncYgAddBtns();
 }
 function plAddYear(year){
-  const arts=getFiltered().filter(a=>String(a.year)===String(year));
+  const isPin=year==='__pinned__';
+  const lbl=isPin?'肖战随笔':year+'年';
+  const arts=isPin?getFiltered().filter(a=>a.pinned):getFiltered().filter(a=>String(a.year)===String(year));
   const allIn=arts.length>0&&arts.every(a=>_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)));
   try{
     if(allIn){
@@ -1584,12 +1639,12 @@ function plAddYear(year){
       _playlist=_playlist.filter(x=>!ids.has(x.id+':'+String(x.year)));
       if(_plIdx>=_playlist.length)_plIdx=_playlist.length-1;
       _plSave();plRender();
-      _showToast(`已移出 ${arts.length} 篇 (${year}年)`);
+      _showToast(`已移出 ${arts.length} 篇 (${lbl})`);
     } else {
       let added=0;
       arts.forEach(a=>{if(!_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year))){_playlist.push(a);added++;}});
       _plSave();plRender();
-      if(added)_showToast(`已加入 ${added} 篇 (${year}年)`);
+      if(added)_showToast(`已加入 ${added} 篇 (${lbl})`);
     }
   }finally{
     _syncModalAddBtn();_syncYgAddBtns();_syncPlayBar();
@@ -1599,7 +1654,7 @@ function _syncYgAddBtns(){
   const vis=getFiltered();
   document.querySelectorAll('.yg-add-btn').forEach(btn=>{
     const year=btn.dataset.year;
-    const arts=vis.filter(a=>String(a.year)===String(year));
+    const arts=year==='__pinned__'?vis.filter(a=>a.pinned):vis.filter(a=>String(a.year)===String(year));
     const allIn=arts.length>0&&arts.every(a=>_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)));
     btn.textContent=allIn?'✓ 已加入 · 点击移出':'＋ Playlist · 加入朗读器';
     btn.classList.toggle('in-list',allIn);
