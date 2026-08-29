@@ -552,6 +552,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer}
 .pl-item:hover{background:var(--row-hover)}
 .pl-item.pl-active{background:rgba(var(--gold-dr),.12);border-left:3px solid var(--gold)}
+.pl-item-n{flex-shrink:0;width:1.5em;text-align:right;color:#9ca3af;font-size:11px;font-variant-numeric:tabular-nums;opacity:.75}
+.pl-item.pl-active .pl-item-n{color:var(--gold);opacity:1}
 .pl-item-info{flex:1;min-width:0}
 .pl-item-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#374151;font-weight:500;font-size:12px}
 .pl-item-year{color:#9ca3af;font-size:10px}
@@ -585,7 +587,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-timer-x:hover{color:#374151}
 .pl-wakelock-note{display:none;font-size:10px;color:#9ca3af;padding:3px 10px 5px;text-align:center}
 .pl-wakelock-note.vis{display:block;color:var(--gold)}
-.pl-nav-btn{background:none;border:1px solid rgba(80,80,80,0.3);color:rgba(55,65,81,0.9);border-radius:6px;padding:2px 8px;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.pl-nav-btn{background:none;border:1px solid rgba(80,80,80,0.3);color:rgba(55,65,81,0.9);border-radius:6px;padding:1.5px 6px;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
 .pl-nav-btn:hover{background:rgba(80,80,80,0.1)}
 .pl-nav-btn:disabled{opacity:.2;cursor:default}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
@@ -776,7 +778,9 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
       <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous">⏮</button>
       <button class="pl-nav-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button>
       <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next">⏭</button>
+      <button class="pl-nav-btn" onclick="plReverse()" title="Reverse order · 倒序">⇅</button>
       <button class="pl-nav-btn" onclick="plShuffle()" title="Shuffle order">🔀</button>
+      <span id="plNum" style="font-size:10px;color:var(--txt-sub);letter-spacing:.04em;margin-left:3px;font-family:'Courier New',Courier,monospace"></span>
     </div>
     <div class="pl-ft-row">
       <label class="pl-autoremove-lbl" title="播完自动移出列表 · Auto-remove after playing"><input type="checkbox" id="plAutoRemove"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="11" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="11" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="8.5" y2="12"/><line x1="11" y1="10.5" x2="14" y2="13.5"/><line x1="14" y1="10.5" x2="11" y2="13.5"/></svg> 播完移出</label>
@@ -790,7 +794,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
   <div class="pl-bgm-sec">
     <div class="pl-bgm-grid" id="bgmGrid"></div>
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-nav-btn" id="bgmPlayBtn" onclick="bgmTogglePlay()" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button> <button class="pl-nav-btn" onclick="bgmShuffle()" title="Shuffle order" style="font-size:11px;padding:1px 4px;border-color:rgba(var(--gold-dr),.5);color:var(--gold)">🔀</button></span>
+      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-nav-btn" id="bgmPlayBtn" onclick="bgmTogglePlay()" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button> <button class="pl-nav-btn" onclick="bgmReverse()" title="Reverse order · 倒序" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⇅</button> <button class="pl-nav-btn" onclick="bgmShuffle()" title="Shuffle order" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">🔀</button> <span id="bgmNum" style="font-size:10px;color:var(--txt-sub);letter-spacing:.04em;margin-left:3px;font-family:'Courier New',Courier,monospace"></span></span>
     </div>
     <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
   </div>
@@ -1458,7 +1462,12 @@ const BGM_TRACKS=[
 ];
 const BGM_SEL_KEY='xzBgmSel';
 const BGM_VOL_KEY='xzBgmVol';
-let _bgmSel=new Set(JSON.parse(localStorage.getItem(BGM_SEL_KEY)||'[0,1,2,3,4,5,6,7]'));
+let _bgmSelRaw;
+try{_bgmSelRaw=JSON.parse(localStorage.getItem(BGM_SEL_KEY));}catch(e){}
+if(!Array.isArray(_bgmSelRaw))_bgmSelRaw=[0,1,2,3,4,5,6,7];
+// Always rebuilt in catalog order: a persisted scrambled/reversed order would make the
+// #N indicator disagree with the grid (and with what actually plays) on a fresh load.
+let _bgmSel=new Set(BGM_TRACKS.map((_,k)=>k).filter(k=>_bgmSelRaw.includes(k)));
 let _bgmIdx=0;
 let _bgmVol=parseFloat(localStorage.getItem(BGM_VOL_KEY)||'0.5');
 // Dual-buffer: swap between two elements so next track is pre-loaded before current ends
@@ -1471,10 +1480,11 @@ function _bgmStandby(){return _bgmBuf[1-_bgmCur];}
 
 function _bgmBuildGrid(){
   document.getElementById('bgmGrid').innerHTML=BGM_TRACKS.map((t,i)=>
-    `<label class="pl-bgm-item"><input type="checkbox" ${_bgmSel.has(i)?'checked':''} onchange="bgmToggle(${i},this.checked)">${t.name}</label>`
+    `<label class="pl-bgm-item"><input type="checkbox" ${_bgmSel.has(i)?'checked':''} onchange="bgmToggle(${i},this.checked)"><span style="opacity:.5;font-variant-numeric:tabular-nums">${i+1}.</span> ${t.name}</label>`
   ).join('');
 }
 _bgmBuildGrid();
+_syncBgmBtn();
 
 function _bgmPreloadNext(){
   const sel=[..._bgmSel];if(!sel.length)return;
@@ -1483,8 +1493,18 @@ function _bgmPreloadNext(){
   if(sb.getAttribute('data-src')!==url){sb.src=url;sb.setAttribute('data-src',url);sb.load();}
 }
 function bgmToggle(i,on){
+  const src=_bgmActive().getAttribute('data-src')||'';
+  const curCat=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;  // track playing/loaded right now
   on?_bgmSel.add(i):_bgmSel.delete(i);
+  // Rebuild in catalog order — otherwise Set.delete()+add() sends a re-checked track to
+  // the end of the play order, which then desyncs _bgmIdx / the #N indicator.
+  _bgmSel=new Set(BGM_TRACKS.map((_,k)=>k).filter(k=>_bgmSel.has(k)));
   localStorage.setItem(BGM_SEL_KEY,JSON.stringify([..._bgmSel]));
+  // Re-anchor _bgmIdx to wherever the playing track sits now.
+  const sel=[..._bgmSel];
+  const ni=curCat>=0?sel.indexOf(curCat):-1;
+  _bgmIdx=ni>=0?ni:Math.min(Math.max(_bgmIdx,0),Math.max(0,sel.length-1));
+  _bgmPreloadNext();_syncBgmBtn();
 }
 // Irreversible shuffle — reorders _bgmSel (a Set, order = insertion order).
 // Every bgm* function re-derives sel=[..._bgmSel] fresh on each call, so
@@ -1494,15 +1514,33 @@ function bgmToggle(i,on){
 function bgmShuffle(){
   const arr=[..._bgmSel];
   if(arr.length<2)return;
+  const src=_bgmActive().getAttribute('data-src')||'';
+  const curCat=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;  // -1 = nothing playing/loaded yet
   for(let i=arr.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [arr[i],arr[j]]=[arr[j],arr[i]];
   }
-  const playingTrackIdx=[..._bgmSel][_bgmIdx];
   _bgmSel=new Set(arr);
-  const newIdx=arr.indexOf(playingTrackIdx);
-  if(newIdx>=0)_bgmIdx=newIdx;
-  _bgmPreloadNext();
+  // playing/paused: keep that track current at its new spot. Not started: start the
+  // next play from the TOP of the shuffled order (idx 0), not the old first track.
+  _bgmIdx=curCat>=0?Math.max(0,arr.indexOf(curCat)):0;
+  _bgmPreloadNext();_syncBgmBtn();
+}
+// 倒序 — deterministic reverse of the BGM rotation (press again to undo). Session-only,
+// like bgmShuffle — NOT persisted, so a reload always starts in catalog order and the
+// #N indicator can't come back desynced. Keeps the current track current at its mirrored
+// spot; doesn't interrupt playback (only changes what plays next).
+function bgmReverse(){
+  const arr=[..._bgmSel];
+  if(arr.length<2)return;
+  const src=_bgmActive().getAttribute('data-src')||'';
+  const curCat=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;  // -1 = nothing playing/loaded yet
+  arr.reverse();
+  _bgmSel=new Set(arr);
+  // playing/paused: keep that track current at its mirrored spot. Not started: start the
+  // next play from the TOP of the reversed order (idx 0), not the old first track.
+  _bgmIdx=curCat>=0?Math.max(0,arr.indexOf(curCat)):0;
+  _bgmPreloadNext();_syncBgmBtn();
 }
 function bgmSetVol(v){
   _bgmVol=parseFloat(v);
@@ -1572,6 +1610,16 @@ function bgmTogglePlay(){
 function _syncBgmBtn(){
   const btn=document.getElementById('bgmPlayBtn');
   if(btn)btn.textContent=_bgmActive().paused?'▶':'⏸';
+  const num=document.getElementById('bgmNum');
+  if(num){
+    // Derive the current track from the audio actually loaded in the active buffer, so
+    // #N can't drift from what you hear when _bgmSel is reordered. Falls back to the
+    // _bgmSel[_bgmIdx] slot only when nothing is loaded yet (before first play).
+    const src=_bgmActive().getAttribute('data-src')||'';
+    let cur=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;
+    if(cur<0){const sel=[..._bgmSel];cur=sel.length?sel[_bgmIdx%sel.length]:-1;}
+    num.textContent=cur<0?'':('#'+(cur+1)+'/'+BGM_TRACKS.length);   // #3/8 — matches the "3." grid prefix
+  }
 }
 _bgmBuf.forEach(a=>{
   a.addEventListener('ended',()=>{if(a===_bgmActive()){_bgmNextTrack();}});
@@ -1598,6 +1646,8 @@ function _plSyncBadge(){
   b.textContent=n;b.style.display=n?'block':'none';
   document.getElementById('plCntBadge').textContent=n;
   document.getElementById('plPlayAllBtn').disabled=n===0;
+  const num=document.getElementById('plNum');
+  if(num)num.textContent=n?('#'+((_plIdx<0?0:_plIdx)+1)+'/'+n):'';
 }
 
 function plRender(){
@@ -1608,6 +1658,7 @@ function plRender(){
   }
   list.innerHTML=_playlist.map((a,i)=>`
     <div class="pl-item${i===_plIdx?' pl-active':''}" onclick="plJump(${i})">
+      <span class="pl-item-n">${i+1}</span>
       <div class="pl-item-info">
         <div class="pl-item-title">${eh(a.title)}</div>
         <div class="pl-item-year">${eh(a.author||'')} · ${eh(a.year||'')}</div>
@@ -1715,6 +1766,8 @@ function _syncPlayBar(){
   const playBtn=document.getElementById('plPlayAllBtn');
   const isActive=_plPlaying&&!_ttsPaused;
   if(playBtn){playBtn.textContent=isActive?'⏸':'▶';playBtn.classList.toggle('playing',isActive);}
+  const num=document.getElementById('plNum');
+  if(num)num.textContent=_playlist.length?('#'+((_plIdx<0?0:_plIdx)+1)+'/'+_playlist.length):'';
 }
 
 function _ttsAvailable(){return 'speechSynthesis' in window;}
@@ -1723,6 +1776,13 @@ function _ttsAvailable(){return 'speechSynthesis' in window;}
 // if something is currently reading, _plIdx is re-pointed at that same
 // article's new position so it keeps playing undisturbed and the "now
 // playing" highlight stays accurate; only what comes *next* changes.
+function plReverse(){
+  if(_playlist.length<2)return;
+  _playlist.reverse();                       // deterministic: press again to undo
+  if(_plIdx>=0)_plIdx=_playlist.length-1-_plIdx;   // keep the now-playing item current, just at its mirrored spot
+  _plSave();
+  plRender();
+}
 function plShuffle(){
   if(_playlist.length<2)return;
   const currentId=(_plPlaying&&_plIdx>=0)?_playlist[_plIdx]?.id:null;
@@ -1749,8 +1809,10 @@ function plJump(i){
   _loadAndPlay(i);
   bgmPlay();_requestWakeLock();
 }
-function plPrev(){if(_plIdx>0){_plIdx--;_loadAndPlay(_plIdx);}}
-function plNext(){if(_plIdx<_playlist.length-1){_plIdx++;_loadAndPlay(_plIdx);}}
+// ⏮ / ⏭ wrap around the queue (like the BGM buttons). Auto-advance at the end of a
+// track still stops — this loop only applies to an explicit button press.
+function plPrev(){if(!_playlist.length)return;_plIdx=((_plIdx<=0?_playlist.length:_plIdx)-1);_loadAndPlay(_plIdx);}
+function plNext(){if(!_playlist.length)return;_plIdx=(_plIdx+1)%_playlist.length;_loadAndPlay(_plIdx);}
 function plTogglePlay(){
   if(!_plPlaying){
     if(_plIdx<0)_plIdx=0;
