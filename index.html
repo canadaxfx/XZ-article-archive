@@ -337,12 +337,18 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 
 /* ===== PINNED GROUP (肖战随笔) ===== */
 #pinnedSection{margin-bottom:22px}
-.pinned-group{border-color:rgba(var(--gold-dr),0.5);box-shadow:0 0 0 1px rgba(var(--gold-dr),0.14),0 1px 10px rgba(var(--gold-dr),0.06)}
+.pinned-group{border:1px solid rgba(var(--gold-rgb),0.75);box-shadow:inset 0 0 0 3px var(--card-bg),inset 0 0 0 4px rgba(var(--gold-rgb),0.38)}
 .pinned-group>.yg-header{background:rgba(var(--gold-dr),0.07)}
 .pinned-group .yg-pill{border-color:var(--gold)}
 .pinned-group .yg-label{font-size:1.15rem;white-space:normal;display:flex;align-items:baseline;gap:7px}
 .pinned-group .yg-label .pin-sub{font-size:.72rem;font-weight:600;letter-spacing:.12em;opacity:.6;text-transform:uppercase}
 .pinned-group .yg-label::before{content:"✎";font-size:.95rem;opacity:.7}
+/* pinned: title (肖战随笔) owns row 1; count + flashing ticker share row 2 (label runs long, esp. on mobile) */
+.pinned-group .yg-row1{flex-wrap:wrap;row-gap:3px}
+.pinned-group .yg-label{flex-wrap:wrap}
+.pinned-group .pin-row2{display:flex;align-items:center;gap:10px;margin-top:4px}
+.pinned-group .pin-row2 .yg-count{flex:none}
+.pinned-group .pin-ticker{flex:1;min-width:0}
 
 /* ===== ARTICLE ROW ===== */
 .article-row{border-bottom:1px solid var(--row-border)}
@@ -989,7 +995,7 @@ function renderPinned(){
   const sec=document.getElementById('pinnedSection');
   const wrap=document.getElementById('pinnedRows');
   const arts=ALL.filter(a=>a.pinned).sort((a,b)=>b.date.localeCompare(a.date));
-  if(!arts.length||!isDefaultView()){sec.style.display='none';wrap.innerHTML='';return;}
+  if(!arts.length||!isDefaultView()){sec.style.display='none';wrap.innerHTML='';_stopPinTicker();return;}
   sec.style.display='';
   const rows=arts.map(a=>rowHTML(a, a.year||String(a.date).slice(0,4))).join('');
   const tickers=arts.map(a=>`<span class="yg-title">${eh(a.title)}</span>`).join('');
@@ -998,8 +1004,10 @@ function renderPinned(){
     <div class="yg-row1">
       <span class="yg-pill">+</span>
       <span class="yg-label">肖战随笔 <span class="pin-sub">By Xiao Zhan</span></span>
+    </div>
+    <div class="pin-row2">
       <span class="yg-count">${arts.length} 篇</span>
-      <div class="yg-ticker">${tickers}</div>
+      <div class="yg-ticker pin-ticker">${tickers}</div>
     </div>
     <div class="yg-row2">
       <button class="yg-add-btn" data-year="__pinned__" onclick="event.stopPropagation();plAddYear('__pinned__')">＋ Playlist · 加入朗读器</button>
@@ -1017,9 +1025,31 @@ function renderPinned(){
     const row=rm.closest('.article-row');
     rm.addEventListener('click',()=>openModal(+row.dataset.id, row.dataset.year));
   });
-  const t0=wrap.querySelector('.yg-ticker .yg-title');if(t0)t0.classList.add('vis');
   requestAnimationFrame(()=>syncRowTickers(grp));
+  _startPinTicker();
   _syncYgAddBtns();
+}
+
+/* rotating title ticker for the pinned box — isolated from startTickers()/_tickerIds */
+let _pinTickerId=null;
+function _stopPinTicker(){if(_pinTickerId){clearInterval(_pinTickerId);_pinTickerId=null;}}
+function _startPinTicker(){
+  _stopPinTicker();
+  const ticker=document.querySelector('#pinnedRows .pin-ticker');
+  if(!ticker)return;
+  const spans=Array.from(ticker.querySelectorAll('.yg-title'));
+  if(!spans.length)return;
+  spans.forEach(s=>s.classList.remove('vis'));
+  spans[0].classList.add('vis');
+  if(spans.length===1)return;
+  let cur=0;
+  _pinTickerId=setInterval(()=>{
+    const grp=ticker.closest('.year-group');
+    if(grp&&grp.classList.contains('open'))return;
+    spans[cur].classList.remove('vis');
+    cur=(cur+1)%spans.length;
+    setTimeout(()=>spans[cur].classList.add('vis'),300);
+  },3200);
 }
 
 /* ===== FEATURED CARDS ===== */
