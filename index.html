@@ -564,10 +564,10 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-nav-btn.playing{background:rgba(var(--gold-dr),.15)}
 .pl-clear-btn{padding:2px 9px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;cursor:pointer;font-size:12px;flex-shrink:0}
 .pl-ft-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;row-gap:4px}
-.pl-autoremove-lbl{display:flex;align-items:center;gap:4px;font-size:12px;color:#6b7280;cursor:pointer;flex:1}
+.pl-autoremove-lbl{display:flex;align-items:center;gap:4px;font-size:12px;color:#6b7280;cursor:pointer;flex:0 1 auto}
 .pl-autoremove-lbl input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
 .pl-bgm-sec{padding:8px 10px 6px;border-top:2px solid rgba(var(--gold-dr),.35);flex-shrink:0}
-.pl-bgm-hd{display:flex;align-items:center;margin-top:6px;font-size:12px;font-weight:600;color:#374151}
+.pl-bgm-hd{display:flex;align-items:center;gap:7px;margin-top:6px;font-size:12px;font-weight:600;color:#374151}
 .pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:4px}
 .pl-vol-row input[type=range]{width:72px;height:3px;cursor:pointer;accent-color:var(--gold)}
 .pl-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
@@ -590,6 +590,22 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-nav-btn{background:none;border:1.5px solid rgba(80,80,80,0.5);color:rgba(55,65,81,1);border-radius:6px;padding:1.5px 6px;font-size:11.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
 .pl-nav-btn:hover{background:rgba(80,80,80,0.13)}
 .pl-nav-btn:disabled{opacity:.2;cursor:default}
+.pl-trow{display:flex;align-items:center;gap:7px}
+.pl-tbar{display:flex;align-items:stretch;flex:1 1 auto;min-width:0;border:1.5px solid rgba(var(--gold-dr),.5);border-radius:8px;overflow:hidden;background:var(--surface)}
+.pl-tbtn{flex:1 1 0;min-width:0;display:flex;align-items:center;justify-content:center;padding:5px 0;background:none;border:none;border-left:1px solid rgba(var(--gold-dr),.22);color:#1f2937;cursor:pointer;transition:background .12s,color .12s}
+.pl-tbtn:first-child{border-left:none}
+.pl-tbtn.tb-div{border-left-width:2px;border-left-color:rgba(var(--gold-dr),.45)}
+.pl-tbtn:hover:not(:disabled){background:rgba(var(--gold-dr),.1);color:var(--gold)}
+.pl-tbtn:active:not(:disabled){background:rgba(var(--gold-dr),.2)}
+.pl-tbtn:disabled{opacity:.28;cursor:default}
+.pl-tbtn svg{width:14px;height:14px;display:block;pointer-events:none}
+.pl-tbtn .ic-pause{display:none}
+.pl-tbtn.playing{background-color:var(--gold);color:#fff}
+.pl-tbtn.playing:hover{filter:brightness(1.08)}
+.pl-tbtn.playing .ic-play{display:none}
+.pl-tbtn.playing .ic-pause{display:block}
+.pl-tnum{flex-shrink:0;white-space:nowrap;font-size:10px;color:#9ca3af;letter-spacing:.03em;font-family:'Courier New',Courier,monospace;font-variant-numeric:tabular-nums}
+.pl-tnum-mid{flex:1 1 auto;text-align:center}
 .pl-modal-add{padding:3px 8px;background:rgba(var(--gold-dr),.1);color:var(--gold);border:1px solid rgba(var(--gold-dr),.5);border-radius:10px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:background .15s}
 .pl-modal-add:hover,.pl-modal-add.in-list{background:rgba(var(--gold-dr),.22);font-weight:600}
 .yg-add-btn{background:var(--gold);border:1px solid var(--gold);color:#fff;border-radius:10px;font-size:11px;font-weight:600;padding:4px 12px;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:opacity .15s,background .15s;letter-spacing:.03em}
@@ -773,17 +789,19 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
   </div>
   <div class="pl-list" id="plList"><div style="padding:18px 12px;color:#9ca3af;font-size:12px;text-align:center">列表为空<br>在文章中点击「＋ Playlist」加入朗读器队列</div></div>
   <div class="pl-panel-ft">
-    <div class="pl-ft-row">
+    <div class="pl-trow">
       <span class="pl-read-lbl">📢 朗读</span>
-      <button class="pl-nav-btn" id="plPrevBtn" onclick="plPrev()" title="Previous">⏮</button>
-      <button class="pl-nav-btn" id="plPlayAllBtn" onclick="plTogglePlay()" disabled>▶</button>
-      <button class="pl-nav-btn" id="plNextBtn" onclick="plNext()" title="Next">⏭</button>
-      <button class="pl-nav-btn" onclick="plReverse()" title="Reverse order · 倒序">⇅</button>
-      <button class="pl-nav-btn" onclick="plShuffle()" title="Shuffle order">🔀</button>
-      <span id="plNum" style="font-size:10px;color:var(--txt-sub);letter-spacing:.04em;margin-left:auto;font-family:'Courier New',Courier,monospace"></span>
+      <div class="pl-tbar">
+        <button class="pl-tbtn" id="plPrevBtn" onclick="plPrev()" title="上一篇 Previous" aria-label="Previous"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.2h1.7v9.6H5z"/><path d="M13.2 3.2v9.6L6.8 8z"/></svg></button>
+        <button class="pl-tbtn pl-tbtn-play" id="plPlayAllBtn" onclick="plTogglePlay()" title="播放 / 暂停 Play / Pause" aria-label="Play / Pause" disabled><svg class="ic ic-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 2.9 13.4 8 5 13.1z"/></svg><svg class="ic ic-pause" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4.6 3H7v10H4.6zM9 3h2.4v10H9z"/></svg></button>
+        <button class="pl-tbtn" id="plNextBtn" onclick="plNext()" title="下一篇 Next" aria-label="Next"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.3 3.2H11v9.6H9.3z"/><path d="M2.8 3.2v9.6L9.2 8z"/></svg></button>
+        <button class="pl-tbtn tb-div" onclick="plReverse()" title="倒序 Reverse order" aria-label="Reverse order"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5V3.5M2 6l2.5-2.5L7 6M11.5 3.5v9M9 10l2.5 2.5L14 10"/></svg></button>
+        <button class="pl-tbtn" onclick="plShuffle()" title="随机排序 Shuffle" aria-label="Shuffle"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H5c3.3 0 3.7 7 7 7h1.5M2.5 11.5H5c1.4 0 2.2-1.1 3-2.4M13.5 4.5H12M11.9 2.8 14 4.5l-2.1 1.7M13.5 11.5H12M11.9 9.8 14 11.5l-2.1 1.7"/></svg></button>
+      </div>
     </div>
     <div class="pl-ft-row">
       <label class="pl-autoremove-lbl" title="播完自动移出列表 · Auto-remove after playing"><input type="checkbox" id="plAutoRemove"><svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="2.5" cy="4" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="4" x2="11" y2="4"/><circle cx="2.5" cy="8" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="8" x2="11" y2="8"/><circle cx="2.5" cy="12" r="1" fill="currentColor" stroke="none"/><line x1="5" y1="12" x2="8.5" y2="12"/><line x1="11" y1="10.5" x2="14" y2="13.5"/><line x1="14" y1="10.5" x2="11" y2="13.5"/></svg> 播完移出</label>
+      <span class="pl-tnum pl-tnum-mid" id="plNum"></span>
       <button class="pl-clear-btn" onclick="plClear()">🗑️ 清空</button>
     </div>
   </div>
@@ -794,9 +812,16 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
   <div class="pl-bgm-sec">
     <div class="pl-bgm-grid" id="bgmGrid"></div>
     <div class="pl-bgm-hd">
-      <span>🎵 背景音乐 <button class="pl-nav-btn" onclick="bgmPrev()" title="Previous track" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏮</button> <button class="pl-nav-btn" id="bgmPlayBtn" onclick="bgmTogglePlay()" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">▶</button> <button class="pl-nav-btn" onclick="bgmNext()" title="Next track" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⏭</button> <button class="pl-nav-btn" onclick="bgmReverse()" title="Reverse order · 倒序" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">⇅</button> <button class="pl-nav-btn" onclick="bgmShuffle()" title="Shuffle order" style="border-color:rgba(var(--gold-dr),.5);color:var(--gold)">🔀</button> <span id="bgmNum" style="font-size:10px;color:var(--txt-sub);letter-spacing:.04em;margin-left:3px;font-family:'Courier New',Courier,monospace"></span></span>
+      <span class="pl-read-lbl">🎵 音乐</span>
+      <div class="pl-tbar">
+        <button class="pl-tbtn" onclick="bgmPrev()" title="上一首 Previous track" aria-label="Previous track"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.2h1.7v9.6H5z"/><path d="M13.2 3.2v9.6L6.8 8z"/></svg></button>
+        <button class="pl-tbtn pl-tbtn-play" id="bgmPlayBtn" onclick="bgmTogglePlay()" title="播放 / 暂停 Play / Pause" aria-label="Play / Pause"><svg class="ic ic-play" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 2.9 13.4 8 5 13.1z"/></svg><svg class="ic ic-pause" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M4.6 3H7v10H4.6zM9 3h2.4v10H9z"/></svg></button>
+        <button class="pl-tbtn" onclick="bgmNext()" title="下一首 Next track" aria-label="Next track"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.3 3.2H11v9.6H9.3z"/><path d="M2.8 3.2v9.6L9.2 8z"/></svg></button>
+        <button class="pl-tbtn tb-div" onclick="bgmReverse()" title="倒序 Reverse order" aria-label="Reverse order"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5V3.5M2 6l2.5-2.5L7 6M11.5 3.5v9M9 10l2.5 2.5L14 10"/></svg></button>
+        <button class="pl-tbtn" onclick="bgmShuffle()" title="随机排序 Shuffle" aria-label="Shuffle"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5H5c3.3 0 3.7 7 7 7h1.5M2.5 11.5H5c1.4 0 2.2-1.1 3-2.4M13.5 4.5H12M11.9 2.8 14 4.5l-2.1 1.7M13.5 11.5H12M11.9 9.8 14 11.5l-2.1 1.7"/></svg></button>
+      </div>
     </div>
-    <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"></div>
+    <div class="pl-vol-row"><span>🔊</span><input type="range" id="bgmVol" min="0" max="1" step="0.01" value="0.5" oninput="bgmSetVol(this.value)"><span class="pl-tnum pl-tnum-mid" id="bgmNum"></span></div>
   </div>
   <div class="pl-timer-sec">
     <div class="pl-timer-row">
@@ -1609,7 +1634,7 @@ function bgmTogglePlay(){
 }
 function _syncBgmBtn(){
   const btn=document.getElementById('bgmPlayBtn');
-  if(btn)btn.textContent=_bgmActive().paused?'▶':'⏸';
+  if(btn)btn.classList.toggle('playing',!_bgmActive().paused);
   const num=document.getElementById('bgmNum');
   if(num){
     // Derive the current track from the audio actually loaded in the active buffer, so
@@ -1765,7 +1790,7 @@ function _syncPlayBar(){
   const next=document.getElementById('plNextBtn');
   const playBtn=document.getElementById('plPlayAllBtn');
   const isActive=_plPlaying&&!_ttsPaused;
-  if(playBtn){playBtn.textContent=isActive?'⏸':'▶';playBtn.classList.toggle('playing',isActive);}
+  if(playBtn){playBtn.classList.toggle('playing',isActive);}
   const num=document.getElementById('plNum');
   if(num)num.textContent=_playlist.length?('#'+((_plIdx<0?0:_plIdx)+1)+'/'+_playlist.length):'';
 }
