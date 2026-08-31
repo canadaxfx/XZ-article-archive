@@ -1850,6 +1850,11 @@ function plTogglePlay(){
   } else if(_ttsPaused){
     speechSynthesis.resume();_ttsPaused=false;_bgmActive().play().catch(()=>{});
     _plPlaying=true;_requestWakeLock();
+  } else {
+    // "playing" flag is set but TTS is neither speaking nor paused (e.g. it failed to
+    // start, or the article had no text) — a plain click here used to do nothing,
+    // leaving the button stuck on ⏸. Treat it as stop so it always reverts to ▶.
+    plStop();return;
   }
   _syncPlayBar();
 }
