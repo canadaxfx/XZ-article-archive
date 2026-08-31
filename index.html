@@ -1329,6 +1329,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 let _ttsPaused=false;
 let _ttsGen=0;
 let _ttsKeepalive=null;
+let _ttsWatchdog=null;
 const _ttsBtn=document.getElementById('modalTtsBtn');
 const _ttsNotice=document.getElementById('ttsIosNotice');
 const _isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
@@ -1346,6 +1347,7 @@ function _startTtsKeepalive(){
 
 function _ttsReset(){
   _stopTtsKeepalive();
+  if(_ttsWatchdog){clearTimeout(_ttsWatchdog);_ttsWatchdog=null;}
   if(_plGapTimer){clearTimeout(_plGapTimer);_plGapTimer=null;}
   _ttsGen++;
   speechSynthesis.cancel();
@@ -1371,7 +1373,7 @@ function _ttsStart(onDone, text){
   if(!chunks.length){_ttsReset();if(typeof onDone==='function')onDone();return;}
   // Sliding window of 2: always keep next chunk pre-queued without flooding mobile TTS queue
   const voice=_ttsGetVoice();
-  let queued=0,retrying=false;
+  let queued=0,retrying=false,_spoke=false;
   function speakNext(){
     if(queued>=chunks.length||_ttsGen!==myGen)return;
     const idx=queued++;
@@ -1379,6 +1381,7 @@ function _ttsStart(onDone, text){
     u.lang='zh-CN';u.rate=0.9;
     if(voice)u.voice=voice;
     const isLast=idx===chunks.length-1;
+    u.onstart=()=>{if(_ttsGen!==myGen)return;_spoke=true;if(_ttsWatchdog){clearTimeout(_ttsWatchdog);_ttsWatchdog=null;}};
     u.onend=()=>{if(_ttsGen!==myGen)return;if(isLast){_ttsReset();if(typeof onDone==='function')onDone();return;}speakNext();};
     u.onerror=(e)=>{
       if(_ttsGen!==myGen||retrying)return;
@@ -1397,6 +1400,15 @@ function _ttsStart(onDone, text){
   // cancel() is async on some browsers — small delay prevents synthesis-failed cascade
   setTimeout(()=>{if(_ttsGen===myGen){speakNext();speakNext();}},250);
   _startTtsKeepalive();
+  // Engine watchdog: Chrome's speechSynthesis sometimes wedges — it accepts the
+  // utterances but never vocalizes and fires no onstart/onerror/onend, leaving the
+  // button stuck on ⏹ forever. If nothing has actually begun ~3.5s in (and it isn't
+  // just queued), bail out cleanly and tell the user what fixes it.
+  _ttsWatchdog=setTimeout(()=>{
+    if(_ttsGen!==myGen||_spoke||speechSynthesis.speaking||speechSynthesis.pending)return;
+    if(_plPlaying)plStop();else _ttsReset();
+    _showToast('⚠️ 语音引擎卡住，请重启浏览器 · TTS engine stuck — restart your browser');
+  },3500);
 }
 
 _ttsBtn.addEventListener('click',()=>{
