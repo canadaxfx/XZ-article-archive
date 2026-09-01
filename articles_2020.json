@@ -171,7 +171,20 @@
             "https://assets.xz-studio-gallery.com/articles/20200109_本刊独家专访_肖战_北京_2020年_北京广播电视台春节联欢_03.png",
             "https://assets.xz-studio-gallery.com/articles/20200109_本刊独家专访_肖战_北京_2020年_北京广播电视台春节联欢_04.png"
         ],
-        "source_name": "北广人物"
+        "source_name": "北广人物",
+        "extra_links": [
+            {
+                "label": "采访录音片段",
+                "url": "https://mp.weixin.qq.com/s/_QTawRuBbyLM9W0sPaOy2A"
+            }
+        ],
+        "audio": [
+            {
+                "label": "本刊独家专访 · 采访录音（北广人物）",
+                "url": "https://assets.xz-studio-gallery.com/articles/audio/20200109_本刊独家专访_肖战_北京_2020年_北京广播电视台春节联欢.m4a",
+                "duration": "01:08"
+            }
+        ]
     },
     {
         "id": 10,
