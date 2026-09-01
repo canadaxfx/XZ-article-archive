@@ -174,8 +174,12 @@
         "source_name": "北广人物",
         "extra_links": [
             {
-                "label": "采访录音片段",
+                "label": "采访录音片段1",
                 "url": "https://mp.weixin.qq.com/s/_QTawRuBbyLM9W0sPaOy2A"
+            },
+            {
+                "label": "采访录音片段2",
+                "url": "https://mp.weixin.qq.com/s/Nci7gqOnGObt1RoCII7G4Q"
             }
         ],
         "audio": [
@@ -183,6 +187,16 @@
                 "label": "本刊独家专访 · 采访录音（北广人物）",
                 "url": "https://assets.xz-studio-gallery.com/articles/audio/20200109_本刊独家专访_肖战_北京_2020年_北京广播电视台春节联欢.m4a",
                 "duration": "01:08"
+            }
+        ],
+        "video": [
+            {
+                "label": "如梦之梦剧透 · 迷雾起 断崖现（引用此专访）",
+                "url": "https://assets.xz-studio-gallery.com/articles/video/20200109_本刊独家专访_肖战_北京_2020年_北京广播电视台春节联欢.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/articles/video/20200109_本刊独家专访_肖战_北京_2020年_北京广播电视台春节联欢_poster.jpg",
+                "width": 720,
+                "height": 1094,
+                "duration": "00:33"
             }
         ]
     },
