@@ -466,6 +466,13 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-audio-name{font-size:13px;font-weight:600;color:var(--text,#2b2b2b);margin-bottom:8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .modal-audio-dur{font-weight:400;color:#9a9a9a;font-size:12px}
 .modal-audio-item audio{width:100%;height:38px;display:block;border-radius:8px}
+.modal-video-item{background:var(--surface-m,var(--surface));border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:10px 12px}
+.mv-wrap{text-align:center}
+.mv-frame{position:relative;display:inline-block;max-width:100%;line-height:0;cursor:pointer;border-radius:8px;overflow:hidden;background:#000}
+.mv-frame .mv-poster{display:block;max-height:320px;max-width:100%;width:auto;height:auto;object-fit:contain}
+.mv-frame .mv-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;padding-left:3px;pointer-events:none;transition:background .15s}
+.mv-frame:hover .mv-play{background:rgba(var(--gold-rgb),.92)}
+.modal-video-item video{display:block;margin:0 auto;max-height:320px;max-width:100%;width:auto;border-radius:8px;background:#000}
 .modal-archived{margin-top:20px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:#bbb;text-align:center}
 @media(max-width:600px){.modal-body{padding:16px 16px 24px}.modal-src{margin-left:0}}
 
@@ -1125,7 +1132,7 @@ function cardHTML(a){
     <div class="card-hero-title">${eh(a.title)}</div>
   </div>
   <div class="card-body">
-    <div class="card-meta"><span class="platform-badge" style="background:${a.extra_links&&a.extra_links.length?_multiSrcGrad(a,pt.bg):pt.bg}">${eh(a.extra_links&&a.extra_links.length?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span><span class="meta-author">${eh(a.author)}</span><span class="meta-dot">·</span><span>${eh(a.date)}</span></div>
+    <div class="card-meta"><span class="platform-badge" style="background:${_isMultiSrc(a)?_srcGrad(_articleSources(a),pt.bg):pt.bg}">${eh(_isMultiSrc(a)?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span><span class="meta-author">${eh(a.author)}</span><span class="meta-dot">·</span><span>${eh(a.date)}</span></div>
     <p class="card-excerpt">${eh(excerpt)}<span class="card-arrow">›</span></p>
     <div class="card-footer"><div class="card-tags">${tags}</div></div>
   </div>
@@ -1240,7 +1247,7 @@ function rowHTML(a, dOverride){
   const inlineDate=dOverride||a.date.slice(5);
   return `<div class="article-row" data-id="${a.id}" data-year="${a.year}">
   <div class="row-main" tabindex="0" role="button">
-    <span class="row-badge" style="background:${a.extra_links&&a.extra_links.length?_multiSrcGrad(a,pt.bg):pt.bg}">${eh(a.extra_links&&a.extra_links.length?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
+    <span class="row-badge" style="background:${_isMultiSrc(a)?_srcGrad(_articleSources(a),pt.bg):pt.bg}">${eh(_isMultiSrc(a)?'多来源':a.platform==='unknown'&&a.source_name?a.source_name:pt.label)}</span>
     <time class="row-date">${eh(colDate)}</time>
     <span class="row-title"><span class="rt-inner"><span class="rt-date">${eh(inlineDate)} · </span>${eh(a.title)}${a.author?'<span class="rt-author"> · '+eh(a.author)+'</span>':''}</span></span>
     <div class="row-tags-inline">${tagsInline}</div>
@@ -1261,23 +1268,44 @@ function _platColorFromUrl(url){
   if(url.includes('mp.weixin.qq.com')||url.includes('weixin.qq.com')) return PLAT.wechat.bg;
   return 'rgba(70,70,70,0.85)';
 }
-function _multiSrcGrad(a,platColor){
-  const colors=[platColor||'rgba(70,70,70,0.85)'];
-  (a.extra_links||[]).forEach(l=>{if(l.url) colors.push(_platColorFromUrl(l.url));});
-  const step=100/colors.length;
-  const stops=colors.map((c,i)=>c+' '+(i*step)+'% '+((i+1)*step)+'%').join(',');
-  return 'linear-gradient(135deg,'+stops+')';
+// An extra_link with `attached:true` is related material, NOT a source of the article.
+// Absent/false => it's a source link (default; keeps every pre-existing entry a source).
+function _articleSources(a){
+  const s=[];
+  if(a.url) s.push({label:_platLabel(a)+' 原文',url:a.url});
+  (a.extra_links||[]).forEach(l=>{if(l.url&&!l.attached) s.push(l);});
+  return s;
 }
+function _articleAttached(a){return (a.extra_links||[]).filter(l=>l.url&&l.attached);}
+function _isMultiSrc(a){return _articleSources(a).length>1;}
+
+function _srcGrad(links,firstColor){
+  const colors=[firstColor||'rgba(70,70,70,0.85)'];
+  links.slice(1).forEach(l=>colors.push(_platColorFromUrl(l.url)));
+  const step=100/colors.length;
+  return 'linear-gradient(135deg,'+colors.map((c,i)=>c+' '+(i*step)+'% '+((i+1)*step)+'%').join(',')+')';
+}
+
 function _buildArticleSrcBtn(a,platColor){
-  if(!a.url&&!(a.extra_links&&a.extra_links.length)) return '';
-  const links=[];
-  if(a.url) links.push({label:_platLabel(a)+' 原文',url:a.url});
-  (a.extra_links||[]).forEach(l=>{if(l.url) links.push(l);});
-  if(!links.length) return '';
-  // Single link: plain light .modal-src pill, same as the Snapshots button (no dark platform-colour override)
-  if(links.length===1) return '<a class="modal-src" href="'+eh(links[0].url)+'" target="_blank" rel="noopener">'+eh(links[0].label)+' ↗</a>';
-  const grad=_multiSrcGrad(a,platColor);
-  return '<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(links))+')" style="background:'+grad+';color:#fff;border-color:transparent">多来源 🔗</button>';
+  const src=_articleSources(a), att=_articleAttached(a);
+  let html='';
+  // ── source button(s): keep the platform-badge styling ──
+  if(src.length===1){
+    // colour by a.url's platform, or (when the lone source is an extra_link) by that link's platform
+    const col=a.url?platColor:_platColorFromUrl(src[0].url);
+    const cs=col?` style="background:${col};color:#fff;border-color:transparent"`:'';
+    html+='<a class="modal-src" href="'+eh(src[0].url)+'" target="_blank" rel="noopener"'+cs+'>'+eh(src[0].label)+' ↗</a>';
+  } else if(src.length>1){
+    const grad=_srcGrad(src, a.url?platColor:_platColorFromUrl(src[0].url));
+    html+='<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(src))+')" style="background:'+grad+';color:#fff;border-color:transparent">多来源 ('+src.length+') 🔗</button>';
+  }
+  // ── attached button: plain light .modal-src pill (not a source) ──
+  if(att.length===1){
+    html+='<a class="modal-src" href="'+eh(att[0].url)+'" target="_blank" rel="noopener">'+eh(att[0].label)+' ↗</a>';
+  } else if(att.length>1){
+    html+='<button class="modal-src" onclick="_showArticleLinksPop(this,'+eh(JSON.stringify(att))+')">附加链接 ('+att.length+') 🔗</button>';
+  }
+  return html;
 }
 function _buildSnapshotBtn(a){
   if(a.snapshots&&a.snapshots.length>1){
@@ -1312,18 +1340,29 @@ function openModal(id,year){
      </div>`;
   document.getElementById('mTags').innerHTML=(a.tags||[]).map(t=>`<span class="modal-tag">${eh(t)}</span>`).join('');
   document.getElementById('mText').textContent=a.text||'';
-  // Interview/recording audio: rendered right under the 朗读本篇/Playlist row, not in #mMedia
+  // Recording / video attachments: rendered right under the 朗读本篇/Playlist row, not in #mMedia
   const audioTopEl=document.getElementById('mAudioTop');
-  if(a.audio&&a.audio.length){
-    const items=a.audio.map((au,i)=>{
-      const lbl=au.label||('录音 '+(i+1));
-      const dur=au.duration?`<span class="modal-audio-dur">· ${eh(au.duration)}</span>`:'';
-      // starting the interview clip stops the TTS reader and BGM so audio never stacks
-      return `<div class="modal-audio-item"><div class="modal-audio-name">🎙️ ${eh(lbl)} ${dur}</div>`
-        +`<audio class="article-audio" controls preload="metadata" src="${eh(au.url)}" `
-        +`onplay="try{plStop()}catch(e){} try{bgmStop()}catch(e){}"></audio></div>`;
-    }).join('');
-    audioTopEl.innerHTML=`<div class="modal-audio-list">${items}</div>`;
+  const mediaCards=[];
+  (a.audio||[]).forEach((au,i)=>{
+    const lbl=eh(au.label||('录音 '+(i+1)));
+    const dur=au.duration?`<span class="modal-audio-dur">· ${eh(au.duration)}</span>`:'';
+    // starting a clip stops the TTS reader and BGM so audio never stacks
+    mediaCards.push(`<div class="modal-audio-item"><div class="modal-audio-name">🎙️ ${lbl} ${dur}</div>`
+      +`<audio class="article-audio" controls preload="metadata" src="${eh(au.url)}" `
+      +`onplay="try{plStop()}catch(e){} try{bgmStop()}catch(e){}"></audio></div>`);
+  });
+  (a.video||[]).forEach((v,i)=>{
+    const lbl=eh(v.label||('视频 '+(i+1)));
+    const dur=v.duration?`<span class="modal-audio-dur">· ${eh(v.duration)}</span>`:'';
+    const poster=v.poster
+      ? `<img class="mv-poster" src="${eh(v.poster)}" alt="" loading="lazy">`
+      : `<div class="mv-poster" style="width:210px;height:320px;background:#000"></div>`;
+    // Poster-first: the real <video> is created in place on click by _mvActivate()
+    mediaCards.push(`<div class="modal-video-item"><div class="modal-audio-name">🎬 ${lbl} ${dur}</div>`
+      +`<div class="mv-wrap"><div class="mv-frame" data-src="${eh(v.url)}" onclick="_mvActivate(this)">${poster}<span class="mv-play">▶</span></div></div></div>`);
+  });
+  if(mediaCards.length){
+    audioTopEl.innerHTML=`<div class="modal-audio-list">${mediaCards.join('')}</div>`;
     audioTopEl.style.display='';
   } else {
     audioTopEl.innerHTML='';
@@ -1358,7 +1397,21 @@ function closeModal(){
   document.body.style.overflow='';
   if('speechSynthesis' in window&&!_plPlaying) _ttsReset();
   document.getElementById('ttsIosNotice').classList.remove('vis');
-  document.querySelectorAll('audio.article-audio').forEach(a=>{try{a.pause()}catch(e){}});
+  document.querySelectorAll('audio.article-audio,video.article-video').forEach(a=>{try{a.pause()}catch(e){}});
+}
+// Swap a video poster tile for a real inline <video> (played in place, not a lightbox)
+function _mvActivate(frame){
+  const src=frame.getAttribute('data-src'); if(!src)return;
+  const v=document.createElement('video');
+  v.className='article-video';
+  v.src=src; v.controls=true; v.autoplay=true; v.preload='metadata';
+  v.setAttribute('playsinline',''); v.setAttribute('webkit-playsinline','');
+  v.onplay=()=>{
+    try{plStop()}catch(e){} try{bgmStop()}catch(e){}
+    document.querySelectorAll('audio.article-audio').forEach(a=>{try{a.pause()}catch(e){}});
+  };
+  frame.replaceWith(v);
+  const pr=v.play&&v.play(); if(pr&&pr.catch)pr.catch(()=>{});
 }
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('articleModal').addEventListener('click',e=>{if(e.target===document.getElementById('articleModal'))closeModal();});
