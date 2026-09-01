@@ -424,6 +424,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 #modalTtsBtn{padding:4px 12px;border-radius:10px;border:1px solid #d0d0da;background:#f0f0f4;color:#555;font-size:12px;cursor:pointer;display:inline-flex;align-items:center;gap:4px;transition:all .15s;font-family:inherit;white-space:nowrap;flex-shrink:0}
 #modalTtsBtn:hover{background:#e4e4ee;color:#111;border-color:#aaa}
 .modal-tts-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.modal-audio-top{margin-bottom:14px}
 #ttsIosNotice{display:none;margin:10px 16px 0;padding:8px 12px;background:rgba(234,179,8,0.12);border:1px solid rgba(234,179,8,0.4);border-radius:8px;font-size:12px;color:#92400e;line-height:1.5;align-items:flex-start;gap:8px}
 #ttsIosNotice.vis{display:flex}
 #ttsIosNotice button{flex-shrink:0;border:none;background:none;cursor:pointer;color:#92400e;font-size:14px;padding:0;line-height:1}
@@ -459,6 +460,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-img-grid a{display:block;border-radius:6px;overflow:hidden;border:1px solid var(--border);flex-shrink:0}
 .modal-img-grid img{height:70px;width:auto;max-width:110px;object-fit:cover;display:block}
 .modal-snap-grid img{height:100px;max-width:70px;object-fit:cover;object-position:top}
+.modal-audio-list{display:flex;flex-direction:column;gap:10px;margin-top:2px}
+.modal-audio-item{background:var(--surface-m,var(--surface));border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:10px 12px}
+.modal-audio-name{font-size:13px;font-weight:600;color:var(--text,#2b2b2b);margin-bottom:8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.modal-audio-dur{font-weight:400;color:#9a9a9a;font-size:12px}
+.modal-audio-item audio{width:100%;height:38px;display:block;border-radius:8px}
 .modal-archived{margin-top:20px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:#bbb;text-align:center}
 @media(max-width:600px){.modal-body{padding:16px 16px 24px}.modal-src{margin-left:0}}
 
@@ -757,6 +763,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
           <button id="modalTtsBtn" title="朗读文章 Read aloud">📢 朗读本篇</button>
           <button id="modalAddBtn" onclick="plModalToggle()">＋ Playlist · 加入朗读器</button>
         </div>
+        <div class="modal-audio-top" id="mAudioTop" style="display:none"></div>
         <div class="modal-tags" id="mTags"></div>
         <div class="modal-text" id="mText"></div>
         <div class="modal-media" id="mMedia" style="display:none"></div>
@@ -1155,7 +1162,9 @@ function renderList(articles,groupByYear){
   } else {
     // Flat search results
     container.innerHTML=`<div class="flat-list-eyebrow"><div class="fl-line"></div><span class="fl-label">搜索结果 RESULTS</span><div class="fl-line"></div></div>`
-      + articles.map(a=>rowHTML(a)).join('');
+      // Search results span multiple years, so show the year (not MM-DD) — same
+      // convention already used for the mixed-year 肖战随笔 pinned section above.
+      + articles.map(a=>rowHTML(a, a.year||String(a.date).slice(0,4))).join('');
   }
 
   // Attach row clicks → modal
@@ -1302,6 +1311,23 @@ function openModal(id,year){
      </div>`;
   document.getElementById('mTags').innerHTML=(a.tags||[]).map(t=>`<span class="modal-tag">${eh(t)}</span>`).join('');
   document.getElementById('mText').textContent=a.text||'';
+  // Interview/recording audio: rendered right under the 朗读本篇/Playlist row, not in #mMedia
+  const audioTopEl=document.getElementById('mAudioTop');
+  if(a.audio&&a.audio.length){
+    const items=a.audio.map((au,i)=>{
+      const lbl=au.label||('录音 '+(i+1));
+      const dur=au.duration?`<span class="modal-audio-dur">· ${eh(au.duration)}</span>`:'';
+      // starting the interview clip stops the TTS reader and BGM so audio never stacks
+      return `<div class="modal-audio-item"><div class="modal-audio-name">🎙️ ${eh(lbl)} ${dur}</div>`
+        +`<audio class="article-audio" controls preload="metadata" src="${eh(au.url)}" `
+        +`onplay="try{plStop()}catch(e){} try{bgmStop()}catch(e){}"></audio></div>`;
+    }).join('');
+    audioTopEl.innerHTML=`<div class="modal-audio-list">${items}</div>`;
+    audioTopEl.style.display='';
+  } else {
+    audioTopEl.innerHTML='';
+    audioTopEl.style.display='none';
+  }
   // Media section: snapshots + article images as thumbnail grids
   const mediaEl=document.getElementById('mMedia');
   const parts=[];
@@ -1331,6 +1357,7 @@ function closeModal(){
   document.body.style.overflow='';
   if('speechSynthesis' in window&&!_plPlaying) _ttsReset();
   document.getElementById('ttsIosNotice').classList.remove('vis');
+  document.querySelectorAll('audio.article-audio').forEach(a=>{try{a.pause()}catch(e){}});
 }
 document.getElementById('modalClose').addEventListener('click',closeModal);
 document.getElementById('articleModal').addEventListener('click',e=>{if(e.target===document.getElementById('articleModal'))closeModal();});
