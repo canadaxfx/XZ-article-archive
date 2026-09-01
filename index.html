@@ -542,10 +542,11 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .help-body{padding:16px 18px;display:flex;flex-direction:column;gap:0}
 .help-sec{padding:12px 0}
 .help-sec+.help-sec{border-top:1px solid #e5e7eb}
-.help-sec-title{font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9ca3af;margin-bottom:8px}
+.help-sec-title{font-weight:700;font-size:14px;letter-spacing:.01em;color:#1e293b;margin-bottom:10px;padding-left:9px;border-left:3px solid var(--gold)}
 .help-p{margin:0 0 6px}
 .help-p:last-child{margin-bottom:0}
 .help-sub{color:#6b7280;font-size:12px}
+.help-path{background:#f3f4f6;border-radius:4px;padding:1px 5px;font-size:12px;color:#374151}
 .help-ul{padding-left:16px;margin:0;display:flex;flex-direction:column;gap:4px}
 .help-note{background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:8px 10px;font-size:12px;color:#92400e;margin-top:6px}
 .pl-list{overflow-y:auto;flex:1;min-height:40px;max-height:170px;overscroll-behavior:contain}
@@ -852,11 +853,18 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
         <div class="help-sec-title">如何开始 · Getting Started</div>
         <p class="help-p">点击文章右上角 <b>「▶ 朗读本篇」</b> 开始朗读当前文章。<br><span class="help-sub">Click <b>"▶ 朗读本篇"</b> on any article to start reading it aloud.</span></p>
         <p class="help-p">点击右下角 <b>🎧 浮动按钮</b> 打开朗读器，可将多篇文章加入队列，连续朗读。<br><span class="help-sub">Tap the <b>🎧 float button</b> to open the Reader panel — add multiple articles to the playlist for continuous playback.</span></p>
+        <p class="help-p">控制栏：<b>⏮ 上一篇 · ▶ 播放/暂停 · ⏭ 下一篇 · ↕ 倒序 · 🔀 随机</b>；下方一行 <b>#N/M</b> 显示当前位置，<b>播完移出</b> 自动清理已读，<b>🗑️ 清空</b> 清空队列。<br><span class="help-sub">Control bar: <b>⏮</b> prev · <b>▶</b> play/pause · <b>⏭</b> next · <b>↕</b> reverse · <b>🔀</b> shuffle. The <b>#N/M</b> below shows your position; "播完移出" auto-removes finished articles; 🗑️ clears the queue.</span></p>
+        <p class="help-p"><b>🗣️ 人声</b> 选择朗读嗓音 · <b>🎵 音乐</b> 控制背景音乐 · <b>⏱️ 定时</b> 设置自动停止。<br><span class="help-sub"><b>🗣️ 人声</b> picks the voice · <b>🎵 音乐</b> controls background music · <b>⏱️ 定时</b> sets a sleep timer.</span></p>
       </div>
 
       <div class="help-sec">
         <div class="help-sec-title">安装中文语音 · Install Chinese TTS Voice</div>
-        <p class="help-p">如朗读按钮显示灰色或无声音，需先安装中文语音包。<br><span class="help-sub">If the read button is grayed out or produces no sound, install a Chinese voice first.</span></p>
+        <p class="help-p">如朗读按钮显示灰色或无声音，需先安装中文语音包。安装后在朗读器 <b>🗣️ 人声</b> 中选择（推荐女声，如「Yaoyao / Xiaoxiao」）。<br><span class="help-sub">If the read button is grayed out or produces no sound, install a Chinese voice first, then pick it under <b>🗣️ 人声</b> in the reader (a female voice like "Yaoyao / Xiaoxiao" reads best).</span></p>
+        <p class="help-p"><b>电脑 Windows：</b><br>
+          设置 → 时间和语言 → 语音 → 管理语音 → 添加语音 → 中文（中国）→ 下载。<br>
+          <span class="help-sub">Settings → Time &amp; Language → Speech → Manage voices → Add voices → Chinese (China) → Download.</span></p>
+        <p class="help-p"><b>Mac：</b> 系统设置 → 辅助功能 → 朗读内容 → 系统声音 → 管理声音 → 中文 → 下载。<br>
+          <span class="help-sub">System Settings → Accessibility → Spoken Content → System Voice → Manage Voices → Chinese → Download.</span></p>
         <p class="help-p"><b>Android：</b><br>
           设置 → 语言和输入法 → 文字转语音 → 选择您设备的语音引擎（如 Google 文字转语音、Samsung TTS 等）→ 语言 → 中文（普通话）→ 下载<br>
           <span class="help-sub">Settings → Language & Input → Text-to-Speech → select your TTS engine (e.g. Google TTS, Samsung TTS, etc.) → Language → Chinese (Mandarin) → Download</span></p>
@@ -869,6 +877,8 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
 
       <div class="help-sec">
         <div class="help-sec-title">朗读卡顿 · TTS Hiccups</div>
+        <p class="help-p"><b>电脑 Chrome：</b>之前正常、现在无声或读几秒就停 —— <b>完全退出并重新打开 Chrome</b>（不是只关标签页）。Chrome 的语音引擎偶尔会卡住，重开浏览器即可恢复；若看到「⚠️ 语音引擎卡住」提示即为此情况。<br>
+          <span class="help-sub"><b>Desktop Chrome:</b> if it worked before and is now silent or stops after a few seconds, <b>fully quit and reopen Chrome</b> (not just the tab). Chrome's speech engine occasionally wedges — a full restart fixes it. The "⚠️ TTS engine stuck" toast means exactly this.</span></p>
         <p class="help-p"><b>先诊断：</b>在手机「设置 → 文字转语音」中试听语音预览。<br>若预览也无声或卡顿 → 是系统语音引擎问题，与本站无关。<br>
           <span class="help-sub"><b>Diagnose first:</b> go to phone Settings → Text-to-Speech and play a voice preview. If it's also silent or hiccups there, it's a system TTS engine issue, not this site.</span></p>
         <p class="help-p"><b>Android 修复 / Fix:</b><br>
@@ -885,7 +895,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
           <li>锁屏会暂停朗读，请保持屏幕常亮，或使用朗读器底部控制栏的定时关机功能。<br><span class="help-sub">Screen lock pauses TTS — keep screen on, or use the sleep timer in the reader.</span></li>
           <li>Android 省电模式可能在屏幕亮着时仍中断朗读——省电模式会在后台暂停浏览器音频进程，与屏幕是否关闭无关。解决方法：<span class="help-path">设置 → 应用 → 浏览器 → 电池 → 无限制</span>，并确认浏览器未被列入"后台耗电限制"名单。<br><span class="help-sub">Android battery optimization can stop playback even with the screen on — it suspends the browser's audio process regardless of screen state. Fix: Settings → Apps → [Browser] → Battery → Unrestricted, and remove the browser from any background usage limits list.</span></li>
           <li>iOS Safari 不支持连续朗读，建议使用电脑端浏览器。<br><span class="help-sub">iOS Safari does not support continuous TTS — use a desktop browser for best experience.</span></li>
-          <li>Chrome 浏览器数据损坏也可能导致朗读数秒后停止，而无痕模式正常。解决方法：Chrome <b>⋮ → 设置 → 隐私和安全 → 清除浏览数据 → 高级 → 勾选"Cookie 和网站数据"→ 时间范围选"全部"→ 清除数据</b>，然后重新打开本站。<br><span class="help-sub">Corrupted Chrome site data can cause TTS to stop after a few seconds in normal mode while incognito works fine. Fix: Chrome ⋮ → Settings → Privacy and security → Clear browsing data → Advanced → check "Cookies and site data" → All time → Clear data, then reopen the site.</span></li>
+          <li>电脑上先<b>完全退出并重新打开浏览器</b>。若朗读仍在数秒后停止、而无痕模式正常，可能是 Chrome 站点数据损坏：<b>⋮ → 设置 → 隐私和安全 → 清除浏览数据 → 高级 → 勾选"Cookie 和网站数据"→ 时间范围"全部"→ 清除</b>，然后重新打开本站。<br><span class="help-sub">On desktop, first fully quit and reopen the browser. If TTS still stops after a few seconds while incognito works fine, Chrome site data may be corrupted: ⋮ → Settings → Privacy and security → Clear browsing data → Advanced → check "Cookies and site data" → All time → Clear, then reopen the site.</span></li>
         </ul>
       </div>
 
@@ -895,6 +905,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
           <li>音乐从云端流式加载，首次播放可能需几秒缓冲属正常现象。<br><span class="help-sub">Music streams from the cloud — first play may buffer for a few seconds.</span></li>
           <li>网络较差时可能出现卡顿，为正常现象。<br><span class="help-sub">Hiccups on slow networks are expected.</span></li>
           <li>在朗读器中勾选喜欢的曲目，系统将自动循环播放。<br><span class="help-sub">Check your favorite tracks in the reader — they loop automatically.</span></li>
+          <li>音乐与朗读相互独立：可单独播放/暂停，朗读停止后音乐仍继续。音量、上一首/下一首、随机、倒序都在 <b>🎵 音乐</b> 一行控制。<br><span class="help-sub">Music is independent of the reading — play/pause it on its own, and it keeps going after TTS stops. Volume, prev/next, shuffle and reverse are all on the <b>🎵 音乐</b> row.</span></li>
         </ul>
       </div>
 
