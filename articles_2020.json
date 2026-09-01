@@ -175,11 +175,13 @@
         "extra_links": [
             {
                 "label": "采访录音片段1",
-                "url": "https://mp.weixin.qq.com/s/_QTawRuBbyLM9W0sPaOy2A"
+                "url": "https://mp.weixin.qq.com/s/_QTawRuBbyLM9W0sPaOy2A",
+                "attached": true
             },
             {
                 "label": "采访录音片段2",
-                "url": "https://mp.weixin.qq.com/s/Nci7gqOnGObt1RoCII7G4Q"
+                "url": "https://mp.weixin.qq.com/s/Nci7gqOnGObt1RoCII7G4Q",
+                "attached": true
             }
         ],
         "audio": [
