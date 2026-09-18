@@ -169,6 +169,16 @@
         "snapshots": [
             "https://assets.xz-studio-gallery.com/articles/20230716_肖战接受_环球时报_专访_最想听观众说_肖战演的戏还不错.png",
             "https://assets.xz-studio-gallery.com/articles/images/20230716_肖战接受_环球时报_专访_最想听观众说_肖战演的戏还不错/img_04.png"
+        ],
+        "video": [
+            {
+                "label": "环球时报肖战玉骨遥专访",
+                "url": "https://assets.xz-studio-gallery.com/full/20230718_%E7%8E%89%E9%AA%A8%E9%81%A5_XZ-MISC-3.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20230718_%E7%8E%89%E9%AA%A8%E9%81%A5_XZ-MISC-3.mp4_m.jpg",
+                "duration": "07:00",
+                "width": 0,
+                "height": 0
+            }
         ]
     },
     {
