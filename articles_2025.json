@@ -92,7 +92,7 @@
     },
     {
         "id": 60,
-        "platform": "huanqiu",
+        "platform": "unknown",
         "url": "https://m.huanqiu.com/article/4PeXvKMx9IP",
         "title": "电影《得闲谨制》领衔主演肖战接受《环球时报》专访：得闲是向往和平，谨制是困境韧劲",
         "author": "环球时报 记者 牛小曼 邵群玉 杨柳",
@@ -103,7 +103,8 @@
         "archived_at": "2026-09-18",
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20251222_电影_得闲谨制_领衔主演肖战接受_环球时报_专访_得闲是向往/img_01.jpg"
-        ]
+        ],
+        "source_name": "huanqiu"
     },
     {
         "id": 52,
