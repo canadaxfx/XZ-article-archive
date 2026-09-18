@@ -101,7 +101,7 @@
     {
         "id": 8,
         "platform": "wechat",
-        "url": "https://weibo.com/1667999147/NEFpNBo7n",
+        "url": "https://mp.weixin.qq.com/s/6ir14RFO1l2L-7Er3GZTZw",
         "title": "3个肖战。",
         "author": "智族 达西",
         "date": "2024-02-02",
@@ -113,6 +113,12 @@
             "https://assets.xz-studio-gallery.com/articles/images/20240202_3个肖战/img_01.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20240202_3个肖战/img_02.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20240202_3个肖战/img_03.jpg"
+        ],
+        "extra_links": [
+            {
+                "label": "微博",
+                "url": "https://weibo.com/1667999147/NEFpNBo7n"
+            }
         ]
     },
     {
