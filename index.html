@@ -465,6 +465,8 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .modal-audio-item{background:var(--surface-m,var(--surface));border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:10px 12px}
 .modal-audio-name{font-size:13px;font-weight:600;color:var(--text,#2b2b2b);margin-bottom:8px;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .modal-audio-dur{font-weight:400;color:#9a9a9a;font-size:12px}
+.mv-source-link{font-weight:400;color:var(--gold);font-size:12px;text-decoration:none;margin-left:auto}
+.mv-source-link:hover{text-decoration:underline}
 .modal-audio-item audio{width:100%;height:38px;display:block;border-radius:8px}
 .modal-video-item{background:var(--surface-m,var(--surface));border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:10px 12px}
 .mv-wrap{text-align:center}
@@ -967,7 +969,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260914-1'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260918-1'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
@@ -1354,11 +1356,14 @@ function openModal(id,year){
   (a.video||[]).forEach((v,i)=>{
     const lbl=eh(v.label||('视频 '+(i+1)));
     const dur=v.duration?`<span class="modal-audio-dur">· ${eh(v.duration)}</span>`:'';
+    const src=v.source_url
+      ? `<a class="mv-source-link" href="${eh(v.source_url)}" target="_blank" rel="noopener" title="原始链接" onclick="event.stopPropagation()">🔗 原始链接</a>`
+      : '';
     const poster=v.poster
       ? `<img class="mv-poster" src="${eh(v.poster)}" alt="" loading="lazy">`
       : `<div class="mv-poster" style="width:210px;height:320px;background:#000"></div>`;
     // Poster-first: the real <video> is created in place on click by _mvActivate()
-    mediaCards.push(`<div class="modal-video-item"><div class="modal-audio-name">🎬 ${lbl} ${dur}</div>`
+    mediaCards.push(`<div class="modal-video-item"><div class="modal-audio-name">🎬 ${lbl} ${dur} ${src}</div>`
       +`<div class="mv-wrap"><div class="mv-frame" data-src="${eh(v.url)}" onclick="_mvActivate(this)">${poster}<span class="mv-play">▶</span></div></div></div>`);
   });
   if(mediaCards.length){
