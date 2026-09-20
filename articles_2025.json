@@ -854,7 +854,8 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20250607_藏海传_如何成为_集体智力游戏/img_01.jpg"
         ],
-        "source_name": "北京日报"
+        "source_name": "北京日报",
+        "pinned_review": true
     },
     {
         "id": 1,
