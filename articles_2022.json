@@ -200,6 +200,7 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20220103_中国军魂的激情放歌/img_01.jpg"
         ],
-        "source_name": "光明日报"
+        "source_name": "光明日报",
+        "pinned_review": true
     }
 ]
