@@ -121,7 +121,14 @@
             "https://assets.xz-studio-gallery.com/articles/images/20200414_重庆男孩_肖战_我把心中的_红梅赞_唱给你们听_愈冷愈开花象/img_01.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20200414_重庆男孩_肖战_我把心中的_红梅赞_唱给你们听_愈冷愈开花象/img_02.jpg"
         ],
-        "pinned": true
+        "pinned": true,
+        "audio": [
+            {
+                "duration": "03:34",
+                "label": "民歌中国 肖战",
+                "url": "https://assets.xz-studio-gallery.com/articles/audio/20200414_重庆男孩_肖战_我把心中的_红梅赞_唱给你们听_愈冷愈开花象.mp3"
+            }
+        ]
     },
     {
         "id": 4,
