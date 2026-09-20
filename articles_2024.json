@@ -31,7 +31,8 @@
             "https://assets.xz-studio-gallery.com/articles/images/20241107_Tod_s_Launches_Second_Collecti/img_01.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20241107_Tod_s_Launches_Second_Collecti/img_02.jpg"
         ],
-        "source_name": "WWD"
+        "source_name": "WWD",
+        "pinned_news": true
     },
     {
         "id": 4,
