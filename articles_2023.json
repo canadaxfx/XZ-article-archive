@@ -460,7 +460,8 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20230621_梦中的那片海_以青春之名书写时代荣光/img_01.jpg"
         ],
-        "source_name": "光明网"
+        "source_name": "光明网",
+        "pinned_review": true
     },
     {
         "id": 1,
