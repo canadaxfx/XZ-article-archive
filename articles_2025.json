@@ -214,7 +214,8 @@
         "archived_at": "2026-07-06",
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20251218_莫得闲修过无数次的那门苏罗通小炮/img_01.jpg"
-        ]
+        ],
+        "pinned_review": true
     },
     {
         "id": 20,
