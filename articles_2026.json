@@ -152,7 +152,8 @@
         "source_name": "人民日报",
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20260617_文化出海_东方美更具世界范_古韵国风_顶流审美/img_01.jpg"
-        ]
+        ],
+        "pinned_review": true
     },
     {
         "id": 7,
