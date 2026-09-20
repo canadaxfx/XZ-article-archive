@@ -41,10 +41,13 @@
         "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20230921_骄阳伴我_为何不撒糖反套路_北京青年报_01.png",
         "archived_at": "2026-07-06",
         "images": [
-            "https://assets.xz-studio-gallery.com/articles/images/20230921_骄阳伴我_为何不撒糖反套路_北京青年报/img_01.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20230921_骄阳伴我_为何不撒糖反套路_北京青年报/img_02.jpg"
         ],
-        "source_name": "北京青年报"
+        "source_name": "北京青年报",
+        "snapshots": [
+            "https://assets.xz-studio-gallery.com/articles/20230921_骄阳伴我_为何不撒糖反套路_北京青年报_01.png",
+            "https://assets.xz-studio-gallery.com/articles/images/20230921_骄阳伴我_为何不撒糖反套路_北京青年报/img_01.jpg"
+        ]
     },
     {
         "id": 5,
