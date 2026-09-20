@@ -618,7 +618,8 @@
                 "label": "微博",
                 "url": "https://weibo.com/ttarticle/p/show?id=2309405182853045944557"
             }
-        ]
+        ],
+        "pinned_review": true
     },
     {
         "id": 42,
