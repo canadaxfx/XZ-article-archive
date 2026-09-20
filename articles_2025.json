@@ -398,7 +398,8 @@
                 "url": "https://mp.weixin.qq.com/s/x_D6PszAxV2zvWZgHHDkVg"
             }
         ],
-        "source_name": "文汇报"
+        "source_name": "文汇报",
+        "pinned_review": true
     },
     {
         "id": 40,
