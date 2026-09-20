@@ -158,7 +158,8 @@
                 "label": "微信公众号",
                 "url": "https://mp.weixin.qq.com/s/SAnhnrVWHFupDFPpHFgvYQ"
             }
-        ]
+        ],
+        "pinned_review": true
     },
     {
         "id": 21,
