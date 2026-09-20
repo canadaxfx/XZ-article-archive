@@ -364,6 +364,17 @@
                 "label": "微博",
                 "url": "https://weibo.com/ttarticle/p/show?id=2309404918264265572711"
             }
+        ],
+        "video": [
+            {
+                "label": "人民文娱对话肖战",
+                "url": "https://assets.xz-studio-gallery.com/full/20230628_%E6%A2%A6%E4%B8%AD%E7%9A%84%E9%82%A3%E7%89%87%E6%B5%B7_XZ-MISC-5.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20230628_%E6%A2%A6%E4%B8%AD%E7%9A%84%E9%82%A3%E7%89%87%E6%B5%B7_XZ-MISC-5.mp4_m.jpg",
+                "duration": "07:21",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/7362512027/N7pXT8yEu"
+            }
         ]
     },
     {
