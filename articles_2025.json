@@ -769,7 +769,8 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20250611_藏海传_个人命运与家国情怀之思/img_01.jpg"
         ],
-        "source_name": "光明日报"
+        "source_name": "光明日报",
+        "pinned_review": true
     },
     {
         "id": 7,
