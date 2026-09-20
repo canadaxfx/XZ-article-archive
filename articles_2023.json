@@ -65,7 +65,8 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20230920_骄阳伴我_隐喻的都市_充电式爱情/img_01.jpg"
         ],
-        "source_name": "中青报"
+        "source_name": "中青报",
+        "pinned_review": true
     },
     {
         "id": 2,
