@@ -958,8 +958,7 @@
         "snapshot_url": "https://assets.xz-studio-gallery.com/articles/20250528_秉持匠心_走出跟风创作_评古装剧_藏海传_01.png",
         "archived_at": "2026-07-06",
         "images": [
-            "https://assets.xz-studio-gallery.com/articles/images/20250528_秉持匠心_走出跟风创作_评古装剧_藏海传/img_01.jpg",
-            "https://assets.xz-studio-gallery.com/articles/images/20250528_秉持匠心_走出跟风创作_评古装剧_藏海传/img_02.webp"
+            "https://assets.xz-studio-gallery.com/articles/images/20250528_秉持匠心_走出跟风创作_评古装剧_藏海传/img_01.jpg"
         ],
         "source_name": "中国艺术报",
         "extra_links": [
@@ -967,6 +966,10 @@
                 "label": "微信公众号",
                 "url": "https://mp.weixin.qq.com/s/VZsPzeQ6ha_2AOim49tW7g"
             }
+        ],
+        "snapshots": [
+            "https://assets.xz-studio-gallery.com/articles/20250528_秉持匠心_走出跟风创作_评古装剧_藏海传_01.png",
+            "https://assets.xz-studio-gallery.com/articles/images/20250528_秉持匠心_走出跟风创作_评古装剧_藏海传/img_02.webp"
         ]
     },
     {
