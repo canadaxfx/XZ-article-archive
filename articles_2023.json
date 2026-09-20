@@ -733,7 +733,8 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20230602_新华娱论场_梦中的那片海_鲜活时代里的激昂青春与燃情岁月/img_01.jpg"
         ],
-        "source_name": "新华网"
+        "source_name": "新华网",
+        "pinned_review": true
     },
     {
         "id": 7,
