@@ -1030,7 +1030,8 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20250527_不落爽剧窠臼_淬炼人性光辉/img_01.jpg"
         ],
-        "source_name": "北京日报"
+        "source_name": "北京日报",
+        "pinned_review": true
     },
     {
         "id": 29,
