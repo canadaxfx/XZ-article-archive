@@ -114,13 +114,22 @@
         ],
         "video": [
             {
-                "label": "肖战冒险之旅",
+                "label": "肖战冒险之旅1",
                 "url": "https://assets.xz-studio-gallery.com/full/20191022_%E6%97%B6%E5%B0%9A%E8%8A%AD%E8%8E%8E_XZ-MISC-1.mp4",
                 "poster": "https://assets.xz-studio-gallery.com/thumbs/20191022_%E6%97%B6%E5%B0%9A%E8%8A%AD%E8%8E%8E_XZ-MISC-1.mp4_m.jpg",
                 "duration": "01:38",
                 "width": 0,
                 "height": 0,
                 "source_url": "https://weibo.com/1708288824/IcDUth7xj"
+            },
+            {
+                "label": "肖战冒险之旅2",
+                "url": "https://assets.xz-studio-gallery.com/full/20190926_%E6%97%B6%E5%B0%9A%E8%8A%AD%E8%8E%8E_XZ-MISC-1.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20190926_%E6%97%B6%E5%B0%9A%E8%8A%AD%E8%8E%8E_XZ-MISC-1.mp4_m.jpg",
+                "duration": "0:48",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1708288824/I8IoBhuYA"
             }
         ]
     },
