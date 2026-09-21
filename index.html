@@ -316,7 +316,7 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 @media(max-width:520px){.list-divider{gap:8px}.toggle-all-btn .btn-label{display:none}}
 
 /* ===== YEAR GROUP ===== */
-.year-group{margin-bottom:8px;border:1px solid rgba(var(--gold-dr),0.28);border-right:none;border-radius:8px;overflow:hidden}
+.year-group{margin-bottom:8px;border:1px solid rgba(var(--gold-dr),0.28);border-right:none;border-left:3px solid rgba(var(--gold-rgb),0.55);border-radius:8px;overflow:hidden}
 .year-group.open{border-color:rgba(var(--gold-dr),0.45)}
 .yg-header{display:flex;flex-direction:column;gap:4px;padding:8px 14px;cursor:pointer;user-select:none;background:rgba(var(--gold-dr),0.03);transition:background .15s}
 .yg-row1{display:flex;align-items:center;gap:12px;width:100%}
@@ -335,15 +335,18 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .article-rows{display:none;padding-left:8px}
 .year-group.open>.article-rows{display:block}
 
-/* ===== PINNED GROUP (肖战随笔) ===== */
+/* ===== PINNED GROUP (肖战随笔 / 肖战专访 / 影视评论 / 新闻报道) ===== */
 #pinnedSection{margin-bottom:22px}
-.pinned-group{border:1px solid rgba(var(--gold-rgb),0.75);box-shadow:inset 0 0 0 3px var(--card-bg),inset 0 0 0 4px rgba(var(--gold-rgb),0.38)}
+.pinned-group{position:relative;border:1px solid rgba(var(--gold-rgb),0.22);box-shadow:0 3px 14px rgba(var(--gold-rgb),0.13)}
 .pinned-group>.yg-header{background:rgba(var(--gold-dr),0.07)}
 .pinned-group .yg-pill{border-color:var(--gold)}
 .pinned-group .yg-label{font-size:1.15rem;white-space:normal;display:flex;align-items:baseline;gap:7px}
 .pinned-group .yg-label .pin-sub{font-size:.72rem;font-weight:600;letter-spacing:.12em;opacity:.6;text-transform:uppercase}
-.pinned-group .yg-label::before{content:"✎";font-size:.95rem;opacity:.7}
-/* pinned: title (肖战随笔) owns row 1; count + flashing ticker share row 2 (label runs long, esp. on mobile) */
+/* icon badge (per-section glyph) + corner tag replace the old double-ring border as the "this is pinned" signal */
+.pin-badge{flex-shrink:0;width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:rgba(var(--gold-rgb),0.14);border:1px solid rgba(var(--gold-rgb),0.32);color:var(--gold)}
+.pin-badge svg{display:block}
+.pin-tag{position:absolute;top:0;right:0;background:var(--gold);color:#fff;font-size:9px;font-weight:700;letter-spacing:.08em;padding:3px 10px;border-radius:0 8px 0 8px;z-index:1}
+/* pinned: title owns row 1; count + flashing ticker share row 2 (label runs long, esp. on mobile) */
 .pinned-group .yg-row1{flex-wrap:wrap;row-gap:3px}
 .pinned-group .yg-label{flex-wrap:wrap}
 .pinned-group .pin-row2{display:flex;align-items:center;gap:10px;margin-top:4px}
@@ -1046,66 +1049,89 @@ function render(){
   renderPinned();
 }
 
-/* ===== PINNED GROUP (肖战随笔) ===== */
+/* ===== PINNED GROUPS (肖战随笔 / 肖战专访 / 影视评论) ===== */
+// Same "pin to top, still also lives in its year group" pattern, one row per
+// boolean field. Add a new section here (+ its checkbox in article_archive.py)
+// to extend — nothing else in this file needs to change.
+const PIN_SECTIONS=[
+  {key:'__pinned__',    field:'pinned',           title:'肖战随笔', sub:'By Xiao Zhan',
+    icon:'<path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>'},
+  {key:'__interview__', field:'pinned_interview', title:'肖战专访', sub:'Interviews',
+    icon:'<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>'},
+  {key:'__review__',    field:'pinned_review',    title:'影视评论', sub:'Screen Reviews',
+    icon:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>'},
+  {key:'__news__',      field:'pinned_news',      title:'新闻报道', sub:'News Coverage',
+    icon:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/><line x1="8" y1="9" x2="10" y2="9"/>'},
+];
+function _pinSectionByKey(key){return PIN_SECTIONS.find(s=>s.key===key);}
 function renderPinned(){
   const sec=document.getElementById('pinnedSection');
   const wrap=document.getElementById('pinnedRows');
-  const arts=ALL.filter(a=>a.pinned).sort((a,b)=>b.date.localeCompare(a.date));
-  if(!arts.length||!isDefaultView()){sec.style.display='none';wrap.innerHTML='';_stopPinTicker();return;}
-  sec.style.display='';
-  const rows=arts.map(a=>rowHTML(a, a.year||String(a.date).slice(0,4))).join('');
-  const tickers=arts.map(a=>`<span class="yg-title">${eh(a.title)}</span>`).join('');
-  wrap.innerHTML=`<div class="year-group pinned-group" data-year="__pinned__">
+  _stopPinTickers();
+  const groupsHtml=PIN_SECTIONS.map(cfg=>{
+    const arts=ALL.filter(a=>a[cfg.field]).sort((a,b)=>b.date.localeCompare(a.date));
+    if(!arts.length)return '';
+    const rows=arts.map(a=>rowHTML(a, a.year||String(a.date).slice(0,4))).join('');
+    const tickers=arts.map(a=>`<span class="yg-title">${eh(a.title)}</span>`).join('');
+    return `<div class="year-group pinned-group" data-year="${cfg.key}">
+  <span class="pin-tag">精选</span>
   <div class="yg-header">
     <div class="yg-row1">
       <span class="yg-pill">+</span>
-      <span class="yg-label">肖战随笔 <span class="pin-sub">By Xiao Zhan</span></span>
+      <span class="pin-badge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${cfg.icon}</svg></span>
+      <span class="yg-label">${cfg.title} <span class="pin-sub">${cfg.sub}</span></span>
     </div>
     <div class="pin-row2">
       <span class="yg-count">${arts.length} 篇</span>
       <div class="yg-ticker pin-ticker">${tickers}</div>
     </div>
     <div class="yg-row2">
-      <button class="yg-add-btn" data-year="__pinned__" onclick="event.stopPropagation();plAddYear('__pinned__')">＋ Playlist · 加入朗读器</button>
+      <button class="yg-add-btn" data-year="${cfg.key}" onclick="event.stopPropagation();plAddYear('${cfg.key}')">＋ Playlist · 加入朗读器</button>
     </div>
   </div>
   <div class="article-rows">${rows}</div>
 </div>`;
-  const grp=wrap.querySelector('.year-group');
-  wrap.querySelector('.yg-header').addEventListener('click',()=>{
-    grp.classList.toggle('open');
-    grp.querySelector('.yg-pill').textContent=grp.classList.contains('open')?'−':'+';
+  }).join('');
+  if(!groupsHtml||!isDefaultView()){sec.style.display='none';wrap.innerHTML='';return;}
+  sec.style.display='';
+  wrap.innerHTML=groupsHtml;
+  wrap.querySelectorAll('.year-group').forEach(grp=>{
+    grp.querySelector('.yg-header').addEventListener('click',()=>{
+      grp.classList.toggle('open');
+      grp.querySelector('.yg-pill').textContent=grp.classList.contains('open')?'−':'+';
+      requestAnimationFrame(()=>syncRowTickers(grp));
+    });
     requestAnimationFrame(()=>syncRowTickers(grp));
   });
   wrap.querySelectorAll('.row-main').forEach(rm=>{
     const row=rm.closest('.article-row');
     rm.addEventListener('click',()=>openModal(+row.dataset.id, row.dataset.year));
   });
-  requestAnimationFrame(()=>syncRowTickers(grp));
-  _startPinTicker();
+  _startPinTickers();
   _syncYgAddBtns();
 }
 
-/* rotating title ticker for the pinned box — isolated from startTickers()/_tickerIds */
-let _pinTickerId=null;
-function _stopPinTicker(){if(_pinTickerId){clearInterval(_pinTickerId);_pinTickerId=null;}}
-function _startPinTicker(){
-  _stopPinTicker();
-  const ticker=document.querySelector('#pinnedRows .pin-ticker');
-  if(!ticker)return;
-  const spans=Array.from(ticker.querySelectorAll('.yg-title'));
-  if(!spans.length)return;
-  spans.forEach(s=>s.classList.remove('vis'));
-  spans[0].classList.add('vis');
-  if(spans.length===1)return;
-  let cur=0;
-  _pinTickerId=setInterval(()=>{
-    const grp=ticker.closest('.year-group');
-    if(grp&&grp.classList.contains('open'))return;
-    spans[cur].classList.remove('vis');
-    cur=(cur+1)%spans.length;
-    setTimeout(()=>spans[cur].classList.add('vis'),300);
-  },3200);
+/* rotating title tickers for the pinned boxes — isolated from startTickers()/_tickerIds */
+let _pinTickerIds=[];
+function _stopPinTickers(){_pinTickerIds.forEach(id=>clearInterval(id));_pinTickerIds=[];}
+function _startPinTickers(){
+  _stopPinTickers();
+  document.querySelectorAll('#pinnedRows .pin-ticker').forEach(ticker=>{
+    const spans=Array.from(ticker.querySelectorAll('.yg-title'));
+    if(!spans.length)return;
+    spans.forEach(s=>s.classList.remove('vis'));
+    spans[0].classList.add('vis');
+    if(spans.length===1)return;
+    let cur=0;
+    const id=setInterval(()=>{
+      const grp=ticker.closest('.year-group');
+      if(grp&&grp.classList.contains('open'))return;
+      spans[cur].classList.remove('vis');
+      cur=(cur+1)%spans.length;
+      setTimeout(()=>spans[cur].classList.add('vis'),300);
+    },3200);
+    _pinTickerIds.push(id);
+  });
 }
 
 /* ===== FEATURED CARDS ===== */
@@ -1848,9 +1874,9 @@ function plClear(){
   _syncPlayBar();_syncModalAddBtn();_syncYgAddBtns();
 }
 function plAddYear(year){
-  const isPin=year==='__pinned__';
-  const lbl=isPin?'肖战随笔':year+'年';
-  const arts=isPin?getFiltered().filter(a=>a.pinned):getFiltered().filter(a=>String(a.year)===String(year));
+  const pinCfg=_pinSectionByKey(year);
+  const lbl=pinCfg?pinCfg.title:year+'年';
+  const arts=pinCfg?getFiltered().filter(a=>a[pinCfg.field]):getFiltered().filter(a=>String(a.year)===String(year));
   const allIn=arts.length>0&&arts.every(a=>_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)));
   try{
     if(allIn){
@@ -1873,7 +1899,8 @@ function _syncYgAddBtns(){
   const vis=getFiltered();
   document.querySelectorAll('.yg-add-btn').forEach(btn=>{
     const year=btn.dataset.year;
-    const arts=year==='__pinned__'?vis.filter(a=>a.pinned):vis.filter(a=>String(a.year)===String(year));
+    const pinCfg=_pinSectionByKey(year);
+    const arts=pinCfg?vis.filter(a=>a[pinCfg.field]):vis.filter(a=>String(a.year)===String(year));
     const allIn=arts.length>0&&arts.every(a=>_playlist.some(x=>x.id===a.id&&String(x.year)===String(a.year)));
     btn.textContent=allIn?'✓ 已加入 · 点击移出':'＋ Playlist · 加入朗读器';
     btn.classList.toggle('in-list',allIn);
