@@ -329,7 +329,36 @@
             "https://assets.xz-studio-gallery.com/articles/images/20190817_肖战_保持清醒_我不会让自己处在安逸的舒适圈/img_19.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20190817_肖战_保持清醒_我不会让自己处在安逸的舒适圈/img_20.jpg"
         ],
-        "pinned_interview": true
+        "pinned_interview": true,
+        "video": [
+            {
+                "label": "封面拍摄花絮",
+                "url": "https://assets.xz-studio-gallery.com/full/20190730_%E5%8D%97%E9%83%BD%E5%A8%B1%E4%B9%90_XZ-MISC-1.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20190730_%E5%8D%97%E9%83%BD%E5%A8%B1%E4%B9%90_XZ-MISC-1.mp4_m.jpg",
+                "duration": "01:17",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1216431741/HFPto8W1O"
+            },
+            {
+                "label": "南都娱乐封面采访",
+                "url": "https://assets.xz-studio-gallery.com/full/20190808_%E5%8D%97%E9%83%BD%E5%A8%B1%E4%B9%90_XZ-MISC-1.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20190808_%E5%8D%97%E9%83%BD%E5%A8%B1%E4%B9%90_XZ-MISC-1.mp4_m.jpg",
+                "duration": "09:54",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1216431741/I1eUeavBK"
+            },
+            {
+                "label": "快问快答",
+                "url": "https://assets.xz-studio-gallery.com/full/20190728_%E5%8D%97%E9%83%BD%E5%A8%B1%E4%B9%90_XZ-MISC-1.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20190728_%E5%8D%97%E9%83%BD%E5%A8%B1%E4%B9%90_XZ-MISC-1.mp4_m.jpg",
+                "duration": "02:21",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1216431741/HFy7R3r7x"
+            }
+        ]
     },
     {
         "id": 11,
