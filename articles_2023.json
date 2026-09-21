@@ -28,7 +28,36 @@
             "https://assets.xz-studio-gallery.com/articles/images/20231228_肖战_尺与寸_嘉人封面/img_15.png",
             "https://assets.xz-studio-gallery.com/articles/images/20231228_肖战_尺与寸_嘉人封面/img_16.png"
         ],
-        "pinned_interview": true
+        "pinned_interview": true,
+        "video": [
+            {
+                "label": "肖战崭新启航大片1",
+                "url": "https://assets.xz-studio-gallery.com/full/20231229_%E5%98%89%E4%BA%BA_XZ-MISC-3.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20231229_%E5%98%89%E4%BA%BA_XZ-MISC-3.mp4_m.jpg",
+                "duration": "0:17",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1399746707/NzlEBhoXT"
+            },
+            {
+                "label": "肖战崭新启航大片2",
+                "url": "https://assets.xz-studio-gallery.com/full/20231229_%E5%98%89%E4%BA%BA_XZ-MISC-2.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20231229_%E5%98%89%E4%BA%BA_XZ-MISC-2.mp4_m.jpg",
+                "duration": "0:18",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1399746707/NzlGCt63x"
+            },
+            {
+                "label": "肖战崭新启航大片3",
+                "url": "https://assets.xz-studio-gallery.com/full/20231229_%E5%98%89%E4%BA%BA_XZ-MISC-1.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20231229_%E5%98%89%E4%BA%BA_XZ-MISC-1.mp4_m.jpg",
+                "duration": "01:00",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1399746707/NzlIElVFv"
+            }
+        ]
     },
     {
         "id": 33,
