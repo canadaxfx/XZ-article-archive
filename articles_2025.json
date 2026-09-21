@@ -199,7 +199,18 @@
             "https://assets.xz-studio-gallery.com/articles/images/20251219_演员肖战_很多故事和感受_是在画面以外的/img_01.webp",
             "https://assets.xz-studio-gallery.com/articles/images/20251219_演员肖战_很多故事和感受_是在画面以外的/img_02.webp"
         ],
-        "pinned_interview": true
+        "pinned_interview": true,
+        "video": [
+            {
+                "label": "光明日报专访",
+                "url": "https://assets.xz-studio-gallery.com/full/20251226_%E5%BE%97%E9%97%B2%E8%B0%A8%E5%88%B6_XZ-MISC-2.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20251226_%E5%BE%97%E9%97%B2%E8%B0%A8%E5%88%B6_XZ-MISC-2.mp4_m.jpg",
+                "duration": "06:12",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/1402977920/QkcXqrfo2"
+            }
+        ]
     },
     {
         "id": 39,
