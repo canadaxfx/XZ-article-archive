@@ -220,7 +220,15 @@
                 "source_url": "https://weibo.com/7442413095/NaqQD0Wo8"
             }
         ],
-        "pinned_interview": true
+        "pinned_interview": true,
+        "audio": [
+            {
+                "label": "环球时报肖战玉骨遥专访",
+                "url": "https://assets.xz-studio-gallery.com/full/20250123_%E7%8E%AF%E7%90%83%E6%97%B6%E6%8A%A5_XZ-MISC-1.mp3",
+                "duration": "02:46",
+                "source_url": "https://weibo.com/7442413095/PaV4KsR7i"
+            }
+        ]
     },
     {
         "id": 3,
