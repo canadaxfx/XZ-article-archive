@@ -972,7 +972,7 @@ function applyTheme(k){
 })();
 
 /* ===== DATA ===== */
-const DATA_VER = '20260919-5'; // auto-bumped by article_archive.py on each push
+const DATA_VER = '20260927-1'; // auto-bumped by article_archive.py on each push
 async function loadData(){
   const all=[];
   const curY=new Date().getFullYear();
@@ -1374,8 +1374,11 @@ function openModal(id,year){
   (a.audio||[]).forEach((au,i)=>{
     const lbl=eh(au.label||('录音 '+(i+1)));
     const dur=au.duration?`<span class="modal-audio-dur">· ${eh(au.duration)}</span>`:'';
+    const src=au.source_url
+      ? `<a class="mv-source-link" href="${eh(au.source_url)}" target="_blank" rel="noopener" title="原始链接" onclick="event.stopPropagation()">🔗 原始链接</a>`
+      : '';
     // starting a clip stops the TTS reader and BGM so audio never stacks
-    mediaCards.push(`<div class="modal-audio-item"><div class="modal-audio-name">🎙️ ${lbl} ${dur}</div>`
+    mediaCards.push(`<div class="modal-audio-item"><div class="modal-audio-name">🎙️ ${lbl} ${dur} ${src}</div>`
       +`<audio class="article-audio" controls preload="metadata" src="${eh(au.url)}" `
       +`onplay="try{plStop()}catch(e){} try{bgmStop()}catch(e){}"></audio></div>`);
   });
