@@ -21,7 +21,18 @@
             "https://assets.xz-studio-gallery.com/articles/images/20261025_肖战聊_小城良方_这是我第一次这么想演一个角色/img_08.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20261025_肖战聊_小城良方_这是我第一次这么想演一个角色/img_09.jpg"
         ],
-        "pinned_interview": true
+        "pinned_interview": true,
+        "video": [
+            {
+                "label": "",
+                "url": "https://assets.xz-studio-gallery.com/full/20261024_%E5%B0%8F%E5%9F%8E%E8%89%AF%E6%96%B9_XZ-MISC-1.mp4",
+                "poster": "https://assets.xz-studio-gallery.com/thumbs/20261024_%E5%B0%8F%E5%9F%8E%E8%89%AF%E6%96%B9_XZ-MISC-1.mp4_m.jpg",
+                "duration": "18:03",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/2656274875/Ro7qeoXzO"
+            }
+        ]
     },
     {
         "id": 17,
