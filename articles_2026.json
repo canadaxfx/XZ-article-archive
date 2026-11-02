@@ -20,7 +20,18 @@
             "https://assets.xz-studio-gallery.com/articles/images/20261102_专访肖战_刘铮亮的_不完美_最吸引我/img_07.jpg",
             "https://assets.xz-studio-gallery.com/articles/images/20261102_专访肖战_刘铮亮的_不完美_最吸引我/img_08.jpg"
         ],
-        "pinned_interview": true
+        "pinned_interview": true,
+        "video": [
+            {
+                "label": "CCTV星推荐",
+                "url": "https://assets.xz-studio-gallery.com/full/20261031_%E5%B0%8F%E5%9F%8E%E8%89%AF%E6%96%B9_XZ-MISC-18.mp4",
+                "poster": "",
+                "duration": "4:40",
+                "width": 0,
+                "height": 0,
+                "source_url": "https://weibo.com/2030112487/5360013231001035"
+            }
+        ]
     },
     {
         "id": 21,
