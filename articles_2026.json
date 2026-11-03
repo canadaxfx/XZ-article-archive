@@ -56,7 +56,13 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20261101_小城良方_悲喜交加是人生/img_01.jpg"
         ],
-        "pinned_review": true
+        "pinned_review": true,
+        "extra_links": [
+            {
+                "label": "微博",
+                "url": "https://weibo.com/ttarticle/p/show?id=2309405361116712140859"
+            }
+        ]
     },
     {
         "id": 20,
