@@ -1,0 +1,36 @@
+{
+  "tracks": [
+    {
+      "name": "夢中的那片海",
+      "file": "dream-sea.mp3"
+    },
+    {
+      "name": "心之所向",
+      "file": "heart-direction.mp3"
+    },
+    {
+      "name": "无羁",
+      "file": "wuji-flute.mp3"
+    },
+    {
+      "name": "書籤",
+      "file": "bookmark.mp3"
+    },
+    {
+      "name": "玉骨",
+      "file": "jade-bone.mp3"
+    },
+    {
+      "name": "萤火",
+      "file": "firefly.mp3"
+    },
+    {
+      "name": "莲花坞",
+      "file": "lotus.mp3"
+    },
+    {
+      "name": "醉梦",
+      "file": "drunk-dream.mp3"
+    }
+  ]
+}

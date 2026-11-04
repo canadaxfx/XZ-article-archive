@@ -591,6 +591,18 @@ h1 .hi{font-style:italic;font-weight:700;color:var(--gold)}
 .pl-vol-row{display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280;margin-top:4px}
 .pl-vol-row input[type=range]{width:72px;height:3px;cursor:pointer;accent-color:var(--gold)}
 .pl-bgm-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px 6px}
+/* Fold-out track picker: one summary line; the list opens below it and scrolls past ~6 rows */
+.pl-bgm-sum{display:flex;align-items:center;gap:6px;width:100%;background:rgba(var(--gold-dr),.06);border:1px solid rgba(var(--gold-dr),.25);border-radius:6px;padding:4px 8px;font:inherit;font-size:11px;color:#374151;cursor:pointer;text-align:left}
+.pl-bgm-sum:hover{background:rgba(var(--gold-dr),.12)}
+.pl-bgm-now{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.pl-bgm-cnt{flex-shrink:0;color:#9ca3af;font-variant-numeric:tabular-nums}
+.pl-bgm-chev{flex-shrink:0;color:#9ca3af;transition:transform .15s}
+.pl-bgm-sum[aria-expanded="true"] .pl-bgm-chev{transform:rotate(180deg)}
+.pl-bgm-wrap{margin-top:5px;max-height:150px;overflow-y:auto;overscroll-behavior:contain;padding-right:2px}
+.pl-bgm-wrap[hidden]{display:none}
+.pl-bgm-tools{display:flex;gap:6px;margin-bottom:3px}
+.pl-bgm-tools button{font:inherit;font-size:10px;color:#6b7280;background:none;border:1px solid #e5e7eb;border-radius:4px;padding:1px 6px;cursor:pointer}
+.pl-bgm-tools button:hover{border-color:rgba(var(--gold-dr),.5);color:#374151}
 .pl-bgm-item{display:flex;align-items:center;gap:4px;font-size:11px;color:#374151;cursor:pointer;padding:2px 0}
 .pl-bgm-item input{accent-color:var(--gold);cursor:pointer;flex-shrink:0}
 .pl-voice-sec{padding:5px 10px 6px;border-top:2px solid rgba(var(--gold-dr),.35);display:flex;flex-direction:column;gap:4px;flex-shrink:0;font-size:12px;font-weight:600;color:#374151}
@@ -831,7 +843,13 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
     <select class="pl-voice-sel" id="ttsVoiceSelect"><option value="">默认</option></select>
   </div>
   <div class="pl-bgm-sec">
-    <div class="pl-bgm-grid" id="bgmGrid"></div>
+    <button class="pl-bgm-sum" id="bgmSum" onclick="bgmToggleList()" aria-expanded="false" aria-controls="bgmListWrap" title="选曲 Choose tracks">
+      <span class="pl-bgm-now" id="bgmNow"></span><span class="pl-bgm-cnt" id="bgmCnt"></span><span class="pl-bgm-chev" aria-hidden="true">▾</span>
+    </button>
+    <div class="pl-bgm-wrap" id="bgmListWrap" hidden>
+      <div class="pl-bgm-tools"><button onclick="bgmAll(true)">全选 All</button><button onclick="bgmAll(false)">全不选 None</button></div>
+      <div class="pl-bgm-grid" id="bgmGrid"></div>
+    </div>
     <div class="pl-bgm-hd">
       <span class="pl-read-lbl">🎵 音乐</span>
       <div class="pl-tbar">
@@ -1615,7 +1633,10 @@ setTimeout(_populateVoices,2000);
 
 /* ===== BGM ===== */
 const BGM_CDN='https://assets.xz-studio-gallery.com/music/';
-const BGM_TRACKS=[
+// Track list = music.json (edited + published by the admin tool's 🎵 背景音乐 panel), loaded
+// by _bgmLoadCatalog() below. This built-in list is only the fallback if that fetch fails.
+// `file` is a name under BGM_CDN (or a full https URL).
+const BGM_BUILTIN=[
   {name:'夢中的那片海', file:'dream-sea.mp3'},
   {name:'心之所向',     file:'heart-direction.mp3'},
   {name:'无羁',         file:'wuji-flute.mp3'},
@@ -1625,14 +1646,26 @@ const BGM_TRACKS=[
   {name:'莲花坞',       file:'lotus.mp3'},
   {name:'醉梦',         file:'drunk-dream.mp3'},
 ];
+let BGM_TRACKS=BGM_BUILTIN.slice();
+function _bgmUrl(t){return /^https?:/.test(t.file)?t.file:BGM_CDN+t.file;}
+// The visitor's choice is stored as the files they UNticked (xzBgmOff), so a track added
+// later starts ticked, and reordering/removing tracks can't shift choices onto other songs.
+// Migrates the old index-based xzBgmSel (positions in BGM_BUILTIN) once.
+const BGM_OFF_KEY='xzBgmOff';
 const BGM_SEL_KEY='xzBgmSel';
 const BGM_VOL_KEY='xzBgmVol';
-let _bgmSelRaw;
-try{_bgmSelRaw=JSON.parse(localStorage.getItem(BGM_SEL_KEY));}catch(e){}
-if(!Array.isArray(_bgmSelRaw))_bgmSelRaw=[0,1,2,3,4,5,6,7];
+let _bgmOff=null;
+try{const o=JSON.parse(localStorage.getItem(BGM_OFF_KEY));if(Array.isArray(o))_bgmOff=new Set(o);}catch(e){}
+if(!_bgmOff){
+  _bgmOff=new Set();
+  try{const old=JSON.parse(localStorage.getItem(BGM_SEL_KEY));
+    if(Array.isArray(old))BGM_BUILTIN.forEach((t,k)=>{if(!old.includes(k))_bgmOff.add(t.file);});}catch(e){}
+}
+function _bgmSaveOff(){try{localStorage.setItem(BGM_OFF_KEY,JSON.stringify([..._bgmOff]));}catch(e){}}
 // Always rebuilt in catalog order: a persisted scrambled/reversed order would make the
 // #N indicator disagree with the grid (and with what actually plays) on a fresh load.
-let _bgmSel=new Set(BGM_TRACKS.map((_,k)=>k).filter(k=>_bgmSelRaw.includes(k)));
+function _bgmSelFromOff(){return new Set(BGM_TRACKS.map((_,k)=>k).filter(k=>!_bgmOff.has(BGM_TRACKS[k].file)));}
+let _bgmSel=_bgmSelFromOff();
 let _bgmIdx=0;
 let _bgmVol=parseFloat(localStorage.getItem(BGM_VOL_KEY)||'0.5');
 // Dual-buffer: swap between two elements so next track is pre-loaded before current ends
@@ -1650,21 +1683,53 @@ function _bgmBuildGrid(){
 }
 _bgmBuildGrid();
 _syncBgmBtn();
+// Swap in the published track list. Keeps whatever is loaded/playing current (by file),
+// so a late-arriving list never interrupts playback.
+async function _bgmLoadCatalog(){
+  let list;
+  try{
+    const r=await fetch(`music.json?v=${DATA_VER}`);if(!r.ok)return;
+    list=(await r.json()).tracks;
+  }catch(e){return;}
+  if(!Array.isArray(list))return;
+  list=list.filter(t=>t&&typeof t.name==='string'&&typeof t.file==='string'&&t.file);
+  if(!list.length)return;
+  const src=_bgmActive().getAttribute('data-src')||'';
+  BGM_TRACKS=list;
+  _bgmSel=_bgmSelFromOff();
+  const sel=[..._bgmSel];
+  const curCat=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;
+  const ni=curCat>=0?sel.indexOf(curCat):-1;
+  _bgmIdx=ni>=0?ni:0;
+  _bgmBuildGrid();_syncBgmBtn();
+  if(src)_bgmPreloadNext();
+}
+_bgmLoadCatalog();
 
 function _bgmPreloadNext(){
   const sel=[..._bgmSel];if(!sel.length)return;
-  const url=BGM_CDN+BGM_TRACKS[sel[(_bgmIdx+1)%sel.length]].file;
+  const url=_bgmUrl(BGM_TRACKS[sel[(_bgmIdx+1)%sel.length]]);
   const sb=_bgmStandby();
   if(sb.getAttribute('data-src')!==url){sb.src=url;sb.setAttribute('data-src',url);sb.load();}
 }
 function bgmToggle(i,on){
   const src=_bgmActive().getAttribute('data-src')||'';
-  const curCat=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;  // track playing/loaded right now
-  on?_bgmSel.add(i):_bgmSel.delete(i);
+  const curCat=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;  // track playing/loaded right now
+  on?_bgmOff.delete(BGM_TRACKS[i].file):_bgmOff.add(BGM_TRACKS[i].file);
+  _bgmApplyOff(curCat);
+}
+// 全选 / 全不选 in the fold-out list.
+function bgmAll(on){
+  const src=_bgmActive().getAttribute('data-src')||'';
+  const curCat=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;
+  BGM_TRACKS.forEach(t=>on?_bgmOff.delete(t.file):_bgmOff.add(t.file));
+  _bgmApplyOff(curCat);_bgmBuildGrid();
+}
+function _bgmApplyOff(curCat){
+  _bgmSaveOff();
   // Rebuild in catalog order — otherwise Set.delete()+add() sends a re-checked track to
   // the end of the play order, which then desyncs _bgmIdx / the #N indicator.
-  _bgmSel=new Set(BGM_TRACKS.map((_,k)=>k).filter(k=>_bgmSel.has(k)));
-  localStorage.setItem(BGM_SEL_KEY,JSON.stringify([..._bgmSel]));
+  _bgmSel=_bgmSelFromOff();
   // Re-anchor _bgmIdx to wherever the playing track sits now.
   const sel=[..._bgmSel];
   const ni=curCat>=0?sel.indexOf(curCat):-1;
@@ -1680,7 +1745,7 @@ function bgmShuffle(){
   const arr=[..._bgmSel];
   if(arr.length<2)return;
   const src=_bgmActive().getAttribute('data-src')||'';
-  const curCat=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;  // -1 = nothing playing/loaded yet
+  const curCat=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;  // -1 = nothing playing/loaded yet
   for(let i=arr.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [arr[i],arr[j]]=[arr[j],arr[i]];
@@ -1699,7 +1764,7 @@ function bgmReverse(){
   const arr=[..._bgmSel];
   if(arr.length<2)return;
   const src=_bgmActive().getAttribute('data-src')||'';
-  const curCat=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;  // -1 = nothing playing/loaded yet
+  const curCat=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;  // -1 = nothing playing/loaded yet
   arr.reverse();
   _bgmSel=new Set(arr);
   // playing/paused: keep that track current at its mirrored spot. Not started: start the
@@ -1716,7 +1781,7 @@ function bgmPrev(){
   const sel=[..._bgmSel];if(!sel.length)return;
   const wasPlaying=!_bgmActive().paused;
   _bgmIdx=(_bgmIdx-1+sel.length)%sel.length;
-  const url=BGM_CDN+BGM_TRACKS[sel[_bgmIdx]].file;
+  const url=_bgmUrl(BGM_TRACKS[sel[_bgmIdx]]);
   _bgmActive().src=url;_bgmActive().setAttribute('data-src',url);
   if(wasPlaying)_bgmActive().play().catch(()=>{});
   _bgmPreloadNext();_syncBgmBtn();
@@ -1725,7 +1790,7 @@ function bgmNext(){
   const sel=[..._bgmSel];if(!sel.length)return;
   const wasPlaying=!_bgmActive().paused;
   _bgmIdx=(_bgmIdx+1)%sel.length;
-  const url=BGM_CDN+BGM_TRACKS[sel[_bgmIdx]].file;
+  const url=_bgmUrl(BGM_TRACKS[sel[_bgmIdx]]);
   const sb=_bgmStandby();
   if(sb.getAttribute('data-src')===url&&sb.readyState>=2){
     _bgmActive().pause();_bgmCur=1-_bgmCur;
@@ -1740,7 +1805,7 @@ function bgmNext(){
 function _bgmNextTrack(){
   const sel=[..._bgmSel];if(!sel.length)return;
   _bgmIdx=(_bgmIdx+1)%sel.length;
-  const url=BGM_CDN+BGM_TRACKS[sel[_bgmIdx]].file;
+  const url=_bgmUrl(BGM_TRACKS[sel[_bgmIdx]]);
   const sb=_bgmStandby();
   if(sb.getAttribute('data-src')===url&&sb.readyState>=2){
     // Swap to pre-loaded element — gap-free transition
@@ -1757,7 +1822,7 @@ function bgmPlay(){
   const sel=[..._bgmSel];if(!sel.length)return;
   const active=_bgmActive();
   if(!active.getAttribute('data-src')){
-    const url=BGM_CDN+BGM_TRACKS[sel[_bgmIdx%sel.length]].file;
+    const url=_bgmUrl(BGM_TRACKS[sel[_bgmIdx%sel.length]]);
     active.src=url;active.setAttribute('data-src',url);
   }
   active.play().catch(()=>{});
@@ -1781,11 +1846,29 @@ function _syncBgmBtn(){
     // #N can't drift from what you hear when _bgmSel is reordered. Falls back to the
     // _bgmSel[_bgmIdx] slot only when nothing is loaded yet (before first play).
     const src=_bgmActive().getAttribute('data-src')||'';
-    let cur=src?BGM_TRACKS.findIndex(t=>src.endsWith(t.file)):-1;
+    let cur=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;
     if(cur<0){const sel=[..._bgmSel];cur=sel.length?sel[_bgmIdx%sel.length]:-1;}
     num.textContent=cur<0?'':('#'+(cur+1)+'/'+BGM_TRACKS.length);   // #3/8 — matches the "3." grid prefix
   }
+  // Fold-out summary line: the current (or next-to-play) track's name + how many are ticked.
+  const now=document.getElementById('bgmNow');
+  if(now){
+    const src=_bgmActive().getAttribute('data-src')||'';
+    let cur=src?BGM_TRACKS.findIndex(t=>_bgmUrl(t)===src):-1;
+    if(cur<0){const sel=[..._bgmSel];cur=sel.length?sel[_bgmIdx%sel.length]:-1;}
+    now.textContent=cur<0?'🎵 未选曲 · No track selected':('🎵 '+(cur+1)+'. '+BGM_TRACKS[cur].name);
+    document.getElementById('bgmCnt').textContent='已选 '+_bgmSel.size+'/'+BGM_TRACKS.length;
+  }
 }
+// Open/close the track list; remembered per visitor.
+const BGM_OPEN_KEY='xzBgmListOpen';
+function bgmToggleList(force){
+  const w=document.getElementById('bgmListWrap'),b=document.getElementById('bgmSum');
+  const open=typeof force==='boolean'?force:w.hidden;
+  w.hidden=!open;b.setAttribute('aria-expanded',open);
+  try{localStorage.setItem(BGM_OPEN_KEY,open?'1':'0');}catch(e){}
+}
+try{if(localStorage.getItem(BGM_OPEN_KEY)==='1')bgmToggleList(true);}catch(e){}
 _bgmBuf.forEach(a=>{
   a.addEventListener('ended',()=>{if(a===_bgmActive()){_bgmNextTrack();}});
   a.addEventListener('play',_syncBgmBtn);
