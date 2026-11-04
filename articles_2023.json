@@ -166,7 +166,7 @@
     {
         "id": 35,
         "platform": "weibo",
-        "url": "https://weibo.com/ttarticle/p/show?id=2309404924823158784642&mark_id=999_reallog_mark_ad%3A999%7CWeiboADNatural",
+        "url": "https://weibo.com/ttarticle/p/show?id=2309404924823158784642",
         "title": "肖战：生活处处会给表演带来启发",
         "author": "中新文娱 记者 任思雨",
         "date": "2023-07-18",
@@ -304,7 +304,7 @@
     {
         "id": 16,
         "platform": "unknown",
-        "url": "https://baijiahao.baidu.com/s?id=1770994053318464072&wfr=spider&for=pc",
+        "url": "https://baijiahao.baidu.com/s?id=1770994053318464072",
         "title": "电视剧《梦中的那片海》：坚持“年代”与“青春”的结合",
         "author": "工人日报 苏墨",
         "date": "2023-07-10",
@@ -517,7 +517,7 @@
     {
         "id": 14,
         "platform": "wechat",
-        "url": "https://mp.weixin.qq.com/s?__biz=Mjg0NDcyODU4MA==&mid=2652079977&idx=1&sn=6602768522e865494966f62fe21bb58a&chksm=9a57cd02ad20441423d02ebacd6b048ebcf302d04e37ae7521ee5ff651588ee9918c1ec66045&scene=27",
+        "url": "https://mp.weixin.qq.com/s?__biz=Mjg0NDcyODU4MA==&mid=2652079977&idx=1&sn=6602768522e865494966f62fe21bb58a",
         "title": "央视剧评 | 《梦中的那片海》：传记与传奇融合的青春交响",
         "author": "CCTV电视剧 张文娟",
         "date": "2023-06-19",
@@ -613,7 +613,7 @@
     {
         "id": 15,
         "platform": "unknown",
-        "url": "https://baijiahao.baidu.com/s?id=1768582347559607527&wfr=spider&for=pc",
+        "url": "https://baijiahao.baidu.com/s?id=1768582347559607527",
         "title": "《梦中的那片海》：为京味年代剧注入青春活力",
         "author": "国家广电智库",
         "date": "2023-06-13",
@@ -692,7 +692,7 @@
     {
         "id": 17,
         "platform": "unknown",
-        "url": "https://baijiahao.baidu.com/s?id=1768027411832621072&wfr=spider&for=pc",
+        "url": "https://baijiahao.baidu.com/s?id=1768027411832621072",
         "title": "《梦中的那片海》青春叙事里的“真性情”",
         "author": "扬子晚报 张楠",
         "date": "2023-06-07",

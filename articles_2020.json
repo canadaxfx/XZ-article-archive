@@ -2,7 +2,7 @@
     {
         "id": 11,
         "platform": "unknown",
-        "url": "https://oasis.weibo.cn/v1/h5/share?sid=4582136281570169&lfid=wbcc_lz&luicode=10000001&cctype=share",
+        "url": "https://oasis.weibo.cn/v1/h5/share?sid=4582136281570169",
         "title": "顾一野杀青随笔",
         "author": "肖战",
         "date": "2020-12-14",
@@ -40,7 +40,7 @@
     {
         "id": 7,
         "platform": "weibo",
-        "url": "https://weibo.com/ttarticle/p/show?id=2309404534663330005049&luicode=20000061&lfid=4534663333551369&launchid=10000360-page_H5",
+        "url": "https://weibo.com/ttarticle/p/show?id=2309404534663330005049",
         "title": "万方对话肖战 | 致敬经典，纪念时代 “曹禺诞辰110周年特别行动”",
         "author": "光束戏剧 一束光",
         "date": "2020-08-05",

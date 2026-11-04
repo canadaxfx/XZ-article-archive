@@ -2,7 +2,7 @@
     {
         "id": 29,
         "platform": "wechat",
-        "url": "https://mp.weixin.qq.com/s/WHJQ2Sv1ZD7VQ9P9o-PgCA?poc_token=HOt_62qjUOlj_vs8SHPQVmqxfqtoDjFH4hxLEFMD",
+        "url": "https://mp.weixin.qq.com/s/WHJQ2Sv1ZD7VQ9P9o-PgCA",
         "title": "《小城良方》，一剂普通人的治愈良方",
         "author": "博客COVER 李安",
         "date": "2026-11-04",
@@ -28,7 +28,7 @@
     {
         "id": 28,
         "platform": "unknown",
-        "url": "https://app.art1995.cn/newsepaper/detail/10228_177689_1897410_28728203_zgysb.html?app=1&relPicRatio=1",
+        "url": "https://app.art1995.cn/newsepaper/detail/10228_177689_1897410_28728203_zgysb.html",
         "title": "《小城良方》：烟火人间是“良方”",
         "author": "中国艺术报 何天平",
         "date": "2026-11-04",
@@ -244,7 +244,7 @@
         "extra_links": [
             {
                 "label": "微博",
-                "url": "https://weibo.com/2030112487/RozzB6Yrx?refer_flag=1001030103_"
+                "url": "https://weibo.com/2030112487/RozzB6Yrx"
             }
         ],
         "pinned_review": true
@@ -590,7 +590,7 @@
     {
         "id": 5,
         "platform": "unknown",
-        "url": "https://www.shobserver.com/staticsg/res/html/web/newsDetail.html?id=1114177&v=2.2&sid=67",
+        "url": "https://www.shobserver.com/staticsg/res/html/web/newsDetail.html?id=1114177",
         "title": "开播一年后，《藏海传》仍是热门话题，凭什么？",
         "author": "文汇报 王彦",
         "date": "2026-05-19",
