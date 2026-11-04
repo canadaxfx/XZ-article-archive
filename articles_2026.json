@@ -82,7 +82,15 @@
             {
                 "label": "微博",
                 "url": "https://weibo.com/ttarticle/p/show?id=2309405361116712140859"
+            },
+            {
+                "label": "文汇报",
+                "url": "https://www.shobserver.com/staticsg/res/html/journal/detail.html?code=whb&date=2026-11-04&id=543389&page=10"
             }
+        ],
+        "snapshots": [
+            "https://assets.xz-studio-gallery.com/articles/20261101_小城良方_悲喜交加是人生_01.png",
+            "https://assets.xz-studio-gallery.com/articles/20261101_小城良方_悲喜交加是人生_02.png"
         ]
     },
     {
