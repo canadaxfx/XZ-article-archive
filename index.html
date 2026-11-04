@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html lang="zh" data-theme="washi-slate">
+<html lang="zh" data-theme="exit">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -55,15 +55,33 @@
   --surface:rgba(240,244,255,0.98);--surface-0:#f0f4ff;
   --surface-w:#e0e8f8;--surface-m:#e8eef8;--surface-d:#dce5f5;--border:#c8d0e8;
 }
-[data-theme="violet"]{
-  --bg-base:#0d0418;--bg-base-2:#160622;--bg-dark:#2a0840;--bg-mid:#380b55;
-  --bg-btn:#2a0840;--bg-btn-h:#380b55;--bg-float:#200630;
-  --red-rgb:100,20,180;--shad-rgb:20,5,40;
-  --grad-red:linear-gradient(135deg,#481068 0%,#601888 100%);
+/* 出口 Exit — the galleries' concert theme (colours of the 「出口·我们」 tour site): warm black + tour red,
+   the red doorway stage photo fading into black behind the header, and the red corner band. Replaced violet. */
+[data-theme="exit"]{
+  --bg-base:#0B0708;--bg-base-2:#120A0C;--bg-dark:#170D0F;--bg-mid:#24131A;
+  --bg-btn:#1C0F12;--bg-btn-h:#2A1218;--bg-float:#170D0F;
+  --gold:#E5203A;--gold-rgb:229,32,58;--gold-dr:122,10,24;
+  --grad-gold:linear-gradient(135deg,#A3101F 0%,#7A0A18 100%);
+  --grad-gold-h:linear-gradient(135deg,#8A0C1A 0%,#600814 100%);
+  --red-rgb:216,16,42;--shad-rgb:11,7,8;
+  --grad-red:linear-gradient(135deg,#1C0F12 0%,#2A1218 100%);
   --search-bg:rgba(255,255,255,0.20);--search-border:rgba(255,255,255,0.38);
   --search-text:rgba(255,255,255,0.92);--search-ph:rgba(255,255,255,0.50);
-  --surface:rgba(248,242,255,0.98);--surface-0:#f8f2ff;
-  --surface-w:#ede0f8;--surface-m:#f2ebfc;--surface-d:#ece0f5;--border:#d0c0e8;
+  --surface:rgba(246,243,243,0.98);--surface-0:#F6F3F3;
+  --surface-w:#ECE6E7;--surface-m:#F3EEEF;--surface-d:#EAE3E4;--border:#DCCFD1;
+}
+[data-theme="exit"] header{background:
+  linear-gradient(180deg,rgba(11,7,8,.42) 0%,rgba(11,7,8,.76) 55%,var(--bg-base) 100%),
+  url("theme/stage-exit-1600.jpg") 50% 78%/cover no-repeat}
+[data-theme="exit"] header::after{content:"";position:absolute;top:0;right:0;z-index:0;pointer-events:none;
+  width:min(26vw,280px);height:min(17vw,180px);background:#9E0E1E;clip-path:polygon(0 0,100% 0,100% 100%)}
+[data-theme="exit"] .eyebrow{color:rgba(235,211,214,0.75)}
+[data-theme="exit"] .subtitle{color:rgba(235,211,214,0.6)}
+[data-theme="exit"] header h1,[data-theme="exit"] .eyebrow,[data-theme="exit"] .subtitle{text-shadow:0 1px 3px rgba(0,0,0,0.7)}
+@media (max-width:600px){
+  [data-theme="exit"] header{background:
+    linear-gradient(180deg,rgba(11,7,8,.32) 0%,rgba(11,7,8,.66) 55%,var(--bg-base) 100%),
+    url("theme/stage-exit-800.jpg") 50% 78%/cover no-repeat}
 }
 [data-theme="sakura"]{
   --bg-base:#0E0608;--bg-base-2:#160A0C;--bg-dark:#2A1018;--bg-mid:#1E0C14;
@@ -665,7 +683,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
     <button class="theme-dot" data-t="sakura"       style="background:#D07090"   title="樱 Sakura"></button>
     <button class="theme-dot" data-t="sapphire"     style="background:#1A3FAA"   title="蓝宝石 Sapphire"></button>
     <button class="theme-dot" data-t="lunar"        style="background:#3A5890"   title="月 Lunar"></button>
-    <button class="theme-dot" data-t="violet"       style="background:#5A0FA0"   title="紫 Violet"></button>
+    <button class="theme-dot" data-t="exit"         style="background:linear-gradient(135deg,#0B0708 50%,#D8102A 50%)" title="出口 Exit"></button>
     <button class="theme-dot" data-t="washi-garnet" style="background:linear-gradient(135deg,#EAEAEC 50%,#7A2030 50%)" title="和纸 Washi Garnet"></button>
     <button class="theme-dot" data-t="washi-slate"  style="background:linear-gradient(135deg,#ECEDF1 50%,#3A4860 50%)" title="和纸 Washi Slate"></button>
     <span id="mgDivider"></span>
@@ -984,7 +1002,9 @@ function applyTheme(k){
   if(window.mgUpdateTone) window.mgUpdateTone(k);
 }
 (function(){
-  applyTheme(localStorage.getItem('xzArticleTheme')||'washi-slate');
+  let saved=localStorage.getItem('xzArticleTheme')||'exit';   // default for new visitors: 出口 Exit, as in the galleries (was washi-slate)
+  if(saved==='violet') saved='exit';                            // violet was replaced by 出口 Exit
+  applyTheme(saved);
   const ts=document.getElementById('themeSwitcher');
   document.querySelectorAll('.theme-dot').forEach(b=>b.addEventListener('click',()=>{applyTheme(b.dataset.t);ts.classList.remove('ts-open');}));
   ts.addEventListener('click',e=>{if(!ts.classList.contains('ts-open')){ts.classList.add('ts-open');e.stopPropagation();}});
@@ -2346,7 +2366,7 @@ function eh(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').r
     rose: 'sepia(.2) hue-rotate(295deg) saturate(1.6) brightness(1.05)'
   };
   const THEME_TONE={
-    'red':'gold','sakura':'gold','sapphire':'gold','lunar':'gold','violet':'gold',
+    'red':'gold','sakura':'gold','sapphire':'gold','lunar':'gold','exit':'rose',
     'washi-garnet':'rose','washi-slate':'cream'
   };
   const LAYOUT_BRIGHTNESS={A:'brightness(0.8)',P:'brightness(0.2)'};
