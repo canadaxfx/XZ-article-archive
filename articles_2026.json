@@ -13,7 +13,14 @@
         "images": [
             "https://assets.xz-studio-gallery.com/articles/images/20261104_烟火寻常里_自有人生良方_创作谈/img_01.jpg"
         ],
-        "pinned_review": true
+        "pinned_review": true,
+        "source_name": "人民日报海外版",
+        "extra_links": [
+            {
+                "label": "人民日报客户端",
+                "url": "https://mk.haiwainet.cn/n/2026/164/013EN2026110430189373.html?id=E_N_20261104_30189373&contentType=CT001#/"
+            }
+        ]
     },
     {
         "id": 26,
