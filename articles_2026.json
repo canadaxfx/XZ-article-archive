@@ -44,6 +44,16 @@
                 "label": "CCTV电视剧 肖战",
                 "url": "https://assets.xz-studio-gallery.com/articles/audio/20261125_肖战_小城治愈了刘铮亮_也影响着我.mp3"
             }
+        ],
+        "video": [
+            {
+                "duration": "08:21",
+                "height": 2560,
+                "label": "CCTV电视剧 肖战",
+                "poster": "https://assets.xz-studio-gallery.com/articles/video/20261125_肖战_小城治愈了刘铮亮_也影响着我_poster.jpg",
+                "url": "https://assets.xz-studio-gallery.com/articles/video/20261125_肖战_小城治愈了刘铮亮_也影响着我.mp4",
+                "width": 1440
+            }
         ]
     },
     {
