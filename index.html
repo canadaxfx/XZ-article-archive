@@ -56,25 +56,31 @@
   --surface-w:#e0e8f8;--surface-m:#e8eef8;--surface-d:#dce5f5;--border:#c8d0e8;
 }
 /* 出口 Exit — the galleries' concert theme (colours of the 「出口·我们」 tour site): warm black + tour red,
-   the red doorway stage photo fading into black behind the header, and the red corner band. Replaced violet. */
+   the red doorway stage photo fading into black behind the header, and the red corner band. Replaced violet.
+   2026-11-25: accent toned down from the tour red #E5203A to muted cinnabar 朱砂 #9B2C2C, and the light
+   surfaces moved from a pink tint to warm white (the bright red read as too frivolous for an archive). */
 [data-theme="exit"]{
   --bg-base:#0B0708;--bg-base-2:#120A0C;--bg-dark:#170D0F;--bg-mid:#24131A;
   --bg-btn:#1C0F12;--bg-btn-h:#2A1218;--bg-float:#170D0F;
-  --gold:#E5203A;--gold-rgb:229,32,58;--gold-dr:122,10,24;
-  --grad-gold:linear-gradient(135deg,#A3101F 0%,#7A0A18 100%);
-  --grad-gold-h:linear-gradient(135deg,#8A0C1A 0%,#600814 100%);
-  --red-rgb:216,16,42;--shad-rgb:11,7,8;
+  --gold:#9B2C2C;--gold-rgb:155,44,44;--gold-dr:110,30,30;
+  --grad-gold:linear-gradient(135deg,#A3362E 0%,#7E2420 100%);
+  --grad-gold-h:linear-gradient(135deg,#8C2C26 0%,#661C19 100%);
+  --red-rgb:155,44,44;--shad-rgb:11,7,8;
   --grad-red:linear-gradient(135deg,#1C0F12 0%,#2A1218 100%);
   --search-bg:rgba(255,255,255,0.20);--search-border:rgba(255,255,255,0.38);
   --search-text:rgba(255,255,255,0.92);--search-ph:rgba(255,255,255,0.50);
-  --surface:rgba(246,243,243,0.98);--surface-0:#F6F3F3;
-  --surface-w:#ECE6E7;--surface-m:#F3EEEF;--surface-d:#EAE3E4;--border:#DCCFD1;
+  --surface:rgba(250,248,245,0.98);--surface-0:#FAF8F5;
+  --surface-w:#F1EDE7;--surface-m:#F7F4EF;--surface-d:#EEE9E2;--border:#DDD5CB;
+  --yg-label:#8A2A26;
 }
+[data-theme="exit"] .pinned-group>.yg-header{background:#FBFAF8}
+[data-theme="exit"] .pinned-group{border-color:#E4DCD2;box-shadow:0 2px 10px rgba(60,40,30,.06)}
+[data-theme="exit"] .pin-badge{background:transparent}
 [data-theme="exit"] header{background:
   linear-gradient(180deg,rgba(11,7,8,.42) 0%,rgba(11,7,8,.76) 55%,var(--bg-base) 100%),
   url("theme/stage-exit-1600.jpg") 50% 78%/cover no-repeat}
 [data-theme="exit"] header::after{content:"";position:absolute;top:0;right:0;z-index:0;pointer-events:none;
-  width:min(26vw,280px);height:min(17vw,180px);background:#9E0E1E;clip-path:polygon(0 0,100% 0,100% 100%)}
+  width:min(26vw,280px);height:min(17vw,180px);background:#7E2420;clip-path:polygon(0 0,100% 0,100% 100%)}
 [data-theme="exit"] .eyebrow{color:rgba(235,211,214,0.75)}
 [data-theme="exit"] .subtitle{color:rgba(235,211,214,0.6)}
 [data-theme="exit"] header h1,[data-theme="exit"] .eyebrow,[data-theme="exit"] .subtitle{text-shadow:0 1px 3px rgba(0,0,0,0.7)}
@@ -683,7 +689,7 @@ if (location.hostname.includes('github.io') && !localStorage.getItem('cfBannerDi
     <button class="theme-dot" data-t="sakura"       style="background:#D07090"   title="樱 Sakura"></button>
     <button class="theme-dot" data-t="sapphire"     style="background:#1A3FAA"   title="蓝宝石 Sapphire"></button>
     <button class="theme-dot" data-t="lunar"        style="background:#3A5890"   title="月 Lunar"></button>
-    <button class="theme-dot" data-t="exit"         style="background:linear-gradient(135deg,#0B0708 50%,#D8102A 50%)" title="出口 Exit"></button>
+    <button class="theme-dot" data-t="exit"         style="background:linear-gradient(135deg,#0B0708 50%,#9B2C2C 50%)" title="出口 Exit"></button>
     <button class="theme-dot" data-t="washi-garnet" style="background:linear-gradient(135deg,#EAEAEC 50%,#7A2030 50%)" title="和纸 Washi Garnet"></button>
     <button class="theme-dot" data-t="washi-slate"  style="background:linear-gradient(135deg,#ECEDF1 50%,#3A4860 50%)" title="和纸 Washi Slate"></button>
     <span id="mgDivider"></span>
