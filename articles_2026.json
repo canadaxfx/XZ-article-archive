@@ -427,7 +427,7 @@
     },
     {
         "id": 20,
-        "platform": "unknown",
+        "platform": "douyin",
         "url": "https://www.douyin.com/article/7703040627995520699",
         "title": "小西门的“雪”终于停了 抚城的风接住了我",
         "author": "肖战工作室",
@@ -451,7 +451,6 @@
                 "duration": "03:34"
             }
         ],
-        "source_name": "douyin",
         "pinned": true
     },
     {
