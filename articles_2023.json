@@ -730,7 +730,13 @@
             "https://assets.xz-studio-gallery.com/articles/images/20230607_梦中的那片海_展现时代质感_书写无悔青春/img_02.jpg"
         ],
         "source_name": "新京报",
-        "pinned_review": true
+        "pinned_review": true,
+        "extra_links": [
+            {
+                "label": "微信公众号",
+                "url": "https://mp.weixin.qq.com/s/x0NArrP00LpH4p-jJ5KGPg"
+            }
+        ]
     },
     {
         "id": 17,
