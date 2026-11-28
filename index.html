@@ -1518,7 +1518,11 @@ function _startTtsKeepalive(){
   },10000);
 }
 
+let _soloRead=false;   // a 朗读本篇 read (not the 🎧 player) is going and holds the screen lock
 function _ttsReset(){
+  // A 朗读本篇 read ends here however it ends (finished, ⏹, closing the article, watchdog,
+  // the player taking over): give the screen back unless the player is running.
+  if(_soloRead){_soloRead=false;if(!_plPlaying)_releaseWakeLock();}
   _stopTtsKeepalive();
   if(_ttsWatchdog){clearTimeout(_ttsWatchdog);_ttsWatchdog=null;}
   if(_plGapTimer){clearTimeout(_plGapTimer);_plGapTimer=null;}
@@ -1584,13 +1588,19 @@ function _ttsStart(onDone, text){
   },3500);
 }
 
+// 朗读本篇 keeps the screen on like the 🎧 player (it used to let the phone screen go off mid-article)
+function _soloStart(){
+  _ttsStart();
+  if(!_ttsBtn.classList.contains('tts-playing'))return;   // nothing to read / no TTS
+  _soloRead=true;_requestWakeLock();
+}
 _ttsBtn.addEventListener('click',()=>{
   if(!('speechSynthesis' in window)){alert('您的浏览器不支持朗读功能');return;}
-  if(_plPlaying){plStop();_ttsStart();return;}
+  if(_plPlaying){plStop();_soloStart();return;}
   if(speechSynthesis.speaking||speechSynthesis.pending){
     _ttsReset();
   } else {
-    _ttsStart();
+    _soloStart();
   }
 });
 /* ===== VOICE SELECTOR ===== */
@@ -2149,7 +2159,7 @@ function _loadAndPlay(idx){
 /* ===== WAKE LOCK ===== */
 let _wakeLock=null;
 async function _requestWakeLock(){
-  if(!('wakeLock' in navigator))return;
+  if(!('wakeLock' in navigator)||_wakeLock)return;   // already held: don't stack a second lock
   try{
     _wakeLock=await navigator.wakeLock.request('screen');
     _wakeLock.addEventListener('release',()=>{_wakeLock=null;_syncWakeLockNote();});
@@ -2165,7 +2175,7 @@ function _syncWakeLockNote(){
   if(el)el.classList.toggle('vis',!!_wakeLock);
 }
 document.addEventListener('visibilitychange',()=>{
-  if(document.visibilityState==='visible'&&_plPlaying&&!_wakeLock)_requestWakeLock();
+  if(document.visibilityState==='visible'&&(_plPlaying||_soloRead)&&!_wakeLock)_requestWakeLock();
 });
 
 /* ===== SLEEP TIMER ===== */
